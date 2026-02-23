@@ -1,0 +1,23 @@
+{
+  "name": "@canonize/conductor-sal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Software Sal — Pipeline Conductor. Claude Code plugin with skills, MCP tools, and pipeline workflows.",
+  "author": {
+    "name": "Aaron McPherson",
+    "email": "contactaaronmcpherson@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ohmatey/ohwhatajourney",
+    "directory": "packages/conductor-sal"
+  },
+  "license": "MIT",
+  "keywords": [
+    "claude-code-plugin",
+    "pipeline-manager",
+    "release-management",
+    "roadmap",
+    "software-delivery"
+  ]
+}

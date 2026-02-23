@@ -1,0 +1,516 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Documentation Structure Schema",
+  "description": "Defines the standardized documentation directory structure for agent-based projects. Sal's Crew: 11 agents + Pipeline Conductor.",
+  "version": "2.0.0",
+  "structure": {
+    "root": "/docs",
+    "domains": [
+      {
+        "name": "ai",
+        "agent": "ai-oracle",
+        "character": "Oracle — The Probability Engine",
+        "description": "AI/ML solutions, research, and knowledge base",
+        "subdirectories": [
+          {
+            "name": "research",
+            "purpose": "AI technology research reports and evaluations"
+          },
+          {
+            "name": "solutions",
+            "purpose": "AI solution designs and implementations"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Framework documentation and methodologies"
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "ai-knowledge.md",
+            "purpose": "Single source of truth for AI/ML knowledge and decisions"
+          }
+        ],
+        "readme": true
+      },
+      {
+        "name": "ux",
+        "agent": "design-wren",
+        "character": "Wren Glasswork — Experience Architect",
+        "description": "User experience research, design, and personas",
+        "subdirectories": [
+          {
+            "name": "research-reports",
+            "purpose": "UX research findings and user studies"
+          },
+          {
+            "name": "proposals",
+            "purpose": "Design proposals and recommendations"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Design frameworks and guidelines"
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "jtbd.md",
+            "purpose": "Jobs-to-be-Done framework analysis"
+          },
+          {
+            "name": "personas.md",
+            "purpose": "User personas and archetypes"
+          },
+          {
+            "name": "workflows.md",
+            "purpose": "User workflows and journey maps"
+          },
+          {
+            "name": "user-stories.md",
+            "purpose": "User stories and acceptance criteria"
+          }
+        ],
+        "readme": true
+      },
+      {
+        "name": "product",
+        "agent": "product-margot",
+        "character": "Margot Flux — Product Strategist",
+        "description": "Product requirements, strategy, continuous discovery, and go-to-market",
+        "subdirectories": [
+          {
+            "name": "discovery",
+            "purpose": "Continuous discovery artifacts (Teresa Torres framework)",
+            "subdirectories": [
+              {
+                "name": "assumption-tests",
+                "purpose": "Experiment results testing assumptions"
+              },
+              {
+                "name": "interview-notes",
+                "purpose": "Customer interview summaries"
+              }
+            ],
+            "living_documents": [
+              {
+                "name": "opportunity-solution-trees.md",
+                "purpose": "Visual mapping of outcomes to opportunities to solutions"
+              },
+              {
+                "name": "customer-insights-log.md",
+                "purpose": "Running log of customer learnings"
+              },
+              {
+                "name": "discovery-plan.md",
+                "purpose": "Weekly discovery activities plan"
+              },
+              {
+                "name": "story-maps.md",
+                "purpose": "User journey story maps"
+              }
+            ]
+          },
+          {
+            "name": "prds",
+            "purpose": "Product Requirements Documents"
+          },
+          {
+            "name": "business-cases",
+            "purpose": "Business justification and ROI analysis"
+          },
+          {
+            "name": "strategy",
+            "purpose": "Product strategy and roadmap"
+          },
+          {
+            "name": "go-to-market",
+            "purpose": "Launch plans and market positioning"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Product frameworks and methodologies"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "engineering",
+        "agent": "engineering-kael",
+        "character": "Kael Deepstack — Chief Engineer",
+        "description": "Technical design, architecture, and implementation plans",
+        "subdirectories": [
+          {
+            "name": "design-docs",
+            "purpose": "Technical design documents"
+          },
+          {
+            "name": "adrs",
+            "purpose": "Architecture Decision Records"
+          },
+          {
+            "name": "implementation-plans",
+            "purpose": "Detailed implementation plans and estimates"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Technical standards and patterns"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "testing",
+        "agent": "quality-judge",
+        "character": "Judge Veridia — Quality Warden",
+        "description": "Test strategy, coverage reports, code review, and quality assurance",
+        "subdirectories": [
+          {
+            "name": "coverage-reports",
+            "purpose": "Test coverage analysis and reports"
+          },
+          {
+            "name": "execution-reports",
+            "purpose": "Test execution results and defect tracking"
+          },
+          {
+            "name": "todo-reviews",
+            "purpose": "TODO completion QA review reports (automatic hook-triggered)"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Testing frameworks and guidelines"
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "test-strategy.md",
+            "purpose": "Comprehensive test strategy and approach"
+          }
+        ],
+        "readme": true
+      },
+      {
+        "name": "security",
+        "agent": "security-cipher",
+        "character": "Cipher Locke — Security Sentinel",
+        "description": "Security audits, vulnerability assessments, and compliance",
+        "subdirectories": [
+          {
+            "name": "audit-reports",
+            "purpose": "Security audit findings and recommendations"
+          },
+          {
+            "name": "architecture-reviews",
+            "purpose": "Security architecture reviews"
+          },
+          {
+            "name": "compliance-reports",
+            "purpose": "Compliance assessments and certifications"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Security standards and frameworks"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "market-research",
+        "agent": "intel-vesper",
+        "character": "Vesper Null — Intel Analyst",
+        "description": "Market analysis, competitive intelligence, and consumer insights",
+        "subdirectories": [
+          {
+            "name": "reports",
+            "purpose": "Market research reports and findings"
+          },
+          {
+            "name": "strategy-proposals",
+            "purpose": "Research-driven strategy recommendations"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Research frameworks and methodologies"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "gtm",
+        "agent": "gtm-nova",
+        "character": "Nova Amplitude — GTM Operative",
+        "description": "Go-to-market strategy, launch plans, positioning, and messaging",
+        "subdirectories": [
+          {
+            "name": "launch-plans",
+            "purpose": "Feature and product launch plans"
+          },
+          {
+            "name": "positioning",
+            "purpose": "Positioning frameworks and messaging guides"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "GTM frameworks and methodologies"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "sales",
+        "agent": "sales-harlan",
+        "character": "Harlan Closer — Sales Hunter",
+        "description": "Sales strategy, playbooks, pricing, and customer acquisition",
+        "subdirectories": [
+          {
+            "name": "playbooks",
+            "purpose": "Sales playbooks and process documentation"
+          },
+          {
+            "name": "pricing",
+            "purpose": "Pricing analysis and strategy"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "Sales frameworks and methodologies"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "executive",
+        "agent": "overseer-nyx",
+        "character": "Nyx Panoptica — The Overseer",
+        "description": "System oversight, agent performance evaluation, and pipeline health",
+        "subdirectories": [
+          {
+            "name": "health-reports",
+            "purpose": "System health and pipeline audit reports"
+          },
+          {
+            "name": "scorecards",
+            "purpose": "Agent quality scorecards and evaluations"
+          },
+          {
+            "name": "alignment-audits",
+            "purpose": "Cross-functional alignment review reports"
+          }
+        ],
+        "living_documents": [],
+        "readme": true
+      },
+      {
+        "name": "reliability",
+        "agent": "sre-atlas",
+        "character": "Atlas Vance — SRE Operative",
+        "description": "SLOs, incident response, observability, capacity planning, and post-mortems",
+        "subdirectories": [
+          {
+            "name": "runbooks",
+            "purpose": "Operational and incident response runbooks"
+          },
+          {
+            "name": "post-mortems",
+            "purpose": "Blameless post-mortem archive"
+          },
+          {
+            "name": "capacity",
+            "purpose": "Capacity planning docs and forecasts"
+          },
+          {
+            "name": "chaos",
+            "purpose": "Chaos experiment designs and results"
+          },
+          {
+            "name": "templates",
+            "purpose": "Reusable document templates"
+          },
+          {
+            "name": "reference",
+            "purpose": "SRE frameworks and methodologies"
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "slos.md",
+            "purpose": "Service level objectives (living doc, updated quarterly)"
+          },
+          {
+            "name": "incident-process.md",
+            "purpose": "Incident classification and response process"
+          },
+          {
+            "name": "observability.md",
+            "purpose": "Observability architecture decisions"
+          }
+        ],
+        "readme": true
+      },
+      {
+        "name": "project",
+        "agent": "sal",
+        "character": "Software Sal — Pipeline Conductor",
+        "description": "Project planning, coordination, and retrospectives",
+        "subdirectories": [
+          {
+            "name": "retrospectives",
+            "purpose": "Sprint and project retrospectives"
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "project-plan.md",
+            "purpose": "Current project plan, milestones, and status"
+          }
+        ],
+        "readme": true
+      },
+      {
+        "name": "workflows",
+        "agent": "sal",
+        "character": "Software Sal — Pipeline Conductor",
+        "description": "Cross-functional workflows and coordination",
+        "subdirectories": [
+          {
+            "name": "handoff-checklists",
+            "purpose": "Phase transition checklists",
+            "files": [
+              "research-to-prd.md",
+              "prd-to-design.md",
+              "design-to-development.md",
+              "development-to-testing.md",
+              "testing-to-deployment.md",
+              "deployment-to-operations.md"
+            ]
+          }
+        ],
+        "living_documents": [
+          {
+            "name": "decision-log.md",
+            "purpose": "Running log of all project decisions"
+          },
+          {
+            "name": "metrics-dashboard.md",
+            "purpose": "Consolidated project health metrics"
+          },
+          {
+            "name": "discovery-to-delivery.md",
+            "purpose": "7-phase workflow documentation"
+          },
+          {
+            "name": "quality-gates.md",
+            "purpose": "Quality gate criteria and status"
+          }
+        ],
+        "readme": false
+      }
+    ]
+  },
+  "access_control": {
+    "rules": {
+      "read": "All agents can read all /docs/* directories",
+      "write": "Each agent can ONLY write to their designated domain(s)",
+      "create": "Agents must NOT create additional top-level /docs/* directories"
+    },
+    "matrix": [
+      { "agent": "ai-oracle",       "character": "Oracle",          "read": ["/docs/*"], "write": ["/docs/ai/*"] },
+      { "agent": "design-wren",     "character": "Wren Glasswork",  "read": ["/docs/*"], "write": ["/docs/ux/*"] },
+      { "agent": "product-margot",  "character": "Margot Flux",     "read": ["/docs/*"], "write": ["/docs/product/*"] },
+      { "agent": "engineering-kael","character": "Kael Deepstack",  "read": ["/docs/*"], "write": ["/docs/engineering/*"] },
+      { "agent": "quality-judge",   "character": "Judge Veridia",   "read": ["/docs/*"], "write": ["/docs/testing/*"] },
+      { "agent": "security-cipher", "character": "Cipher Locke",    "read": ["/docs/*"], "write": ["/docs/security/*"] },
+      { "agent": "intel-vesper",    "character": "Vesper Null",     "read": ["/docs/*"], "write": ["/docs/market-research/*"] },
+      { "agent": "gtm-nova",        "character": "Nova Amplitude",  "read": ["/docs/*"], "write": ["/docs/gtm/*"] },
+      { "agent": "sales-harlan",    "character": "Harlan Closer",   "read": ["/docs/*"], "write": ["/docs/sales/*"] },
+      { "agent": "overseer-nyx",    "character": "Nyx Panoptica",   "read": ["/docs/*"], "write": ["/docs/executive/*"] },
+      { "agent": "sre-atlas",       "character": "Atlas Vance",     "read": ["/docs/*"], "write": ["/docs/reliability/*"] },
+      { "agent": "sal",             "character": "Software Sal",    "read": ["/docs/*"], "write": ["/docs/project/*", "/docs/workflows/*"] }
+    ]
+  },
+  "conventions": {
+    "file_naming": {
+      "living_documents": "Fixed names (e.g., personas.md, ai-knowledge.md)",
+      "dated_reports": "{type}-{topic}-{YYYY-MM-DD}.md",
+      "templates": "{name}-template.md",
+      "adrs": "adr-{number}-{decision}.md"
+    },
+    "required_sections": {
+      "tldr": "3-5 critical bullet points at top of every document",
+      "action_plan": "Specific, prioritized next steps near end of document (FINDINGS for executive)",
+      "metadata": "Date, context, dependencies, links at document top",
+      "cross_references": "Links to related documents across domains",
+      "traceability": "Decisions linked back to requirements/research"
+    },
+    "directory_pattern": {
+      "description": "Standard subdirectory pattern for each domain",
+      "structure": [
+        "/{primary-outputs}/",
+        "/templates/",
+        "/reference/",
+        "README.md"
+      ]
+    }
+  },
+  "workflows": {
+    "phases": [
+      "Discovery",
+      "Definition",
+      "Design",
+      "Development",
+      "Testing",
+      "Deployment",
+      "Operations"
+    ],
+    "quality_gates": [
+      "Discovery → Definition",
+      "Definition → Design",
+      "Design → Development",
+      "Development → Testing",
+      "Testing → Deployment",
+      "Deployment → Production",
+      "Production → Iteration"
+    ]
+  }
+}

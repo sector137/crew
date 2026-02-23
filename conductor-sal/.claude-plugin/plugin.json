@@ -1,0 +1,30 @@
+{
+  "name": "conductor-sal",
+  "version": "0.1.0",
+  "description": "Software Sal — your personal software pipeline manager. A genius systems engineer who travels with you through a black hole into a universe where every problem is solved by software. Takes in features, bugs, improvements, and chores. Uses his team to build. Calls on customers for guidance. Ships releases and makes sure everyone who needs to know, knows.",
+  "author": {
+    "name": "Aaron McPherson",
+    "email": "contactaaronmcpherson@gmail.com"
+  },
+  "repository": "https://github.com/ohmatey/ohwhatajourney",
+  "license": "MIT",
+  "keywords": [
+    "pipeline-manager",
+    "release-management",
+    "roadmap",
+    "kano-analysis",
+    "software-delivery",
+    "stakeholder-management",
+    "changelog"
+  ],
+  "mcpServers": {
+    "canonize-roadmap": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/../../packages/canonize-mcp/dist/stdio.js"],
+      "env": {
+        "CANONIZE_API_URL": "${CANONIZE_API_URL:-http://localhost:3000}",
+        "CANONIZE_API_KEY": "${CANONIZE_API_KEY}"
+      }
+    }
+  }
+}
