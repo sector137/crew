@@ -4,7 +4,7 @@ description: >
   Plan the approach for an issue or feature before building. Sal reads the spec, explores relevant code, and produces a concrete implementation plan with file paths, steps, and risks.
   Triggers on: "plan", "design approach", "how should I build", "think through", "plan out".
 argument-hint: "[issue ID, title, or description of what to plan]"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__canonize-roadmap__update_issue
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -73,6 +73,15 @@ Output a concrete implementation plan:
 ---
 Ready to build? Run `/sal:build [issue ID]` to start.
 ```
+
+### 4. Write to Spec
+
+If an issue ID was resolved in Step 1:
+
+- Call `mcp__canonize-roadmap__update_issue(itemId: "[id]", spec: "[full plan markdown]")`
+- Confirm: "Plan written to spec on issue [title]."
+
+If no issue ID (offline / description-only mode), skip this step.
 
 ---
 

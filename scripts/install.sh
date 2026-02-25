@@ -1,9 +1,10 @@
+#!/usr/bin/env bash
 set -e
 
 PACKAGE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
-PLUGIN_DIR="$CLAUDE_DIR/.claude-plugin"
-PLUGIN_SKILLS_DIR="$PLUGIN_DIR/skills"
+AGENTS_DIR="$CLAUDE_DIR/agents"
+LOCAL_MARKETPLACE_DIR="$CLAUDE_DIR/local-marketplace"
 
 echo "@canonize/agent-system install"
 echo "  Package: $PACKAGE_DIR"
@@ -16,14 +17,14 @@ echo ""
 #
 # Agent directory names and skill names share the same /role-firstname convention.
 # Agents install as ~/.claude/agents/{name}.md (file symlinks → SKILL.md)
-# Skills install as ~/.claude/.claude-plugin/skills/{name}/ (in the ohm plugin)
-# → invokable as /ohm:{name}
+# Skills install via the ohm plugin → invokable as /ohm:{name}
 #
 # THE CREW:
 #   product-margot   (Margot Flux)     — Product strategy + market intel
 #   engineering-kael (Kael Deepstack)  — Architecture + quality + security + reliability + AI/ML
 #   design-wren      (Wren Glasswork)  — UX design + taste authority
 #   sales-harlan     (Harlan Closer)   — Sales + GTM + account management
+#   hr-mira          (Mira Strand)     — Crew coach, performance review, Langfuse telemetry [behind-the-scenes]
 #   conductor-sal    (Software Sal)    — Pipeline conductor, self-monitoring, team orchestration
 #
 # RETIRED (archived in packages/agent-system/archived/):
@@ -34,10 +35,10 @@ CREW=(
   "engineering-kael"
   "product-margot"
   "sales-harlan"
+  "hr-mira"
 )
 
 # --- Agents ---
-AGENTS_DIR="$CLAUDE_DIR/agents"
 
 # Convert from old symlink-to-directory style if needed
 if [ -L "$AGENTS_DIR" ]; then
@@ -96,27 +97,14 @@ for agent in "${CREW[@]}"; do
   echo "  ~/.claude/agents/${agent}.md → $TARGET"
 done
 
-# --- ohm Plugin Skills ---
-# All crew skills install into the ohm plugin → invokable as /ohm:{name}
-# Skills = crew (same names) + conductor-sal (pipeline conductor) + version
-SKILLS=("${CREW[@]}" "conductor-sal" "version")
+# --- ohm Plugin ---
 
-# Ensure plugin structure exists with correct name
-mkdir -p "$PLUGIN_DIR"
-mkdir -p "$PLUGIN_SKILLS_DIR"
-
-# Write plugin.json (idempotent)
-cat > "$PLUGIN_DIR/plugin.json" <<'JSON'
-{
-  "name": "ohm",
-  "version": "0.1.0",
-  "description": "Sal's Crew — personal agent system for ohmatey. All crew agents namespaced under /ohm:",
-  "author": "ohmatey",
-  "repository": "https://github.com/ohmatey/ohwhatajourney",
-  "created": "2026-02-21"
-}
-JSON
-echo "  ~/.claude/.claude-plugin/plugin.json (name: ohm)"
+# Clean up the old ~/.claude/.claude-plugin symlink approach (no longer used)
+OLD_PLUGIN_SYMLINK="$CLAUDE_DIR/.claude-plugin"
+if [ -L "$OLD_PLUGIN_SYMLINK" ]; then
+  rm "$OLD_PLUGIN_SYMLINK"
+  echo "  Removed legacy ~/.claude/.claude-plugin symlink"
+fi
 
 # Clean up old skill symlinks from ~/.claude/skills/ (moved to plugin)
 OLD_SKILLS_DIR="$CLAUDE_DIR/skills"
@@ -157,28 +145,73 @@ for skill in "${REMOVED_SKILLS[@]}"; do
   fi
 done
 
-# Install crew skills into ohm plugin
-for skill in "${SKILLS[@]}"; do
-  LINK="$PLUGIN_SKILLS_DIR/$skill"
-  TARGET="$PACKAGE_DIR/skills/$skill"
+# Register the ohm plugin via the Claude Code plugin CLI.
+# Uses a local marketplace so Claude Code can properly cache and load the plugin.
+#
+# How it works:
+#   1. Creates ~/.claude/local-marketplace/ as a plugin marketplace directory
+#   2. Symlinks plugins/ohm → this package (stays live for updates)
+#   3. Registers the marketplace with: claude plugin marketplace add
+#   4. Installs (or updates) the ohm plugin with: claude plugin install/update ohm@local
+#
+# After install, restart Claude Code — skills appear as /ohm:{name}
 
-  if [ ! -d "$TARGET" ]; then
-    echo "  Warning: skill not found in package: $skill"
-    continue
+if ! command -v claude &>/dev/null; then
+  echo "  Warning: claude CLI not found — skipping ohm plugin registration"
+  echo "  Install Claude Code, then re-run this script to enable /ohm: skills"
+else
+  # Set up local marketplace directory
+  mkdir -p "$LOCAL_MARKETPLACE_DIR/.claude-plugin"
+  mkdir -p "$LOCAL_MARKETPLACE_DIR/plugins"
+
+  # Write marketplace manifest
+  cat > "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" << 'MARKETPLACE_EOF'
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "local",
+  "description": "Local plugins",
+  "owner": {
+    "name": "local"
+  },
+  "plugins": [
+    {
+      "name": "ohm",
+      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /ohm:",
+      "author": {
+        "name": "canonize"
+      },
+      "source": "./plugins/ohm",
+      "category": "productivity"
+    }
+  ]
+}
+MARKETPLACE_EOF
+
+  # Point plugins/ohm → this package (symlink stays live, update refreshes the cache)
+  ln -sfn "$PACKAGE_DIR" "$LOCAL_MARKETPLACE_DIR/plugins/ohm"
+
+  # Register marketplace (idempotent — safe to run multiple times)
+  claude plugin marketplace add "$LOCAL_MARKETPLACE_DIR" 2>/dev/null || true
+  echo "  Local marketplace: $LOCAL_MARKETPLACE_DIR"
+
+  # Install or update ohm plugin
+  CACHE_DIR="$CLAUDE_DIR/plugins/cache/local/ohm"
+  if [ -d "$CACHE_DIR" ]; then
+    claude plugin update ohm@local 2>/dev/null \
+      && echo "  ohm@local updated (cache refreshed)" \
+      || echo "  Warning: could not update ohm@local"
+  else
+    claude plugin install ohm@local 2>/dev/null \
+      && echo "  ohm@local installed" \
+      || echo "  Warning: could not install ohm@local"
   fi
-
-  if [ -d "$LINK" ] && [ ! -L "$LINK" ]; then
-    echo "  Backing up $LINK → $LINK.bak"
-    mv "$LINK" "$LINK.bak"
-  fi
-
-  [ -L "$LINK" ] && rm "$LINK"
-  ln -s "$TARGET" "$LINK"
-  echo "  ~/.claude/.claude-plugin/skills/$skill → $TARGET"
-done
+fi
 
 echo ""
 echo "✓ @canonize/agent-system installed"
-echo "  Agents: 4 (design-wren, engineering-kael, product-margot, sales-harlan)"
-echo "  Skills: 6 namespaced under /ohm: (crew + conductor-sal + version)"
-echo "  Invoke: /ohm:design-wren | /ohm:engineering-kael | /ohm:product-margot | /ohm:sales-harlan | /ohm:conductor-sal | /ohm:version"
+echo "  Agents: 5 (design-wren, engineering-kael, product-margot, sales-harlan, hr-mira)"
+echo "  Plugin: ohm@local (via local marketplace)"
+echo "  Skills: 7 namespaced under /ohm: (crew + conductor-sal + version)"
+echo "  Invoke: /ohm:design-wren | /ohm:engineering-kael | /ohm:product-margot | /ohm:sales-harlan | /ohm:hr-mira | /ohm:conductor-sal | /ohm:version"
+echo ""
+echo "  Restart Claude Code to activate."

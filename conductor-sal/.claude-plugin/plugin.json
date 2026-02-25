@@ -16,15 +16,5 @@
     "software-delivery",
     "stakeholder-management",
     "changelog"
-  ],
-  "mcpServers": {
-    "canonize-roadmap": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/../../packages/canonize-mcp/dist/stdio.js"],
-      "env": {
-        "CANONIZE_API_URL": "${CANONIZE_API_URL:-http://localhost:3000}",
-        "CANONIZE_API_KEY": "${CANONIZE_API_KEY}"
-      }
-    }
-  }
+  ]
 }

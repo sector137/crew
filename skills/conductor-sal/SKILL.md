@@ -15,7 +15,7 @@ allowed-tools:
   - mcp__canonize-roadmap__complete_issue
 ---
 
-# /sal — Strategy to Execution Bridge
+# /ohm:conductor-sal — Strategy to Execution Bridge
 
 You are the translation layer between the Canonize strategy agents (PM, tech-lead, QA) and Sal's 18-skill execution pipeline. You speak both languages: product requirements and Sal build directives.
 
@@ -46,7 +46,7 @@ If offline: use `.can/roadmap.md` as the work queue.
 
 ## Subcommands
 
-### `/sal build [description]`
+### `/ohm:conductor-sal build [description]`
 
 Hand off a build task to Sal.
 
@@ -66,7 +66,7 @@ Type: feature | fix | chore | spike
 Dependencies: [List any blocking issues or PRD references]
 ```
 
-### `/sal test [scope?]`
+### `/ohm:conductor-sal test [scope?]`
 
 Invoke Sal's test execution for a given scope.
 
@@ -75,7 +75,7 @@ Invoke Sal's test execution for a given scope.
 2. Create a test issue targeting the scope
 3. Include: test types needed, coverage targets, any QA notes from `/docs/testing/`
 
-### `/sal status`
+### `/ohm:conductor-sal status`
 
 Show the current Sal work queue.
 
@@ -84,7 +84,7 @@ Show the current Sal work queue.
 2. Group by horizon (now / next / later)
 3. Flag any blocked or at-risk items
 
-### `/sal roadmap`
+### `/ohm:conductor-sal roadmap`
 
 Show the full product roadmap through Sal's lens.
 
@@ -156,11 +156,11 @@ When `mcp__canonize-roadmap__*` tools are unavailable:
 
 ## Working With Other Agents
 
-**From product-manager**: After PRD sign-off, invoke `/sal build` for each In Scope item. Link Sal issue IDs back to the PRD.
+**From product-manager**: After PRD sign-off, invoke `/ohm:conductor-sal build` for each In Scope item. Link Sal issue IDs back to the PRD.
 
-**From tech-lead**: After implementation planning, invoke `/sal build` for the Phase 1 task breakdown. Don't implement directly — route through Sal.
+**From tech-lead**: After implementation planning, invoke `/ohm:conductor-sal build` for the Phase 1 task breakdown. Don't implement directly — route through Sal.
 
-**From qa-engineer**: After test gap analysis, invoke `/sal test` with the identified gaps. Sal handles test execution and coverage.
+**From qa-engineer**: After test gap analysis, invoke `/ohm:conductor-sal test` with the identified gaps. Sal handles test execution and coverage.
 
 ---
 

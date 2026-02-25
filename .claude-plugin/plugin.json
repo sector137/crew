@@ -1,0 +1,9 @@
+{
+  "name": "ohm",
+  "version": "0.1.0",
+  "description": "Sal's Crew — personal agent system. All crew agents namespaced under /ohm:",
+  "author": {
+    "name": "ohmatey"
+  },
+  "repository": "https://github.com/ohmatey/ohwhatajourney"
+}

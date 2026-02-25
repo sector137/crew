@@ -1,7 +1,8 @@
 {
   "name": "@canonize/agent-system",
   "version": "0.1.0",
-  "description": "The Canonize AI team — PM, researcher, UXR, tech-lead, designer, data-analyst, and more",
+  "description": "Sal's Crew — product-margot, engineering-kael, design-wren, sales-harlan, hr-mira, conductor-sal. Namespaced under /ohm: via the ohm plugin.",
+  "main": ".claude-plugin/plugin.json",
   "license": "MIT",
   "scripts": {
     "install:global": "bash scripts/install.sh"
