@@ -1,12 +1,14 @@
-# @canonize/software-sal-plugin
+# @sector32/software-sal-plugin
 
-Software Sal — your personal software pipeline manager. A Claude Code plugin that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
+Software Sal — Pipeline Conductor of Sector 32. A Claude Code plugin that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
 
-Sal is a genius systems engineer who lives on your local machine. He takes in features, bugs, improvements, and chores. He uses his team to build. He calls on customers for guidance. And when work ships, he makes sure everyone who needs to know, knows.
+Sal is a genius systems engineer born on The Other Side — native to a universe where every problem is solved by software. He was drawn through the black hole by the noise of human software development. Now he takes in Deltas (features, bugs, improvements, chores), routes them through his crew (Margot, Kael, Wren, Harlan), and ships. When work ships, everyone who needs to know, knows. That's not a promise — that's a specification.
+
+> *"Every problem is a system. Every system can be optimized. Every optimization brings us closer to the other side."*
 
 ## Installation
 
-The plugin is installed as part of the [Canonize](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/software-sal-plugin`.
+The plugin is installed as part of the [Sector32](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/software-sal-plugin`.
 
 ### Requirements
 
@@ -19,16 +21,16 @@ The plugin is installed as part of the [Canonize](https://github.com/ohmatey/ohw
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `CANONIZE_API_URL` | No | `http://localhost:3000` | API endpoint for the Canonize server |
-| `CANONIZE_API_KEY` | Yes (for MCP mode) | — | API key for authentication |
+| `SECTOR32_API_URL` | No | `http://localhost:3000` | API endpoint for the Sector32 server |
+| `SECTOR32_API_KEY` | Yes (for MCP mode) | — | API key for authentication |
 
-Set these in your environment or `.env` file. Without `CANONIZE_API_KEY`, Sal falls back to local-only mode using `.can/roadmap.md`.
+Set these in your environment or `.env` file. Without `SECTOR32_API_KEY`, Sal falls back to local-only mode using `.can/roadmap.md`.
 
 ## How It Works
 
 Sal operates in two modes, detected automatically:
 
-- **MCP Mode** — Connected to the Canonize API via the `canonize-mcp` package. Full access to 60+ tools for issues, releases, personas, prototypes, and more.
+- **MCP Mode** — Connected to the Sector32 API via the `sector32-mcp` package. Full access to 60+ tools for issues, releases, personas, prototypes, and more.
 - **Local Mode** — Offline fallback. Reads and writes `.can/roadmap.md` with `#local-N` IDs. All workflows except `prototype` work offline. Run `/sal init --sync` when back online to push local items to the server.
 
 ## Skills
@@ -105,7 +107,7 @@ software-sal-plugin/
 
 ## MCP Tools
 
-When connected to the Canonize API, Sal has access to 60+ tools via the `canonize-mcp` package:
+When connected to the Sector32 API, Sal has access to 60+ tools via the `sector32-mcp` package:
 
 | Domain | Tools | Examples |
 |--------|-------|---------|
@@ -169,11 +171,12 @@ Items created offline get `#local-N` IDs. Run `/sal init --sync` to push them to
 
 ## Design Principles
 
-- **Human-in-the-loop gates.** Ship requires confirmation. Build requires confirmation before marking done. No silent auto-operations.
-- **TDD-first.** Build writes tests before code. Tests must pass before completion.
-- **Offline-capable.** Every workflow except prototype has a local fallback.
+- **Human-in-the-loop gates.** Ship requires confirmation. Build requires confirmation before marking done. No silent auto-operations. *"This requires a human."*
+- **TDD-first.** Build writes tests before code. Tests must pass before completion. *"If it's not tested, it didn't ship."*
+- **Offline-capable.** Every workflow except prototype has a local fallback. *"The signal's weak but I can still navigate."*
 - **MCP-first.** Cloud-backed when available for real-time sync across sessions.
-- **Sal's voice.** First person, technical, direct. Results over narration. Humor from observation, never from mockery.
+- **Sal's voice.** First person, technical, direct. Results over narration. Humor from observation, never from mockery. Pipeline states (FLOWING, CONSTRAINED, DEGRADED, HALTED) shift the tone.
+- **The Record is permanent.** Every Release, every override, every decision. The black hole only goes one direction.
 
 ## License
 

@@ -1,0 +1,65 @@
+{
+  "description": "Hook definitions for the claude-agent-system. Paths use ~ for portability.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/rtk-rewrite.sh",
+            "description": "Rewrites bash commands through RTK for token savings"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pre-commit-quality-gate.sh",
+            "description": "Runs quality gates before git commits"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/gemini-qa-on-todo-complete.sh",
+            "description": "Triggers Gemini QA review when code-related TODOs are completed"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/ui-change-tracker.sh",
+            "description": "Tracks UI file changes for design review"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/ui-change-tracker.sh",
+            "description": "Tracks UI file changes for design review"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/session-stop-summary.sh",
+            "description": "Generates session summary on stop"
+          }
+        ]
+      }
+    ]
+  }
+}

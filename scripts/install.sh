@@ -6,18 +6,18 @@ CLAUDE_DIR="$HOME/.claude"
 AGENTS_DIR="$CLAUDE_DIR/agents"
 LOCAL_MARKETPLACE_DIR="$CLAUDE_DIR/local-marketplace"
 
-echo "@canonize/agent-system install"
+echo "@sector32/agent-system install"
 echo "  Package: $PACKAGE_DIR"
 echo "  Target:  $CLAUDE_DIR"
 echo ""
 
 # --- Sal's Crew (v2.0) ---
 # Small crew, deep space. Four specialists + a conductor.
-# All crew agents namespaced under /ohm: via the ohm plugin.
+# All crew agents namespaced under /rig: via the rig plugin.
 #
 # Agent directory names and skill names share the same /role-firstname convention.
 # Agents install as ~/.claude/agents/{name}.md (file symlinks → SKILL.md)
-# Skills install via the ohm plugin → invokable as /ohm:{name}
+# Skills install via the rig plugin → invokable as /rig:{name}
 #
 # THE CREW:
 #   product-margot   (Margot Flux)     — Product strategy + market intel
@@ -97,7 +97,7 @@ for agent in "${CREW[@]}"; do
   echo "  ~/.claude/agents/${agent}.md → $TARGET"
 done
 
-# --- ohm Plugin ---
+# --- rig Plugin ---
 
 # Clean up the old ~/.claude/.claude-plugin symlink approach (no longer used)
 OLD_PLUGIN_SYMLINK="$CLAUDE_DIR/.claude-plugin"
@@ -112,6 +112,7 @@ REMOVED_SKILLS=(
   "ai-engineer"
   "ai-oracle"
   "conductor-sal"
+  "ohm-ohm-visual-prompt"
   "designer"
   "executive"
   "gtm"
@@ -131,7 +132,7 @@ REMOVED_SKILLS=(
   "tech-lead"
   "uxr"
   "version"
-  # Crew agents (moved to ohm plugin)
+  # Crew agents (moved to rig plugin)
   "design-wren"
   "engineering-kael"
   "product-margot"
@@ -145,27 +146,66 @@ for skill in "${REMOVED_SKILLS[@]}"; do
   fi
 done
 
-# Register the ohm plugin via the Claude Code plugin CLI.
-# Uses a local marketplace so Claude Code can properly cache and load the plugin.
+# Register the rig plugin via the Claude Code plugin CLI.
 #
 # How it works:
-#   1. Creates ~/.claude/local-marketplace/ as a plugin marketplace directory
-#   2. Symlinks plugins/ohm → this package (stays live for updates)
-#   3. Registers the marketplace with: claude plugin marketplace add
-#   4. Installs (or updates) the ohm plugin with: claude plugin install/update ohm@local
+#   1. Creates ~/.claude/local-marketplace/ with marketplace manifest + plugin symlink
+#   2. Registers the marketplace with: claude plugin marketplace add
+#   3. Installs/updates the rig plugin with: claude plugin install/update rig@local
+#   4. Keeps the marketplace symlink so Claude Code can validate the source at startup
 #
-# After install, restart Claude Code — skills appear as /ohm:{name}
+# After install, restart Claude Code — skills appear as /rig:{name}
 
 if ! command -v claude &>/dev/null; then
-  echo "  Warning: claude CLI not found — skipping ohm plugin registration"
-  echo "  Install Claude Code, then re-run this script to enable /ohm: skills"
+  echo "  Warning: claude CLI not found — skipping rig plugin registration"
+  echo "  Install Claude Code, then re-run this script to enable /rig: skills"
 else
   # Set up local marketplace directory
   mkdir -p "$LOCAL_MARKETPLACE_DIR/.claude-plugin"
   mkdir -p "$LOCAL_MARKETPLACE_DIR/plugins"
 
-  # Write marketplace manifest
-  cat > "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" << 'MARKETPLACE_EOF'
+  # Write marketplace manifest (preserving any existing non-rig plugins)
+  EXISTING_PLUGINS=""
+  if [ -f "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" ]; then
+    EXISTING_PLUGINS=$(python3 -c "
+import json, sys
+try:
+    with open('$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json') as f:
+        data = json.load(f)
+    others = [p for p in data.get('plugins', []) if p.get('name') != 'rig']
+    if others:
+        # Output as JSON array entries (without surrounding brackets)
+        for i, p in enumerate(others):
+            prefix = ',' if i > 0 else ''
+            sys.stdout.write(prefix + json.dumps(p, indent=6))
+except: pass
+" 2>/dev/null)
+  fi
+
+  if [ -n "$EXISTING_PLUGINS" ]; then
+    cat > "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" << MARKETPLACE_EOF
+{
+  "\$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "local",
+  "description": "Local plugins",
+  "owner": {
+    "name": "local"
+  },
+  "plugins": [
+    {
+      "name": "rig",
+      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
+      "author": {
+        "name": "sector32"
+      },
+      "source": "./plugins/rig",
+      "category": "productivity"
+    },$EXISTING_PLUGINS
+  ]
+}
+MARKETPLACE_EOF
+  else
+    cat > "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" << 'MARKETPLACE_EOF'
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "local",
@@ -175,43 +215,72 @@ else
   },
   "plugins": [
     {
-      "name": "ohm",
-      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /ohm:",
+      "name": "rig",
+      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
       "author": {
-        "name": "canonize"
+        "name": "sector32"
       },
-      "source": "./plugins/ohm",
+      "source": "./plugins/rig",
       "category": "productivity"
     }
   ]
 }
 MARKETPLACE_EOF
+  fi
 
-  # Point plugins/ohm → this package (symlink stays live, update refreshes the cache)
-  ln -sfn "$PACKAGE_DIR" "$LOCAL_MARKETPLACE_DIR/plugins/ohm"
+  # Create/update permanent symlink plugins/rig → this package
+  # This symlink must remain so Claude Code can validate the marketplace source at startup.
+  ln -sfn "$PACKAGE_DIR" "$LOCAL_MARKETPLACE_DIR/plugins/rig"
+  echo "  Marketplace symlink: $LOCAL_MARKETPLACE_DIR/plugins/rig → $PACKAGE_DIR"
 
   # Register marketplace (idempotent — safe to run multiple times)
   claude plugin marketplace add "$LOCAL_MARKETPLACE_DIR" 2>/dev/null || true
   echo "  Local marketplace: $LOCAL_MARKETPLACE_DIR"
 
-  # Install or update ohm plugin
-  CACHE_DIR="$CLAUDE_DIR/plugins/cache/local/ohm"
+  # Install or update rig plugin (copies to cache)
+  CACHE_DIR="$CLAUDE_DIR/plugins/cache/local/rig"
   if [ -d "$CACHE_DIR" ]; then
-    claude plugin update ohm@local 2>/dev/null \
-      && echo "  ohm@local updated (cache refreshed)" \
-      || echo "  Warning: could not update ohm@local"
+    claude plugin update rig@local 2>/dev/null \
+      && echo "  rig@local updated (cache refreshed)" \
+      || echo "  Warning: could not update rig@local"
   else
-    claude plugin install ohm@local 2>/dev/null \
-      && echo "  ohm@local installed" \
-      || echo "  Warning: could not install ohm@local"
+    claude plugin install rig@local 2>/dev/null \
+      && echo "  rig@local installed" \
+      || echo "  Warning: could not install rig@local"
+  fi
+fi
+
+# --- Hooks ---
+# Symlink version-controlled hook scripts to ~/.claude/hooks/
+# This ensures hooks survive machine wipes and are version-controlled.
+
+HOOKS_SRC="$PACKAGE_DIR/hooks"
+HOOKS_DIR="$CLAUDE_DIR/hooks"
+mkdir -p "$HOOKS_DIR"
+
+if [ -d "$HOOKS_SRC" ]; then
+  for hook in "$HOOKS_SRC"/*.sh; do
+    [ -f "$hook" ] || continue
+    HOOK_NAME="$(basename "$hook")"
+    LINK="$HOOKS_DIR/$HOOK_NAME"
+    rm -f "$LINK"
+    ln -s "$hook" "$LINK"
+    chmod +x "$hook"
+    echo "  ~/.claude/hooks/$HOOK_NAME → $hook"
+  done
+  # Also sync hooks.json if present
+  if [ -f "$HOOKS_SRC/hooks.json" ]; then
+    rm -f "$HOOKS_DIR/hooks.json"
+    ln -s "$HOOKS_SRC/hooks.json" "$HOOKS_DIR/hooks.json"
+    echo "  ~/.claude/hooks/hooks.json → $HOOKS_SRC/hooks.json"
   fi
 fi
 
 echo ""
-echo "✓ @canonize/agent-system installed"
+echo "✓ @sector32/agent-system installed"
 echo "  Agents: 5 (design-wren, engineering-kael, product-margot, sales-harlan, hr-mira)"
-echo "  Plugin: ohm@local (via local marketplace)"
-echo "  Skills: 7 namespaced under /ohm: (crew + conductor-sal + version)"
-echo "  Invoke: /ohm:design-wren | /ohm:engineering-kael | /ohm:product-margot | /ohm:sales-harlan | /ohm:hr-mira | /ohm:conductor-sal | /ohm:version"
+echo "  Plugin: rig@local (via local marketplace)"
+echo "  Skills: 8 namespaced under /rig: (crew + sal + visual-prompt + version)"
+echo "  Invoke: /rig:wren | /rig:kael | /rig:margot | /rig:harlan | /rig:mira | /rig:sal | /rig:visual-prompt | /rig:version"
 echo ""
 echo "  Restart Claude Code to activate."

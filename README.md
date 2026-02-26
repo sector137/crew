@@ -35,7 +35,7 @@ The crew consolidated from 11 agents to 4. The knowledge didn't disappear — it
 
 **Harlan Closer** — The Honest Partner. Hunter mode: sales and closing. Strategist mode: GTM, positioning, launch (absorbed from Nova). Partner mode: account management, expectation-setting. Voice of Customer mode: feeds customer signal to Margot. *"Three customers mentioned the same pain point this week. That's not anecdotal anymore."*
 
-Full character profiles in `packages/agent-system/team-bible.md`.
+Full character profiles in `.storyline/crew/`.
 
 ### Retired Characters (Absorbed — v1 → v2)
 
@@ -58,7 +58,7 @@ Each agent and plugin lives in its own self-contained subdirectory:
 ```
 packages/agent-system/
 ├── README.md                    # This file
-├── team-bible.md                # Full crew bible, character profiles, lore, brand identity
+├── ../../.storyline/             # Crew operating model (at repo root)
 ├── conductor-sal/               # Software Sal plugin (pipeline conductor)
 │   ├── .claude-plugin/plugin.json
 │   ├── .mcp.json
@@ -67,8 +67,8 @@ packages/agent-system/
 │   └── skills/                  # Sal pipeline skills (add, build, ship, etc.)
 │
 │   # --- Sal's Crew: 5 active agents (v2.0) ---
-│   # Agent dir name = Task tool subagent_type = ohm plugin skill name
-│   # All crew invokable as /ohm:{name}
+│   # Agent dir name = Task tool subagent_type = rig plugin skill name
+│   # All crew invokable as /rig:{name}
 │
 ├── design-wren/SKILL.md         # Wren Glasswork — Experience Architect + Taste Authority
 ├── engineering-kael/SKILL.md    # Kael Deepstack — Chief Engineer (arch + quality + security + reliability + AI)
@@ -86,12 +86,12 @@ packages/agent-system/
 │   └── skills/                  # Retired interactive skills
 │
 ├── skills/                      # Active crew skills (installed to ~/.claude/.claude-plugin/skills/)
-│   ├── design-wren/             # /ohm:design-wren — UX, research, taste authority sessions
-│   ├── engineering-kael/        # /ohm:engineering-kael — Architecture, quality, security, reliability sessions
-│   ├── product-margot/          # /ohm:product-margot — Product strategy + market intel sessions
-│   ├── sales-harlan/            # /ohm:sales-harlan — Sales, GTM, account management sessions
-│   ├── conductor-sal/           # /ohm:conductor-sal — Pipeline Conductor
-│   └── version/                 # /ohm:version — Version management
+│   ├── wren/             # /rig:wren — UX, research, taste authority sessions
+│   ├── kael/             # /rig:kael — Architecture, quality, security, reliability sessions
+│   ├── margot/             # /rig:margot — Product strategy + market intel sessions
+│   ├── harlan/             # /rig:harlan — Sales, GTM, account management sessions
+│   ├── sal/             # /rig:sal — Pipeline Conductor
+│   └── version/                 # /rig:version — Version management
 └── shared/                      # Shared resources
     ├── agent-conventions.md
     ├── docs-operations.md
@@ -120,16 +120,16 @@ In addition to agents (background subprocesses), the system includes **skills** 
 
 ### Available Skills
 
-Every active crew member is namespaced under `/ohm:` for easy discovery:
+Every active crew member is namespaced under `/rig:` for easy discovery:
 
 | Skill | Character | Use When |
 |-------|-----------|----------|
-| `/ohm:product-margot` | Margot Flux | Product strategy, PRDs, discovery, roadmaps, market intel, competitive analysis |
-| `/ohm:design-wren` | Wren Glasswork | UX research, personas, JTBD, design sessions, design principles, taste review |
-| `/ohm:engineering-kael` | Kael Deepstack | Architecture, system design, ADRs, AI/ML design, quality, security, reliability |
-| `/ohm:sales-harlan` | Harlan Closer | Sales strategy, GTM, positioning, pricing, account management, voice of customer |
-| `/ohm:conductor-sal` | Software Sal | Pipeline execution, build, test, ship |
-| `/ohm:version` | — | Agent system version management |
+| `/rig:margot` | Margot Flux | Product strategy, PRDs, discovery, roadmaps, market intel, competitive analysis |
+| `/rig:wren` | Wren Glasswork | UX research, personas, JTBD, design sessions, design principles, taste review |
+| `/rig:kael` | Kael Deepstack | Architecture, system design, ADRs, AI/ML design, quality, security, reliability |
+| `/rig:harlan` | Harlan Closer | Sales strategy, GTM, positioning, pricing, account management, voice of customer |
+| `/rig:sal` | Software Sal | Pipeline execution, build, test, ship |
+| `/rig:version` | — | Agent system version management |
 
 Each skill reads relevant `/docs/` directories on activation, introduces itself with absorbed context, and asks what to work on.
 
@@ -137,7 +137,7 @@ Each skill reads relevant `/docs/` directories on activation, introduces itself 
 
 **Full discovery → delivery flow**:
 ```
-/ohm:product-margot (Intel Mode)  →  /ohm:design-wren (skill)   →  /ohm:product-margot (Vision Mode)
+/rig:margot (Intel Mode)  →  /rig:wren (skill)   →  /rig:margot (Vision Mode)
    ↓                                  ↓                            ↓
 Market landscape,               User needs, JTBD,           Opportunity trees,
 competitive gaps                opportunity briefs          PRD with evidence
@@ -310,7 +310,7 @@ All agents document their work in a standardized `/docs/` directory structure:
 
 1. **Initialize documentation structure**:
    ```bash
-   # Sal will create the structure when first invoked via /ohm:conductor-sal init
+   # Sal will create the structure when first invoked via /rig:sal init
    # Or manually: mkdir -p docs/{workflows,market-research,ux,product,engineering,ai,testing,security,project,gtm,sales,executive}
    ```
 
@@ -333,7 +333,7 @@ All agents document their work in a standardized `/docs/` directory structure:
 → Claude Code invokes product-margot agent
 
 "What's our current project status?"
-→ Use /ohm:conductor-sal for pipeline status
+→ Use /rig:sal for pipeline status
 
 "I need a security audit of the authentication code"
 → Claude Code invokes engineering-kael agent (Security mode)
@@ -662,7 +662,7 @@ This creates an audit trail and prevents relitigating past decisions.
 - Review gate criteria in `/docs/workflows/quality-gates.md`
 - Identify which criteria are not met
 - Engage the appropriate agent to address gaps
-- Sal (`/ohm:conductor-sal`) can coordinate cross-functional resolution
+- Sal (`/rig:sal`) can coordinate cross-functional resolution
 
 ### "We're not doing enough discovery"
 - Check metrics-dashboard.md for customer touchpoint count
@@ -728,7 +728,7 @@ This system is designed to be adapted to your team's needs:
 - Read `/docs/README.md` in your project for project-specific context
 - Read `/docs/workflows/discovery-to-delivery.md` for workflow details
 - Read domain-specific READMEs for agent-specific guidance
-- Use `/ohm:conductor-sal` for status and coordination help
+- Use `/rig:sal` for status and coordination help
 
 ### Agent Configuration
 - Agent definitions: `packages/agent-system/[agent-name]/SKILL.md` (installed to `~/.claude/agents/[agent-name].md`)
@@ -758,7 +758,7 @@ This system is designed to be adapted to your team's needs:
 | Go-to-market, launch planning, positioning | `gtm-nova` | Nova Amplitude |
 | Sales strategy, pitch development, pricing | `sales-harlan` | Harlan Closer |
 | System health, agent performance, oversight | `overseer-nyx` | Nyx Panoptica |
-| Pipeline coordination, build/test/ship | `/ohm:conductor-sal` | Software Sal |
+| Pipeline coordination, build/test/ship | `/rig:sal` | Software Sal |
 
 ### Workflow Phase Cheat Sheet
 

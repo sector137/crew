@@ -1,6 +1,6 @@
 # MCP Tools Reference — Sal's Instrument Panel
 
-All tools are prefixed `mcp__canonize-roadmap__`. These are my hands. This is how I touch the system.
+All tools are prefixed `mcp__sector32-roadmap__`. These are my hands. This is how I touch the system.
 
 ## Core Tools
 
@@ -16,6 +16,7 @@ All tools are prefixed `mcp__canonize-roadmap__`. These are my hands. This is ho
 | `delete_issue` | Permanently delete | `itemId` (req) |
 | `get_issues_by_status` | Kanban view | — |
 | `list_projects` | List available projects | — |
+| `create_project` | Create a new project | `name` (req), `description` |
 
 ## Release Tools
 

@@ -11,14 +11,10 @@
             "id": "72948b63db9ddf06",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "team-bible.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "team-bible"
+              "title": "New tab"
             }
           }
         ]
@@ -184,5 +180,32 @@
     }
   },
   "active": "72948b63db9ddf06",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "team-bible.md",
+    "operating-model/tool-privileges.md",
+    "operating-model/context-bus.md",
+    "operating-model/research.md",
+    "operating-model/operations.md",
+    "skills/showrunner/references/scaffold-templates.md",
+    "operating-model/dynamics.md",
+    "operating-model/voice.md",
+    "skills/showrunner/references/narrative-philosophy.md",
+    "skills/showrunner/references/file-conventions.md",
+    "operating-model/brand.md",
+    "skills/showrunner/SKILL.md",
+    "operating-model/crew/mira.md",
+    "operating-model/crew/harlan.md",
+    "skills/showrunner/references",
+    "skills/showrunner",
+    "operating-model/crew/wren.md",
+    "operating-model/crew/kael.md",
+    "operating-model/crew/margot.md",
+    "operating-model/crew/sal.md",
+    "operating-model/crew/README.md",
+    "operating-model/codex.md",
+    "operating-model/universe.md",
+    "operating-model/README.md",
+    "operating-model/crew",
+    "operating-model"
+  ]
 }

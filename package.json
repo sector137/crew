@@ -1,7 +1,7 @@
 {
-  "name": "@canonize/agent-system",
+  "name": "@sector32/agent-system",
   "version": "0.1.0",
-  "description": "Sal's Crew — product-margot, engineering-kael, design-wren, sales-harlan, hr-mira, conductor-sal. Namespaced under /ohm: via the ohm plugin.",
+  "description": "Sal's Crew — margot, kael, wren, harlan, mira, sal. Namespaced under /rig: via the rig plugin.",
   "main": ".claude-plugin/plugin.json",
   "license": "MIT",
   "scripts": {

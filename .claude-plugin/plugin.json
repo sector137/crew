@@ -1,7 +1,7 @@
 {
-  "name": "ohm",
+  "name": "rig",
   "version": "0.1.0",
-  "description": "Sal's Crew — personal agent system. All crew agents namespaced under /ohm:",
+  "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
   "author": {
     "name": "ohmatey"
   },
