@@ -38,6 +38,23 @@ flags.isEnabled("enableWiki", { project }); // boolean
 
 Browser (Vite): `envResolver(import.meta.env, { prefix: "VITE_FLAG_" })`, or the React binding `@sector32/feature-flags/react` (`FeatureFlagsProvider`, `useFlag`).
 
+### Pluggable providers
+
+The infra tier is env-backed by default, but any tier accepts **any provider** — sync or async, duck-typed, no SDK dependency in the package. Stack a provider over env with `firstOf(...)` so a flag the provider doesn't know about falls back to `FLAG_*`:
+
+```ts
+infra: firstOf(
+  posthogResolver(phClient, { distinctId: (ctx) => ctx.userId }),  // PostHog (async)
+  envResolver(process.env),                                        // fallback
+)
+```
+
+- `posthogResolver(client, { distinctId, flagKey? })` — PostHog (posthog-node async / posthog-js sync).
+- `providerResolver(fn)` / `asyncProviderResolver(fn)` — adapt any sync / async source (LaunchDarkly, a flags service).
+- Network-backed providers are **async**: resolve with `isEnabledAsync` / `getAllAsync`. The sync API throws rather than silently dropping a provider's opinion.
+
+In `apps/app`, plug one in at bootstrap with **zero call-site changes** via `registerInfraProvider(...)` (see `apps/app/src/lib/flags.ts`). Choosing a provider is an engineering decision — record it in an ADR. The default stays env/config (deterministic, git-versioned) until there's a reason to reach for a service.
+
 ## Choosing a Tier
 
 Each flag declares a `tier`: `app`, `infra`, or `both`. Pick by asking *who decides whether this is on*:
