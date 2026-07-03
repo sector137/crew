@@ -105,8 +105,11 @@ Title: [Clear, imperative action — "Implement X" not "X implementation"]
 Description: [What to build, why it matters, acceptance criteria]
 Horizon: now | next | later
 Type: feature | fix | chore | spike
+Flag: [gated? app | infra | both | none — the flag key + tier, per shared/feature-flags.md]
 Dependencies: [List any blocking issues or PRD references]
 ```
+
+New user-facing features ship **gated** by default. If Kael's plan named a flag, carry the key and tier into the spec's `Flag` line. If it didn't, ask before scoping unflagged. Convention: `shared/feature-flags.md`.
 
 ### `/rig:sal test [scope?]`
 

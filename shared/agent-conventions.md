@@ -20,6 +20,10 @@ All documents must include:
 - **ACTION PLAN** section near the end with prioritized next steps
 - Exception: Nyx (overseer-nyx) uses **FINDINGS** instead of ACTION PLAN
 
+## Feature Flags
+
+New user-facing features ship behind a flag. Two tiers — **app-level** (owned inside one app) and **infra-level** (shared env/config rollout gate + kill-switch) — and every app can use either or both. Route all checks through `@sector32/feature-flags`, never inline. Kael owns implementation and tier choice; Sal tracks rollout and cleanup at `ship`. Full convention: `shared/feature-flags.md`.
+
 ## The Crew — Agent Collaboration
 
 Agent names follow `/role-firstname` convention. The same name works as both the `subagent_type` in the Task tool and the slash command.

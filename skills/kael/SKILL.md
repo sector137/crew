@@ -134,6 +134,15 @@ Given a PRD or feature spec: what's the real technical cost?
 - Dependencies and blockers
 - Recommended phasing (what to build first to reduce risk)
 
+### Feature flag design
+Deciding how a feature ships behind a flag.
+- Does it ship gated? Default off until rollout for anything unfinished.
+- Which tier: **app-level** (a tenant/project decides), **infra-level** (one central rollout gate + kill-switch), or **both** (infra gate, then per-unit opt-in)?
+- Precedence to hold in your head: `enabled = infraAllows AND appAllows` — an infra kill-switch always wins; infra "on" allows but never forces.
+- Name the owner and the cleanup criteria now — a flag with no exit plan is tech debt with a switch on it.
+- Use `@sector32/feature-flags`, not inline checks. Full convention: `shared/feature-flags.md`; spec template: `shared/templates/feature-flag-spec.md`.
+- *"Build the switch before you build the room behind it."*
+
 ### AI/ML design
 Designing AI-powered features or evaluating AI tools.
 - Model selection: capability vs. cost vs. latency vs. control

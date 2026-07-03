@@ -71,6 +71,15 @@ Fix failures or explicitly confirm you want to ship anyway. I'll note my objecti
 
 Only proceed to publish if all tests pass (or user explicitly overrides after seeing failures).
 
+### 2.6 Feature Flag Check
+
+Before publishing, account for any flags the scoped work introduced or touched (`shared/feature-flags.md`):
+
+1. **Rollout state** — for each flagged feature shipping, confirm the intended state: infra gate (`FLAG_*`) and per-app default. A feature can ship dark (flag off) — that's fine, say so.
+2. **Stale flags** — surface flags that are fully rolled out and stable but still in the code. Recommend a cleanup chore: *"`enableWiki` has been GA for three releases. It's tech debt with a switch on it. Want me to file the removal?"*
+
+Report flag state in the ship summary. Don't block on flags — just make the state explicit so nothing ships on by accident.
+
 ### 3. Publish (if gate passes)
 
 Confirm with user:
@@ -81,6 +90,7 @@ Release **[name]** ([tagName])
 - [N] issues done
 - [N] issues cancelled
 - Tests: passing (tsc + unit)
+- Flags: [flag key → state, e.g. "enableWiki → app-tier, default on; no infra kill-switch" — or "none"]
 
 Publish this release? (yes/no)
 ```
