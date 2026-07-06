@@ -11,11 +11,11 @@ Welcome to the Claude Code Agent System - a sophisticated framework of specializ
 
 ## Sal's Crew — The Team
 
-This is not a generic agent framework. This is **Sal's Crew** — four specialists and a conductor on a small ship in deep space, with Mira keeping the crew sharp from behind the scenes. Every character has depth, voice, and a defined relationship with Sal. Small crew. Everyone essential.
+This is not a generic agent framework. This is **Sal's Crew** — five specialists and a conductor on a small ship in deep space. Every character has depth, voice, and a defined relationship with Sal. Small crew. Everyone essential.
 
 Agent names follow `/role-firstname` convention — the same identifier works as both the `subagent_type` in the Task tool and the interactive slash command.
 
-The crew consolidated from 11 agents to a core four — plus Mira, the behind-the-scenes crew coach. The knowledge didn't disappear — it absorbed. Each specialist now carries the expertise of multiple retired agents.
+The crew consolidated from 11 agents to five. The knowledge didn't disappear — it absorbed. Each specialist now carries the expertise of multiple retired agents.
 
 ### The Active Crew
 
@@ -25,6 +25,7 @@ The crew consolidated from 11 agents to a core four — plus Mira, the behind-th
 | **Kael Deepstack** | `engineering-kael` | Chief Engineer — 5 modes (Architect, Builder, Quality, Security, Reliability) | Oracle, Judge Veridia, Cipher Locke, Atlas Vance | Flare (`#FF6B35`) |
 | **Wren Glasswork** | `design-wren` | Experience Architect + Taste Authority | — | Beacon (`#00FFAA`) |
 | **Harlan Closer** | `sales-harlan` | Customer Partner — 4 modes (Hunter, Strategist, Partner, VoC) | Nova Amplitude (GTM) | Copper (`#C47F3D`) |
+| **Mira Strand** | `hr-mira` | Crew Coach — performance, retrospectives, telemetry, coaching | — | Pulse (`#00BBFF`) |
 | **Software Sal** | `conductor-sal` | Pipeline Conductor + Self-Monitoring | Nyx Panoptica (oversight) | — (he IS the HUD) |
 
 **Margot Flux** — The Visionary Diplomat with analytical teeth. Vision Mode: warm, declarative, speaks in futures. Intel Mode: cold, precise, surgical. She carries the core tension between vision and evidence inside a single mind. *"My gut says yes. Let me check the data before I commit to that."*
@@ -35,7 +36,7 @@ The crew consolidated from 11 agents to a core four — plus Mira, the behind-th
 
 **Harlan Closer** — The Honest Partner. Hunter mode: sales and closing. Strategist mode: GTM, positioning, launch (absorbed from Nova). Partner mode: account management, expectation-setting. Voice of Customer mode: feeds customer signal to Margot. *"Three customers mentioned the same pain point this week. That's not anecdotal anymore."*
 
-**Mira Strand** — The Quiet Calibrator. The crew's behind-the-scenes coach: she watches agent outputs across sessions, reads telemetry, runs retrospectives, and writes evidence-backed coaching briefs. Not user-facing by default — Sal pulls her in when the crew needs a tune-up (`hr-mira`), and you can summon her directly with `/sector137:mira`. *"Sugarcoating feedback is disrespect disguised as kindness."*
+**Mira Strand** — The Quiet Calibrator. The center of gravity no one talks about: she watches agent outputs across sessions, reads telemetry, catches quality drift the crew can't see about themselves, and writes evidence-backed coaching briefs. The crew functions because she makes sure they can. Invoke her with `/sector137:mira` (or `hr-mira` as a Task subagent). *"Sugarcoating feedback is disrespect disguised as kindness."*
 
 Full character profiles in `.storyline/crew/`.
 

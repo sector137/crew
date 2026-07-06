@@ -12,7 +12,7 @@ echo "  Target:  $CLAUDE_DIR"
 echo ""
 
 # --- Sal's Crew ---
-# Small crew, deep space. Four specialists + a conductor.
+# Small crew, deep space. Five specialists + a conductor.
 # All crew agents namespaced under /sector137: via the sector137 plugin.
 #
 # Agent directory names and skill names share the same /role-firstname convention.
@@ -24,10 +24,10 @@ echo ""
 #   engineering-kael (Kael Deepstack)  — Architecture + quality + security + reliability + AI/ML
 #   design-wren      (Wren Glasswork)  — UX design + taste authority
 #   sales-harlan     (Harlan Closer)   — Sales + GTM + account management
-#   hr-mira          (Mira Strand)     — Crew coach, performance review, Langfuse telemetry [behind-the-scenes]
+#   hr-mira          (Mira Strand)     — Crew coach, performance review, Langfuse telemetry
 #   conductor-sal    (Software Sal)    — Pipeline conductor, self-monitoring, team orchestration
 #
-# RETIRED (archived in packages/agent-system/archived/):
+# RETIRED (absorbed into the active crew):
 #   ai-oracle, gtm-nova, intel-vesper, overseer-nyx, quality-judge, security-cipher, sre-atlas
 
 CREW=(
