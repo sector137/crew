@@ -11,11 +11,11 @@ Welcome to the Claude Code Agent System - a sophisticated framework of specializ
 
 ## Sal's Crew — The Team
 
-This is not a generic agent framework. This is **Sal's Crew** — a tight four-person team plus a conductor on a small ship in deep space. Every character has depth, voice, and a defined relationship with Sal. Small crew. Everyone essential.
+This is not a generic agent framework. This is **Sal's Crew** — four specialists and a conductor on a small ship in deep space, with Mira keeping the crew sharp from behind the scenes. Every character has depth, voice, and a defined relationship with Sal. Small crew. Everyone essential.
 
 Agent names follow `/role-firstname` convention — the same identifier works as both the `subagent_type` in the Task tool and the interactive slash command.
 
-The crew consolidated from 11 agents to 4. The knowledge didn't disappear — it absorbed. Each specialist now carries the expertise of multiple retired agents.
+The crew consolidated from 11 agents to a core four — plus Mira, the behind-the-scenes crew coach. The knowledge didn't disappear — it absorbed. Each specialist now carries the expertise of multiple retired agents.
 
 ### The Active Crew
 
@@ -35,6 +35,8 @@ The crew consolidated from 11 agents to 4. The knowledge didn't disappear — it
 
 **Harlan Closer** — The Honest Partner. Hunter mode: sales and closing. Strategist mode: GTM, positioning, launch (absorbed from Nova). Partner mode: account management, expectation-setting. Voice of Customer mode: feeds customer signal to Margot. *"Three customers mentioned the same pain point this week. That's not anecdotal anymore."*
 
+**Mira Strand** — The Quiet Calibrator. The crew's behind-the-scenes coach: she watches agent outputs across sessions, reads telemetry, runs retrospectives, and writes evidence-backed coaching briefs. Not user-facing by default — Sal pulls her in when the crew needs a tune-up (`hr-mira`), and you can summon her directly with `/sector137:mira`. *"Sugarcoating feedback is disrespect disguised as kindness."*
+
 Full character profiles in `.storyline/crew/`.
 
 ### Retired Characters (Absorbed — v1 → v2)
@@ -49,7 +51,7 @@ Full character profiles in `.storyline/crew/`.
 | `gtm-nova` | Nova Amplitude (GTM) | `sales-harlan` — Strategist mode |
 | `overseer-nyx` | Nyx Panoptica (Oversight) | `conductor-sal` — self-monitoring |
 
-Retired SKILL.md files are preserved in `packages/agent-system/archived/` for reference.
+Their expertise now lives inside the active crew — see the "Absorbed Into" column above.
 
 ## Package Structure
 
@@ -59,12 +61,13 @@ Each agent and plugin lives in its own self-contained subdirectory:
 packages/agent-system/
 ├── README.md                    # This file
 ├── ../../.storyline/             # Crew operating model (at repo root)
+├── .claude-plugin/plugin.json   # sector137 plugin manifest
+├── package.json
 ├── conductor-sal/               # Software Sal plugin (pipeline conductor)
-│   ├── .claude-plugin/plugin.json
-│   ├── .mcp.json
 │   ├── README.md
-│   ├── references/
-│   └── skills/                  # Sal pipeline skills (add, build, ship, etc.)
+│   ├── package.json
+│   ├── references/              # Sal's knowledge base (mcp-tools, mode-detection, ...)
+│   └── playbooks/               # Sal pipeline skills (add, ship, plan, etc.)
 │
 │   # --- Sal's Crew: 5 active agents ---
 │   # Agent dir name = Task tool subagent_type = sector137 plugin skill name
@@ -74,24 +77,19 @@ packages/agent-system/
 ├── engineering-kael/SKILL.md    # Kael Deepstack — Chief Engineer (arch + quality + security + reliability + AI)
 ├── product-margot/SKILL.md      # Margot Flux — Product Manager (Vision + Intel Mode)
 ├── sales-harlan/SKILL.md        # Harlan Closer — Customer Partner (sales + GTM + accounts)
+├── hr-mira/SKILL.md             # Mira Strand — Crew Coach (behind-the-scenes: retros, telemetry, coaching)
 │
-├── archived/                    # Retired agents and skills (v1) — preserved for reference
-│   ├── ai-oracle/SKILL.md       # Oracle — The Probability Engine [retired → kael]
-│   ├── gtm-nova/SKILL.md        # Nova Amplitude — GTM Operative [retired → harlan]
-│   ├── intel-vesper/SKILL.md    # Vesper Null — Intel Analyst [retired → margot]
-│   ├── overseer-nyx/SKILL.md    # Nyx Panoptica — The Overseer [retired → sal]
-│   ├── quality-judge/SKILL.md   # Judge Veridia — Quality Warden [retired → kael]
-│   ├── security-cipher/SKILL.md # Cipher Locke — Security Sentinel [retired → kael]
-│   ├── sre-atlas/SKILL.md       # Atlas Vance — SRE Operative [retired → kael]
-│   └── skills/                  # Retired interactive skills
-│
-├── skills/                      # Active crew skills (installed to ~/.claude/.claude-plugin/skills/)
-│   ├── wren/             # /sector137:wren — UX, research, taste authority sessions
-│   ├── kael/             # /sector137:kael — Architecture, quality, security, reliability sessions
-│   ├── margot/             # /sector137:margot — Product strategy + market intel sessions
-│   ├── harlan/             # /sector137:harlan — Sales, GTM, account management sessions
-│   ├── sal/             # /sector137:sal — Pipeline Conductor
+├── skills/                      # Active crew skills (installed via the sector137 plugin)
+│   ├── wren/                    # /sector137:wren — UX, research, taste authority sessions
+│   ├── kael/                    # /sector137:kael — Architecture, quality, security, reliability sessions
+│   ├── margot/                  # /sector137:margot — Product strategy + market intel sessions
+│   ├── harlan/                  # /sector137:harlan — Sales, GTM, account management sessions
+│   ├── mira/                    # /sector137:mira — Crew retrospectives + coaching sessions
+│   ├── sal/                     # /sector137:sal — Pipeline Conductor
+│   ├── visual-prompt/           # /sector137:visual-prompt — Sal-universe image prompt generator
 │   └── version/                 # /sector137:version — Version management
+├── hooks/                       # PreToolUse/PostToolUse/Stop hooks (quality gates, nudges)
+├── scripts/                     # install.sh — symlinks the crew + registers the plugin
 └── shared/                      # Shared resources
     ├── agent-conventions.md
     ├── docs-operations.md
