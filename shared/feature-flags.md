@@ -1,6 +1,6 @@
 ---
 name: feature-flags
-description: "Crew convention for feature flags — the two-tier model (app-level + infra-level), the shared @sector32/feature-flags package, and the flag lifecycle. Read before gating any new feature."
+description: "Crew convention for feature flags — the two-tier model (app-level + infra-level), the shared @sector137/feature-flags package, and the flag lifecycle. Read before gating any new feature."
 ---
 
 # Feature Flags — Crew Convention
@@ -16,12 +16,12 @@ Flags let us ship dark, roll out gradually, and kill a feature without a deploy.
 - **App-level ("top-level") flags** — owned inside one app. The unit of control is something the app already models: a project, a workspace, a user. Stored in the app's own data (a DB column, a config row). Example: `projects.enableWiki` in `apps/app`.
 - **Infra-level flags** — a shared, env/config-driven set that spans apps. The unit of control is the *deployment / environment*. This is the rollout gate and the kill-switch ops reaches for when something is on fire. Backed by env today; a DB or PostHog resolver can slot in later behind the same interface.
 
-## The Package: `@sector32/feature-flags`
+## The Package: `@sector137/feature-flags`
 
 One provider-agnostic core resolves all tiers. Do **not** hand-roll flag checks (`project.enableX !== false` scattered through the code) — route every check through the package so precedence is consistent.
 
 ```ts
-import { createFeatureFlags, envResolver, appResolver } from "@sector32/feature-flags";
+import { createFeatureFlags, envResolver, appResolver } from "@sector137/feature-flags";
 
 const registry = {
   enableWiki: { key: "enableWiki", tier: "both", default: true, owner: "engineering-kael" },
@@ -36,7 +36,7 @@ export const flags = createFeatureFlags({
 flags.isEnabled("enableWiki", { project }); // boolean
 ```
 
-Browser (Vite): `envResolver(import.meta.env, { prefix: "VITE_FLAG_" })`, or the React binding `@sector32/feature-flags/react` (`FeatureFlagsProvider`, `useFlag`).
+Browser (Vite): `envResolver(import.meta.env, { prefix: "VITE_FLAG_" })`, or the React binding `@sector137/feature-flags/react` (`FeatureFlagsProvider`, `useFlag`).
 
 ### Pluggable providers
 
@@ -103,7 +103,7 @@ Every flag is a temporary object with an owner and an exit plan. Kael owns imple
 
 ## References
 
-- Package: `packages/feature-flags/` (`@sector32/feature-flags`)
+- Package: `packages/feature-flags/` (`@sector137/feature-flags`)
 - Reference impl: `apps/app/src/lib/flags.ts`, `apps/app/client/src/hooks/use-flags.ts`
 - Spec template: `shared/templates/feature-flag-spec.md`
 - Project ADR (this repo): `docs/engineering/adrs/adr-001-feature-flags.md`

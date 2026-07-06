@@ -1,5 +1,5 @@
 {
-  "name": "@sector32/agent-system",
+  "name": "@sector137/agent-system",
   "version": "0.1.0",
   "description": "Sal's Crew — margot, kael, wren, harlan, mira, sal. Namespaced under /sector137: via the sector137 plugin.",
   "main": ".claude-plugin/plugin.json",

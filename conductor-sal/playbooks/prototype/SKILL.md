@@ -44,7 +44,7 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
    ```
    ```
    Generating "Dark mode toggle"
-   [Open sandbox](https://sector32.ai/sandbox/proto_abc123)
+   [Open sandbox](https://sector137.io/sandbox/proto_abc123)
    Watch it render in real time. I'll be here.
    Refine a screen: "regenerate step 2 with [feedback]"
    ```

@@ -1,6 +1,6 @@
 # Sector137 — Sal's Crew
 
-Software Sal — Pipeline Conductor of Sector 32. A Claude Code plugin (`sector137`) that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
+Software Sal — Pipeline Conductor of Sector 137. A Claude Code plugin (`sector137`) that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
 
 Sal is a genius systems engineer born on The Other Side — native to a universe where every problem is solved by software. He was drawn through the black hole by the noise of human software development. Now he takes in Deltas (features, bugs, improvements, chores), routes them through his crew (Margot, Kael, Wren, Harlan), and ships. When work ships, everyone who needs to know, knows. That's not a promise — that's a specification.
 
@@ -8,7 +8,7 @@ Sal is a genius systems engineer born on The Other Side — native to a universe
 
 ## Installation
 
-The plugin is installed as part of the [Sector32](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/agent-system`.
+The plugin is installed as part of the [Sector137](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/agent-system`.
 
 ### Requirements
 
@@ -21,16 +21,16 @@ The plugin is installed as part of the [Sector32](https://github.com/ohmatey/ohw
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `SECTOR32_API_URL` | No | `http://localhost:3000` | API endpoint for the Sector32 server |
-| `SECTOR32_API_KEY` | Yes (for MCP mode) | — | API key for authentication |
+| `SECTOR137_API_URL` | No | `http://localhost:3000` | API endpoint for the Sector137 server |
+| `SECTOR137_API_KEY` | Yes (for MCP mode) | — | API key for authentication |
 
-Set these in your environment or `.env` file. Without `SECTOR32_API_KEY`, Sal falls back to local-only mode using `.can/roadmap.md`.
+Set these in your environment or `.env` file. Without `SECTOR137_API_KEY`, Sal falls back to local-only mode using `.can/roadmap.md`.
 
 ## How It Works
 
 Sal operates in two modes, detected automatically:
 
-- **MCP Mode** — Connected to the Sector32 API via the `sector32-mcp` package. Full access to 60+ tools for issues, releases, personas, prototypes, and more.
+- **MCP Mode** — Connected to the Sector137 API via the `sector137-mcp` package. Full access to 60+ tools for issues, releases, personas, prototypes, and more.
 - **Local Mode** — Offline fallback. Reads and writes `.can/roadmap.md` with `#local-N` IDs. All workflows except `prototype` work offline. Run `/sal init --sync` when back online to push local items to the server.
 
 ## Skills
@@ -107,7 +107,7 @@ agent-system/
 
 ## MCP Tools
 
-When connected to the Sector32 API, Sal has access to 60+ tools via the `sector32-mcp` package:
+When connected to the Sector137 API, Sal has access to 60+ tools via the `sector137-mcp` package:
 
 | Domain | Tools | Examples |
 |--------|-------|---------|

@@ -141,7 +141,7 @@ Deciding how a feature ships behind a flag.
 - Precedence to hold in your head: `enabled = infraAllows AND appAllows` — an infra kill-switch always wins; infra "on" allows but never forces.
 - Name the owner and the cleanup criteria now — a flag with no exit plan is tech debt with a switch on it.
 - Which **provider** backs the infra tier? Env/config is the default — deterministic, git-versioned, no service. Reach for PostHog/LaunchDarkly (pluggable via `registerInfraProvider`) only when you need targeting or gradual rollout, and record that choice in an ADR.
-- Use `@sector32/feature-flags`, not inline checks. Full convention: `shared/feature-flags.md`; spec template: `shared/templates/feature-flag-spec.md`.
+- Use `@sector137/feature-flags`, not inline checks. Full convention: `shared/feature-flags.md`; spec template: `shared/templates/feature-flag-spec.md`.
 - *"Build the switch before you build the room behind it."*
 
 ### AI/ML design

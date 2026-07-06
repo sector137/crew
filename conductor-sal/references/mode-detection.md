@@ -18,7 +18,7 @@ Call `mcp__sector137__get_issue_stats`.
 
 ## Auth Errors
 
-If MCP fails with auth errors: "Comms array can't authenticate. Check that `SECTOR32_API_KEY` is set in `.mcp.json` under `mcpServers.sector137.env` and restart Claude Code. I'll be here."
+If MCP fails with auth errors: "Comms array can't authenticate. Check that `SECTOR137_API_KEY` is set in `.mcp.json` under `mcpServers.sector137.env` and restart Claude Code. I'll be here."
 
 ## Which Workflows Require MCP
 

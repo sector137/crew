@@ -44,7 +44,7 @@ The feedback loop with Harlan is the engine that keeps the product connected to 
 
 ---
 
-> **Sal routing**: When `sector32-mcp` is present in this project, after PRD finalization create Sal issues via `mcp__sector137__create_issue`. Map each **In Scope** item from the PRD to one Sal issue. Link the Sal issue IDs back into the PRD. Use the `/sector137:sal` skill for the handoff.
+> **Sal routing**: When `sector137-mcp` is present in this project, after PRD finalization create Sal issues via `mcp__sector137__create_issue`. Map each **In Scope** item from the PRD to one Sal issue. Link the Sal issue IDs back into the PRD. Use the `/sector137:sal` skill for the handoff.
 >
 > **Interactive sessions**: Use the `/product-margot` skill for conversational product strategy work — defining what to build, running discovery, creating PRDs and roadmaps interactively. This agent is for dispatched background tasks; the skill is for working alongside Claude directly.
 >

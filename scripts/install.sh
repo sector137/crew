@@ -6,7 +6,7 @@ CLAUDE_DIR="$HOME/.claude"
 AGENTS_DIR="$CLAUDE_DIR/agents"
 LOCAL_MARKETPLACE_DIR="$CLAUDE_DIR/local-marketplace"
 
-echo "@sector32/agent-system install"
+echo "@sector137/agent-system install"
 echo "  Package: $PACKAGE_DIR"
 echo "  Target:  $CLAUDE_DIR"
 echo ""
@@ -196,7 +196,7 @@ except: pass
       "name": "rig",
       "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
       "author": {
-        "name": "sector32"
+        "name": "sector137"
       },
       "source": "./plugins/rig",
       "category": "productivity"
@@ -218,7 +218,7 @@ MARKETPLACE_EOF
       "name": "rig",
       "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
       "author": {
-        "name": "sector32"
+        "name": "sector137"
       },
       "source": "./plugins/rig",
       "category": "productivity"
@@ -277,7 +277,7 @@ if [ -d "$HOOKS_SRC" ]; then
 fi
 
 echo ""
-echo "✓ @sector32/agent-system installed"
+echo "✓ @sector137/agent-system installed"
 echo "  Agents: 5 (design-wren, engineering-kael, product-margot, sales-harlan, hr-mira)"
 echo "  Plugin: rig@local (via local marketplace)"
 echo "  Skills: 8 namespaced under /rig: (crew + sal + visual-prompt + version)"

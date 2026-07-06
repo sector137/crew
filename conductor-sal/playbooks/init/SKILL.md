@@ -29,12 +29,12 @@ Call `mcp__sector137__get_issue_stats`.
 
 **Failure** → Offer Local mode:
 ```
-Comms array not reachable. Check SECTOR32_API_KEY in .mcp.json.
+Comms array not reachable. Check SECTOR137_API_KEY in .mcp.json.
 
 Work locally instead? I'll save changes to .can/roadmap.md and sync later. (yes/no)
 ```
 - Yes → Step 3C (Local Mode)
-- No → Stop: "Set `SECTOR32_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
+- No → Stop: "Set `SECTOR137_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
 
 ---
 

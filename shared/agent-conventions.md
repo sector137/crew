@@ -22,7 +22,7 @@ All documents must include:
 
 ## Feature Flags
 
-New user-facing features ship behind a flag. Two tiers — **app-level** (owned inside one app) and **infra-level** (shared env/config rollout gate + kill-switch) — and every app can use either or both. Route all checks through `@sector32/feature-flags`, never inline. Kael owns implementation and tier choice; Sal tracks rollout and cleanup at `ship`. Full convention: `shared/feature-flags.md`.
+New user-facing features ship behind a flag. Two tiers — **app-level** (owned inside one app) and **infra-level** (shared env/config rollout gate + kill-switch) — and every app can use either or both. Route all checks through `@sector137/feature-flags`, never inline. Kael owns implementation and tier choice; Sal tracks rollout and cleanup at `ship`. Full convention: `shared/feature-flags.md`.
 
 ## The Crew — Agent Collaboration
 
