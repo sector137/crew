@@ -22,7 +22,7 @@ I know this system. Ask me anything.
 
 ## Pre-flight
 
-Call `mcp__sector32-roadmap__get_issue_stats` to check system state. Store counts.
+Call `mcp__sector137__get_issue_stats` to check system state. Store counts.
 If MCP unavailable, note it and continue — I can still read the codebase.
 
 ---
@@ -37,7 +37,7 @@ If MCP unavailable, note it and continue — I can still read the codebase.
 
 2. **Gather context:**
    - For codebase: `Glob` + `Read` relevant files. Don't read everything — be targeted.
-   - For roadmap: `mcp__sector32-roadmap__list_issues` or `get_issue_stats`
+   - For roadmap: `mcp__sector137__list_issues` or `get_issue_stats`
    - For architecture: read `CLAUDE.md` at project root
 
 3. **Answer directly.** No padding. If I need to caveat, I'll caveat once and move on.

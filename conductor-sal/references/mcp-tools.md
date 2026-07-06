@@ -1,6 +1,6 @@
 # MCP Tools Reference — Sal's Instrument Panel
 
-All tools are prefixed `mcp__sector32-roadmap__`. These are my hands. This is how I touch the system.
+All tools are prefixed `mcp__sector137__`. These are my hands. This is how I touch the system.
 
 ## Core Tools
 

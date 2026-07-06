@@ -36,7 +36,7 @@ cd apps/app && bunx tsc --noEmit 2>&1 | head -20 2>/dev/null || echo "(no type e
 
 ### 1. Get roadmap context
 
-Use `mcp__sector32-roadmap__get_issue_stats` for counts per status.
+Use `mcp__sector137__get_issue_stats` for counts per status.
 
 - If `list_projects` returns tags that appear to be sprint/cycle markers, use those tag IDs as an additional `tagIds` filter in Pass 1.
 - If no tags are returned, or tag semantics are ambiguous: skip tag filtering entirely.

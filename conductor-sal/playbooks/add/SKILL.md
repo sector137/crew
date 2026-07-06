@@ -44,7 +44,7 @@ Infer from the user's message. Only ask for `title` if missing. I can figure out
 ## MCP Mode
 
 ```
-mcp__sector32-roadmap__create_issue
+mcp__sector137__create_issue
   title: "[title]"
   description: "[description if given]"
   priority: "[priority]"

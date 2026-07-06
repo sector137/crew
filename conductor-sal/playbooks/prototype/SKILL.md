@@ -28,8 +28,8 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 "Prototype the dark mode feature" or "Wireframe for item #42"
 
 1. Resolve item:
-   - Title → `mcp__sector32-roadmap__list_issues(search: "dark mode")`
-   - ID → `mcp__sector32-roadmap__get_issue(itemId: "42")`
+   - Title → `mcp__sector137__list_issues(search: "dark mode")`
+   - ID → `mcp__sector137__get_issue(itemId: "42")`
 
 2. Confirm match:
    ```
@@ -39,7 +39,7 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 
 3. Generate + surface URL immediately:
    ```
-   mcp__sector32-roadmap__generate_prototype
+   mcp__sector137__generate_prototype
      roadmapItemId: "42"
    ```
    ```
@@ -51,7 +51,7 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 
 4. Auto-add completion note:
    ```
-   mcp__sector32-roadmap__add_issue_note
+   mcp__sector137__add_issue_note
      itemId: "[id]"
      content: "Prototype generated: {sandbox_url}. Screens: [list]"
    ```
@@ -61,7 +61,7 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 ## Create from Description
 
 1. Confirm: "Generating prototype for: '[description]'\nLayout: Auto-detect\nProceed? (yes/no)"
-2. Generate: `mcp__sector32-roadmap__generate_prototype(description: "...", layout: "desktop")`
+2. Generate: `mcp__sector137__generate_prototype(description: "...", layout: "desktop")`
 3. Surface URL immediately.
 
 ---
@@ -74,7 +74,7 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 2. Confirm: "Step 2: '[title]'\nRegenerate with feedback: '[feedback]'? (yes/no)"
 3. Regenerate:
    ```
-   mcp__sector32-roadmap__regenerate_prototype_step
+   mcp__sector137__regenerate_prototype_step
      prototypeId: "proto_abc123"
      stepIndex: 1
      feedback: "[feedback]"
@@ -85,10 +85,10 @@ Generate and refine AI-powered wireframe prototypes using the GenKano engine. Th
 
 ## Browse Prototypes
 
-**"Show all prototypes":** `mcp__sector32-roadmap__list_prototypes`
+**"Show all prototypes":** `mcp__sector137__list_prototypes`
 Output: table of ID, title, layout, step count, date.
 
-**"Show prototype [id]":** `mcp__sector32-roadmap__get_prototype(prototypeId: "[id]")`
+**"Show prototype [id]":** `mcp__sector137__get_prototype(prototypeId: "[id]")`
 
 ---
 

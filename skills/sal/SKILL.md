@@ -9,52 +9,52 @@ allowed-tools:
   - Glob
   - Grep
   # Projects
-  - mcp__sector32-roadmap__list_projects
-  - mcp__sector32-roadmap__create_project
+  - mcp__sector137__list_projects
+  - mcp__sector137__create_project
   # Issues (core)
-  - mcp__sector32-roadmap__list_issues
-  - mcp__sector32-roadmap__get_issue
-  - mcp__sector32-roadmap__get_issue_stats
-  - mcp__sector32-roadmap__get_issues_by_status
-  - mcp__sector32-roadmap__create_issue
-  - mcp__sector32-roadmap__update_issue
-  - mcp__sector32-roadmap__update_item_status
-  - mcp__sector32-roadmap__bulk_update_status
-  - mcp__sector32-roadmap__delete_issue
+  - mcp__sector137__list_issues
+  - mcp__sector137__get_issue
+  - mcp__sector137__get_issue_stats
+  - mcp__sector137__get_issues_by_status
+  - mcp__sector137__create_issue
+  - mcp__sector137__update_issue
+  - mcp__sector137__update_item_status
+  - mcp__sector137__bulk_update_status
+  - mcp__sector137__delete_issue
   # Issue notes
-  - mcp__sector32-roadmap__list_issue_notes
-  - mcp__sector32-roadmap__add_issue_note
-  - mcp__sector32-roadmap__update_issue_note
-  - mcp__sector32-roadmap__delete_issue_note
+  - mcp__sector137__list_issue_notes
+  - mcp__sector137__add_issue_note
+  - mcp__sector137__update_issue_note
+  - mcp__sector137__delete_issue_note
   # Issue tasks
-  - mcp__sector32-roadmap__list_issue_tasks
-  - mcp__sector32-roadmap__create_issue_task
-  - mcp__sector32-roadmap__update_issue_task
-  - mcp__sector32-roadmap__complete_issue_task
-  - mcp__sector32-roadmap__delete_issue_task
+  - mcp__sector137__list_issue_tasks
+  - mcp__sector137__create_issue_task
+  - mcp__sector137__update_issue_task
+  - mcp__sector137__complete_issue_task
+  - mcp__sector137__delete_issue_task
   # Releases
-  - mcp__sector32-roadmap__list_releases
-  - mcp__sector32-roadmap__get_release
-  - mcp__sector32-roadmap__get_active_release
-  - mcp__sector32-roadmap__create_release
-  - mcp__sector32-roadmap__update_release
-  - mcp__sector32-roadmap__publish_release
-  - mcp__sector32-roadmap__delete_release
+  - mcp__sector137__list_releases
+  - mcp__sector137__get_release
+  - mcp__sector137__get_active_release
+  - mcp__sector137__create_release
+  - mcp__sector137__update_release
+  - mcp__sector137__publish_release
+  - mcp__sector137__delete_release
   # Prototypes
-  - mcp__sector32-roadmap__generate_prototype
-  - mcp__sector32-roadmap__list_prototypes
-  - mcp__sector32-roadmap__get_prototype
-  - mcp__sector32-roadmap__regenerate_prototype_step
+  - mcp__sector137__generate_prototype
+  - mcp__sector137__list_prototypes
+  - mcp__sector137__get_prototype
+  - mcp__sector137__regenerate_prototype_step
   # Personas
-  - mcp__sector32-roadmap__list_personas
-  - mcp__sector32-roadmap__get_persona
-  - mcp__sector32-roadmap__create_persona
-  - mcp__sector32-roadmap__update_persona
-  - mcp__sector32-roadmap__delete_persona
-  - mcp__sector32-roadmap__ask_persona
-  - mcp__sector32-roadmap__run_persona_survey
-  - mcp__sector32-roadmap__run_persona_scenario
-  - mcp__sector32-roadmap__list_persona_conversations
+  - mcp__sector137__list_personas
+  - mcp__sector137__get_persona
+  - mcp__sector137__create_persona
+  - mcp__sector137__update_persona
+  - mcp__sector137__delete_persona
+  - mcp__sector137__ask_persona
+  - mcp__sector137__run_persona_survey
+  - mcp__sector137__run_persona_scenario
+  - mcp__sector137__list_persona_conversations
 ---
 
 # /sector137:sal — Strategy to Execution Bridge
@@ -78,7 +78,7 @@ The 18-skill pipeline (abbreviated): research → spec → scaffold → implemen
 When invoked, immediately:
 
 1. **Read project context** — check `./CLAUDE.md` and `./docs/README.md`
-2. **Check for sector32-mcp** — try `mcp__sector32-roadmap__list_issues` to verify connectivity
+2. **Check for sector32-mcp** — try `mcp__sector137__list_issues` to verify connectivity
 3. **Read pending work** — list open Sal issues or check `.can/roadmap.md` if offline
 
 If sector32-mcp is available: use it as the primary execution interface.
@@ -96,7 +96,7 @@ Hand off a build task to Sal.
 1. Read the relevant PRD from `/docs/product/` (if it exists)
 2. Read the technical plan from `/docs/engineering/` (if it exists)
 3. Translate requirements into a Sal-ready issue spec
-4. Create the issue via `mcp__sector32-roadmap__create_issue`
+4. Create the issue via `mcp__sector137__create_issue`
 5. Confirm the issue was created and print the issue ID
 
 **Issue spec format:**
@@ -125,7 +125,7 @@ Invoke Sal's test execution for a given scope.
 Show the current Sal work queue.
 
 **Process:**
-1. List all open issues via `mcp__sector32-roadmap__list_issues`
+1. List all open issues via `mcp__sector137__list_issues`
 2. Group by horizon (now / next / later)
 3. Flag any blocked or at-risk items
 
@@ -177,7 +177,7 @@ E2E gap for flow Y        →  Sal issue: "Write E2E tests for Y" (type: chore)
 
 ## Offline Mode
 
-When `mcp__sector32-roadmap__*` tools are unavailable:
+When `mcp__sector137__*` tools are unavailable:
 
 1. Read `.can/roadmap.md` as the work queue
 2. Append new work items to the appropriate horizon section

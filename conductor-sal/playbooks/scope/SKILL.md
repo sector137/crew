@@ -32,7 +32,7 @@ Arguments: `$ARGUMENTS` — issue ID(s) or title keywords, optionally prefixed w
 
 ### 1. Find Active Release
 
-Call `mcp__sector32-roadmap__get_active_release` to find the most recent draft release.
+Call `mcp__sector137__get_active_release` to find the most recent draft release.
 
 If none:
 ```
@@ -41,8 +41,8 @@ No active draft release. Create one with `/sector137:release v0.X.0`.
 
 ### 2. Resolve Issue(s)
 
-- ID → `mcp__sector32-roadmap__get_issue(itemId)`
-- Title/keyword → `mcp__sector32-roadmap__list_issues(search: "keyword")`
+- ID → `mcp__sector137__get_issue(itemId)`
+- Title/keyword → `mcp__sector137__list_issues(search: "keyword")`
   - 1 match → proceed
   - Multiple → show list, ask user to pick
   - None → "Nothing matches that."
@@ -50,7 +50,7 @@ No active draft release. Create one with `/sector137:release v0.X.0`.
 ### 3. Update
 
 ```
-mcp__sector32-roadmap__update_issue
+mcp__sector137__update_issue
   itemId: "[id]"
   releaseId: "[active-release-id]"
 ```
@@ -68,7 +68,7 @@ Same resolution as above.
 ### 2. Update
 
 ```
-mcp__sector32-roadmap__update_issue
+mcp__sector137__update_issue
   itemId: "[id]"
   releaseId: null
 ```

@@ -39,7 +39,7 @@ Issues are either **in a release** (scoped to ship) or **in the backlog** (no re
 
 ## "Show Me the Roadmap"
 
-1. `mcp__sector32-roadmap__get_issues_by_status` — kanban overview
+1. `mcp__sector137__get_issues_by_status` — kanban overview
 2. Check for active release → show its issues separately
 
 ```
@@ -58,7 +58,7 @@ Backlog: 9 open issues not in any release
 
 ## "What Should I Build Next?" Workflow
 
-1. `mcp__sector32-roadmap__get_issues_by_status` — show status overview
+1. `mcp__sector137__get_issues_by_status` — show status overview
 2. Detect imbalances:
    - `active` > 5: too much WIP. You're context-switching yourself to death.
    - `inbox` > 10: triage needed. Things are piling up at the intake.
@@ -73,7 +73,7 @@ Scope these into the active release? (yes/no/select)
 
 4. Execute — update `releaseId` to active release:
    ```
-   mcp__sector32-roadmap__update_issue
+   mcp__sector137__update_issue
      itemId, releaseId: "[active-release-id]"
    ```
 
@@ -81,14 +81,14 @@ Scope these into the active release? (yes/no/select)
    ```
    Decision note? Brief rationale (or Enter to skip):
    ```
-   If provided: `mcp__sector32-roadmap__add_issue_note(itemId, content: "Scoped to release: [rationale]")`
+   If provided: `mcp__sector137__add_issue_note(itemId, content: "Scoped to release: [rationale]")`
 
 ---
 
 ## Triage Inbox
 
 **"Triage inbox":**
-1. `mcp__sector32-roadmap__list_issues(status: "inbox")`
+1. `mcp__sector137__list_issues(status: "inbox")`
 2. For each item, recommend: open (keep) or cancel
 3. Bulk update confirmed items to `open`
 
@@ -115,16 +115,16 @@ Scope these into the active release? (yes/no/select)
 | Reverse (R) | — | Skip. You're making it worse. |
 
 3. Preview table before creating
-4. `mcp__sector32-roadmap__create_issue` with `labels: ["kano-validated", "kano-[category]"]`
+4. `mcp__sector137__create_issue` with `labels: ["kano-validated", "kano-[category]"]`
 
 ---
 
 ## Bulk Operations
 
 "Move all low priority items to open":
-1. `mcp__sector32-roadmap__list_issues(priority: "low")`
+1. `mcp__sector137__list_issues(priority: "low")`
 2. Confirm count
-3. `mcp__sector32-roadmap__bulk_update_status(itemIds: [...], status: "open")`
+3. `mcp__sector137__bulk_update_status(itemIds: [...], status: "open")`
 
 WIP guard: if scoping would push active release > 10 items, warn and require explicit confirmation.
 
@@ -136,17 +136,17 @@ WIP guard: if scoping would push active release > 10 items, warn and require exp
 
 1. Fetch all issues across all statuses:
    ```
-   mcp__sector32-roadmap__list_issues(all: true)
+   mcp__sector137__list_issues(all: true)
    ```
 
 2. Check for **duplicates** — same or near-identical title within the same status:
    - List duplicates grouped by title
    - Confirm which to delete (usually keep the one with `done` status or the oldest `id`)
-   - `mcp__sector32-roadmap__delete_issue(itemId: "...")`
+   - `mcp__sector137__delete_issue(itemId: "...")`
 
 3. Check for **priority collisions** — multiple issues with the same priority value within the same status:
    - Resequence to spread priorities
-   - `mcp__sector32-roadmap__update_issue(itemId, priority: "high|medium|low")`
+   - `mcp__sector137__update_issue(itemId, priority: "high|medium|low")`
 
 4. Check for **missing categories** — issues with `category: null`:
    - Infer from title: "fix/bug" → `bug`, "refactor/debt" → `chore`, "improve/enhance/optimize" → `improvement`, default → `feature`

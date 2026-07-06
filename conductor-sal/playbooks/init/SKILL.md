@@ -23,7 +23,7 @@ If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)**.
 
 ## Step 1: Mode Detection
 
-Call `mcp__sector32-roadmap__get_issue_stats`.
+Call `mcp__sector137__get_issue_stats`.
 
 **Success** → MCP connected. Full telemetry. Go to Step 2.
 
@@ -76,7 +76,7 @@ Push all to the system? (yes/no/select)
 
 Create each item:
 ```
-mcp__sector32-roadmap__create_issue
+mcp__sector137__create_issue
   title, description, horizon, status, category, priority: "medium"
 ```
 
@@ -126,7 +126,7 @@ Push to the system? (yes/no)
 ```
 
 For each `#local-*` item:
-1. `mcp__sector32-roadmap__create_issue` with item data
+1. `mcp__sector137__create_issue` with item data
 2. Update ID in `.can/roadmap.md`: `#local-{n}` → `#server-{uuid}`
 3. Set `syncedAt` in frontmatter
 

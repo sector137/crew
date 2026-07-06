@@ -24,8 +24,8 @@ See `../../references/mode-detection.md` for MCP vs local fallback.
 ## Resolve Item(s)
 
 Accept any of:
-- **ID directly** (e.g. `42`, `#42`) → `mcp__sector32-roadmap__get_issue(itemId)`
-- **Title / keyword** → `mcp__sector32-roadmap__list_issues(search: "keyword")`
+- **ID directly** (e.g. `42`, `#42`) → `mcp__sector137__get_issue(itemId)`
+- **Title / keyword** → `mcp__sector137__list_issues(search: "keyword")`
   - Exactly one match → proceed
   - Multiple matches → show list, ask user to confirm
   - No matches → "Nothing in the system matches '[query]'."
@@ -53,7 +53,7 @@ Before marking any issue done, check whether tests apply:
 
 1. Show: `#[id] '[title]' ([status])`
 2. Confirm: "Mark this done? (yes/no)"
-3. `mcp__sector32-roadmap__update_item_status(itemId, status: "done")`
+3. `mcp__sector137__update_item_status(itemId, status: "done")`
 4. Confirm: "Done. #[id] '[title]' — the record shows it shipped."
 5. Offer: "Add a note about what was done? (yes/skip)"
    - If yes → Add Completion Note below
@@ -67,7 +67,7 @@ Skip confirmation if user already said "mark done" / "complete" with sufficient 
 1. Resolve all items
 2. Show summary table
 3. Confirm: "Mark all {N} done? (yes/no)"
-4. `mcp__sector32-roadmap__bulk_update_status(itemIds: [...], status: "done")`
+4. `mcp__sector137__bulk_update_status(itemIds: [...], status: "done")`
 5. Confirm: "Done. {N} items marked complete."
 6. Offer shared note: "Add a note to all items? (yes/skip)"
 
@@ -76,7 +76,7 @@ Skip confirmation if user already said "mark done" / "complete" with sufficient 
 ## Add Completion Note
 
 1. If no content provided, ask: "What was done? Brief note for the record."
-2. `mcp__sector32-roadmap__add_issue_note(itemId, content: "[note]")`
+2. `mcp__sector137__add_issue_note(itemId, content: "[note]")`
 3. Confirm: "Noted. #[id] '[title]' — recorded."
 
 If user included note inline (e.g. "mark #42 done — rewrote auth middleware"), extract the note and skip prompting.

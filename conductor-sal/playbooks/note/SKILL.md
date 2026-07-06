@@ -27,7 +27,7 @@ If user provides an ID → use it directly.
 
 If user provides a title or partial description:
 ```
-mcp__sector32-roadmap__list_issues
+mcp__sector137__list_issues
   search: "[user's description]"
   limit: 5
 ```
@@ -38,7 +38,7 @@ Pick the closest match. If ambiguous: "Did you mean [title] (#id)?"
 ## Add a Note (MCP)
 
 ```
-mcp__sector32-roadmap__add_issue_note
+mcp__sector137__add_issue_note
   itemId: "[resolved item ID]"
   content: "[user's note content]"
 ```
@@ -50,7 +50,7 @@ Confirm: `Noted. #[id] "[title]" — recorded for the record.`
 ## View Notes (MCP)
 
 ```
-mcp__sector32-roadmap__list_issue_notes
+mcp__sector137__list_issue_notes
   itemId: "[resolved item ID]"
 ```
 
@@ -68,13 +68,13 @@ Notes for "[title]" (#id):
 
 **Update:**
 ```
-mcp__sector32-roadmap__update_issue_note
+mcp__sector137__update_issue_note
   itemId, noteId, content: "[new content]"
 ```
 
 **Delete:**
 ```
-mcp__sector32-roadmap__delete_issue_note
+mcp__sector137__delete_issue_note
   itemId, noteId
 ```
 

@@ -21,7 +21,7 @@ Publish the active release. Strict gate: all scoped issues must be done or cance
 
 ### 1. Find Active Release
 
-Call `mcp__sector32-roadmap__get_active_release` to find the most recent draft release.
+Call `mcp__sector137__get_active_release` to find the most recent draft release.
 
 If none found:
 ```
@@ -96,7 +96,7 @@ Publish this release? (yes/no)
 ```
 
 On confirmation:
-1. Publish the release: `mcp__sector32-roadmap__publish_release(releaseId: "[id]")`
+1. Publish the release: `mcp__sector137__publish_release(releaseId: "[id]")`
 2. Create git tag: `git tag -a [tagName] -m "[name]"`
 3. Confirm:
 
@@ -113,7 +113,7 @@ Everyone who needs to know, knows. Run `git push --tags` to push the tag to remo
 
 Add a note to each done issue:
 ```
-mcp__sector32-roadmap__add_issue_note
+mcp__sector137__add_issue_note
   itemId: "[id]"
   content: "Shipped in [tagName]"
 ```

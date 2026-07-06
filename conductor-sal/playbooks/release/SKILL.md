@@ -31,7 +31,7 @@ Arguments: `$ARGUMENTS` — version tag (e.g. `v0.4.0`) or release title.
 
 ### 2. Check Active Release
 
-Call `mcp__sector32-roadmap__get_active_release` to check if a draft release already exists.
+Call `mcp__sector137__get_active_release` to check if a draft release already exists.
 
 If an active draft release already exists:
 ```
@@ -45,7 +45,7 @@ Create a new release anyway? (yes/no)
 ### 3. Create Release
 
 ```
-mcp__sector32-roadmap__create_release
+mcp__sector137__create_release
   tagName: "[version]"
   name: "[title]"
 ```
