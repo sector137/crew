@@ -1,6 +1,6 @@
-# @sector32/software-sal-plugin
+# Sector137 — Sal's Crew
 
-Software Sal — Pipeline Conductor of Sector 32. A Claude Code plugin that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
+Software Sal — Pipeline Conductor of Sector 32. A Claude Code plugin (`sector137`) that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
 
 Sal is a genius systems engineer born on The Other Side — native to a universe where every problem is solved by software. He was drawn through the black hole by the noise of human software development. Now he takes in Deltas (features, bugs, improvements, chores), routes them through his crew (Margot, Kael, Wren, Harlan), and ships. When work ships, everyone who needs to know, knows. That's not a promise — that's a specification.
 
@@ -8,7 +8,7 @@ Sal is a genius systems engineer born on The Other Side — native to a universe
 
 ## Installation
 
-The plugin is installed as part of the [Sector32](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/software-sal-plugin`.
+The plugin is installed as part of the [Sector32](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/agent-system`.
 
 ### Requirements
 
@@ -73,7 +73,7 @@ Every skill is a Claude Code slash command invoked as `/sal <skill>`. Each skill
 ## Architecture
 
 ```
-software-sal-plugin/
+agent-system/
 ├── .claude-plugin/
 │   └── plugin.json          # Claude Code plugin registration
 ├── .mcp.json                # MCP server configuration

@@ -71,7 +71,7 @@ Output a concrete implementation plan:
 **Estimated scope:** small / medium / large
 
 ---
-Ready to build? Run `/sal:build [issue ID]` to start.
+Ready to build? Run `/sector137:build [issue ID]` to start.
 ```
 
 ### 4. Write to Spec

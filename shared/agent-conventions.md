@@ -63,4 +63,4 @@ Agent names follow `/role-firstname` convention. The same name works as both the
 
 | Agent | Domain | Skill | When to Invoke |
 |-------|--------|-------|----------------|
-| Software Sal | `/docs/project/`, `/docs/workflows/` | `/software-sal` | Pipeline execution, quality gates, decision logging, build/test/ship |
+| Software Sal | `/docs/project/`, `/docs/workflows/` | `/sector137:sal` | Pipeline execution, quality gates, decision logging, build/test/ship |

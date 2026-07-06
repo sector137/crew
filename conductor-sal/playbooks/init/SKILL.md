@@ -34,7 +34,7 @@ Comms array not reachable. Check SECTOR32_API_KEY in .mcp.json.
 Work locally instead? I'll save changes to .can/roadmap.md and sync later. (yes/no)
 ```
 - Yes → Step 3C (Local Mode)
-- No → Stop: "Set `SECTOR32_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sal:init` again. I'll be here."
+- No → Stop: "Set `SECTOR32_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
 
 ---
 
@@ -112,7 +112,7 @@ See `../../references/roadmap-schema.md` for format.
 
 Same discovery questions as Create Mode. Write `.can/roadmap.md` with `#local-{n}` IDs.
 
-Confirm: "Recorded locally — {N} items in `.can/roadmap.md`. Run `/sal:init` to sync when the signal's back."
+Confirm: "Recorded locally — {N} items in `.can/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 
 ---
 
@@ -146,4 +146,4 @@ Synced {N} items. The system is calibrated.
 |-----------|----------|
 | MCP unavailable | Offer Local mode |
 | Empty roadmap file | Treat as Create Mode |
-| User cancels | "No changes made. Run `/sal:init` again when ready. I'm patient." |
+| User cancels | "No changes made. Run `/sector137:init` again when ready. I'm patient." |

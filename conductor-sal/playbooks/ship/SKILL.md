@@ -25,7 +25,7 @@ Call `mcp__sector32-roadmap__get_active_release` to find the most recent draft r
 
 If none found:
 ```
-No draft release found. Create one first with `/sal:release v0.X.0`.
+No draft release found. Create one first with `/sector137:release v0.X.0`.
 ```
 
 ### 2. Check Ship Gate
@@ -44,8 +44,8 @@ Release **[name]** has [N] unfinished issues:
 - #ID: [title] ([status])
 
 Options:
-1. Finish the remaining work → `/sal:build [ids]`
-2. Descope unfinished items → `/sal:scope descope [ids]`
+1. Finish the remaining work → `/sector137:build [ids]`
+2. Descope unfinished items → `/sector137:scope descope [ids]`
 3. Cancel unfinished items
 
 The gate stays closed until the system is clean.

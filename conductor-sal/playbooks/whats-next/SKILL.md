@@ -111,6 +111,6 @@ Always include after the 5 items:
 
 ```
 ---
-> **To start work:** run `/sal:build <item numbers>` (e.g. `/sal:build 2` or `/sal:build 1,3`).
+> **To start work:** run `/sector137:build <item numbers>` (e.g. `/sector137:build 2` or `/sector137:build 1,3`).
 > Items tagged `NEW — not in the system` will be created automatically before work begins.
 ```

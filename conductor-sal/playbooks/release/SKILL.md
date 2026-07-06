@@ -1,7 +1,7 @@
 ---
 name: release
 description: >
-  Create or manage a draft release. Every release is a letter to the future. Starts as a draft — publish it with /sal:ship.
+  Create or manage a draft release. Every release is a letter to the future. Starts as a draft — publish it with /sector137:ship.
   Triggers on: "release v0.4.0", "new release", "start release", "create release".
 argument-hint: "[version tag or title, e.g. 'v0.4.0' or 'February Release']"
 allowed-tools: Read, Write, Glob, Grep, Bash, Edit
@@ -55,13 +55,13 @@ The release is created as a draft (not published). Confirm:
 ```
 Draft release created: **[name]** ([tagName])
 
-Next: scope issues with `/sal:scope [issue]` or `/sal:prioritize`
+Next: scope issues with `/sector137:scope [issue]` or `/sector137:prioritize`
 ```
 
 ---
 
 ## Rules
 
-- Releases start as drafts — they are published via `/sal:ship`
+- Releases start as drafts — they are published via `/sector137:ship`
 - One active draft release at a time is the recommended workflow
 - If the user provides no version, suggest the next semantic version based on existing releases

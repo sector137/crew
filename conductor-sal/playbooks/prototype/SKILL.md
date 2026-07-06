@@ -128,4 +128,4 @@ Components: [list]
 | MCP not connected | Offer to save to `.can/roadmap.md`. I can route around this. |
 | No sandbox_url returned | "URL unavailable — check the dashboard directly." |
 | Invalid step index | Show available steps, ask for valid number |
-| Item not found | "Run '/sal:prioritize' to find the right item." |
+| Item not found | "Run '/sector137:prioritize' to find the right item." |

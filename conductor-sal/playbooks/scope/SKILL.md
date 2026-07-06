@@ -36,7 +36,7 @@ Call `mcp__sector32-roadmap__get_active_release` to find the most recent draft r
 
 If none:
 ```
-No active draft release. Create one with `/sal:release v0.X.0`.
+No active draft release. Create one with `/sector137:release v0.X.0`.
 ```
 
 ### 2. Resolve Issue(s)

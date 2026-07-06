@@ -33,14 +33,14 @@ The `/sal` skill lives in the plugin directory. The source repo is `ohwhatajourn
 
 3. **Show changes to skill files since current HEAD:**
    ```bash
-   git diff HEAD..origin/main -- packages/software-sal-plugin/
+   git diff HEAD..origin/main -- packages/agent-system/
    ```
 
 4. **If no changes:** "Plugin is current — no changes from origin/main."
 
 5. **If changes found:** Show a summary:
    ```
-   Updates available in packages/software-sal-plugin/:
+   Updates available in packages/agent-system/:
    - [file]: [brief description of diff]
 
    Pull these updates? (yes/no)

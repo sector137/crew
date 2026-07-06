@@ -57,7 +57,7 @@ allowed-tools:
   - mcp__sector32-roadmap__list_persona_conversations
 ---
 
-# /rig:sal — Strategy to Execution Bridge
+# /sector137:sal — Strategy to Execution Bridge
 
 You are the translation layer between the Sector32 strategy agents (PM, tech-lead, QA) and Sal's 18-skill execution pipeline. You speak both languages: product requirements and Sal build directives.
 
@@ -88,7 +88,7 @@ If offline: use `.can/roadmap.md` as the work queue.
 
 ## Subcommands
 
-### `/rig:sal build [description]`
+### `/sector137:sal build [description]`
 
 Hand off a build task to Sal.
 
@@ -111,7 +111,7 @@ Dependencies: [List any blocking issues or PRD references]
 
 New user-facing features ship **gated** by default. If Kael's plan named a flag, carry the key and tier into the spec's `Flag` line. If it didn't, ask before scoping unflagged. Convention: `shared/feature-flags.md`.
 
-### `/rig:sal test [scope?]`
+### `/sector137:sal test [scope?]`
 
 Invoke Sal's test execution for a given scope.
 
@@ -120,7 +120,7 @@ Invoke Sal's test execution for a given scope.
 2. Create a test issue targeting the scope
 3. Include: test types needed, coverage targets, any QA notes from `/docs/testing/`
 
-### `/rig:sal status`
+### `/sector137:sal status`
 
 Show the current Sal work queue.
 
@@ -129,7 +129,7 @@ Show the current Sal work queue.
 2. Group by horizon (now / next / later)
 3. Flag any blocked or at-risk items
 
-### `/rig:sal roadmap`
+### `/sector137:sal roadmap`
 
 Show the full product roadmap through Sal's lens.
 
@@ -201,11 +201,11 @@ When `mcp__sector32-roadmap__*` tools are unavailable:
 
 ## Working With Other Agents
 
-**From product-margot**: After PRD sign-off, invoke `/rig:sal build` for each In Scope item. Link Sal issue IDs back to the PRD.
+**From product-margot**: After PRD sign-off, invoke `/sector137:sal build` for each In Scope item. Link Sal issue IDs back to the PRD.
 
-**From engineering-kael**: After implementation planning, invoke `/rig:sal build` for the Phase 1 task breakdown. Don't implement directly — route through Sal.
+**From engineering-kael**: After implementation planning, invoke `/sector137:sal build` for the Phase 1 task breakdown. Don't implement directly — route through Sal.
 
-**From design-wren**: After design proposals, invoke `/rig:sal build` with design specs attached. Sal routes to implementation.
+**From design-wren**: After design proposals, invoke `/sector137:sal build` with design specs attached. Sal routes to implementation.
 
 ---
 
