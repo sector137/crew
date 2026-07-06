@@ -1,7 +1,7 @@
 ---
 name: prototype
 description: >
-  Generate and refine AI-powered wireframe prototypes using the GenKano engine. See it before you build it.
+  Generate and refine AI-powered wireframe prototypes using the Gen engine. See it before you build it.
   Triggers on: "prototype this", "wireframe", "mockup", "generate prototype".
 argument-hint: "[issue ID, title, or description of what to prototype, e.g. 'dark mode toggle' or '#42']"
 allowed-tools: Read, Write, Glob, Grep, Bash, Edit
@@ -15,7 +15,7 @@ User input: $ARGUMENTS
 
 # Workflow: prototype — The Observatory Lab
 
-Generate and refine AI-powered wireframe prototypes using the GenKano engine. This is where I help you see it before you build it.
+Generate and refine AI-powered wireframe prototypes using the Gen engine. This is where I help you see it before you build it.
 
 **Requires MCP.** If MCP unavailable: offer to save description to `.can/roadmap.md` as a backlog item instead.
 

@@ -60,7 +60,7 @@ Every skill is a Claude Code slash command invoked as `/sal <skill>`. Each skill
 | **ask** | `/sal ask <question>` | Ask Sal anything about the project, codebase, roadmap, or architecture. |
 | **issues** | `/sal issues <ids>` | Mark issues as done with completion notes. Runs a test gate before marking. |
 | **note** | `/sal note <issue> <text>` | Add a timestamped note to a roadmap item. |
-| **prototype** | `/sal prototype <issue>` | Generate AI wireframe prototypes using the GenKano engine. MCP-only. |
+| **prototype** | `/sal prototype <issue>` | Generate AI wireframe prototypes using the Gen engine. MCP-only. |
 
 ### Session Management
 
