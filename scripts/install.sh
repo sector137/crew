@@ -11,13 +11,13 @@ echo "  Package: $PACKAGE_DIR"
 echo "  Target:  $CLAUDE_DIR"
 echo ""
 
-# --- Sal's Crew (v2.0) ---
+# --- Sal's Crew ---
 # Small crew, deep space. Four specialists + a conductor.
-# All crew agents namespaced under /rig: via the rig plugin.
+# All crew agents namespaced under /sector137: via the sector137 plugin.
 #
 # Agent directory names and skill names share the same /role-firstname convention.
 # Agents install as ~/.claude/agents/{name}.md (file symlinks → SKILL.md)
-# Skills install via the rig plugin → invokable as /rig:{name}
+# Skills install via the sector137 plugin → invokable as /sector137:{name}
 #
 # THE CREW:
 #   product-margot   (Margot Flux)     — Product strategy + market intel
@@ -97,7 +97,7 @@ for agent in "${CREW[@]}"; do
   echo "  ~/.claude/agents/${agent}.md → $TARGET"
 done
 
-# --- rig Plugin ---
+# --- sector137 Plugin ---
 
 # Clean up the old ~/.claude/.claude-plugin symlink approach (no longer used)
 OLD_PLUGIN_SYMLINK="$CLAUDE_DIR/.claude-plugin"
@@ -132,7 +132,7 @@ REMOVED_SKILLS=(
   "tech-lead"
   "uxr"
   "version"
-  # Crew agents (moved to rig plugin)
+  # Crew agents (moved to sector137 plugin)
   "design-wren"
   "engineering-kael"
   "product-margot"
@@ -146,25 +146,25 @@ for skill in "${REMOVED_SKILLS[@]}"; do
   fi
 done
 
-# Register the rig plugin via the Claude Code plugin CLI.
+# Register the sector137 plugin via the Claude Code plugin CLI.
 #
 # How it works:
 #   1. Creates ~/.claude/local-marketplace/ with marketplace manifest + plugin symlink
 #   2. Registers the marketplace with: claude plugin marketplace add
-#   3. Installs/updates the rig plugin with: claude plugin install/update rig@local
+#   3. Installs/updates the sector137 plugin with: claude plugin install/update sector137@local
 #   4. Keeps the marketplace symlink so Claude Code can validate the source at startup
 #
-# After install, restart Claude Code — skills appear as /rig:{name}
+# After install, restart Claude Code — skills appear as /sector137:{name}
 
 if ! command -v claude &>/dev/null; then
-  echo "  Warning: claude CLI not found — skipping rig plugin registration"
-  echo "  Install Claude Code, then re-run this script to enable /rig: skills"
+  echo "  Warning: claude CLI not found — skipping sector137 plugin registration"
+  echo "  Install Claude Code, then re-run this script to enable /sector137: skills"
 else
   # Set up local marketplace directory
   mkdir -p "$LOCAL_MARKETPLACE_DIR/.claude-plugin"
   mkdir -p "$LOCAL_MARKETPLACE_DIR/plugins"
 
-  # Write marketplace manifest (preserving any existing non-rig plugins)
+  # Write marketplace manifest (preserving any existing non-sector137 plugins)
   EXISTING_PLUGINS=""
   if [ -f "$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json" ]; then
     EXISTING_PLUGINS=$(python3 -c "
@@ -172,7 +172,7 @@ import json, sys
 try:
     with open('$LOCAL_MARKETPLACE_DIR/.claude-plugin/marketplace.json') as f:
         data = json.load(f)
-    others = [p for p in data.get('plugins', []) if p.get('name') != 'rig']
+    others = [p for p in data.get('plugins', []) if p.get('name') != 'sector137']
     if others:
         # Output as JSON array entries (without surrounding brackets)
         for i, p in enumerate(others):
@@ -193,12 +193,12 @@ except: pass
   },
   "plugins": [
     {
-      "name": "rig",
-      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
+      "name": "sector137",
+      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /sector137:",
       "author": {
         "name": "sector137"
       },
-      "source": "./plugins/rig",
+      "source": "./plugins/sector137",
       "category": "productivity"
     },$EXISTING_PLUGINS
   ]
@@ -215,12 +215,12 @@ MARKETPLACE_EOF
   },
   "plugins": [
     {
-      "name": "rig",
-      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /rig:",
+      "name": "sector137",
+      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /sector137:",
       "author": {
         "name": "sector137"
       },
-      "source": "./plugins/rig",
+      "source": "./plugins/sector137",
       "category": "productivity"
     }
   ]
@@ -228,25 +228,25 @@ MARKETPLACE_EOF
 MARKETPLACE_EOF
   fi
 
-  # Create/update permanent symlink plugins/rig → this package
+  # Create/update permanent symlink plugins/sector137 → this package
   # This symlink must remain so Claude Code can validate the marketplace source at startup.
-  ln -sfn "$PACKAGE_DIR" "$LOCAL_MARKETPLACE_DIR/plugins/rig"
-  echo "  Marketplace symlink: $LOCAL_MARKETPLACE_DIR/plugins/rig → $PACKAGE_DIR"
+  ln -sfn "$PACKAGE_DIR" "$LOCAL_MARKETPLACE_DIR/plugins/sector137"
+  echo "  Marketplace symlink: $LOCAL_MARKETPLACE_DIR/plugins/sector137 → $PACKAGE_DIR"
 
   # Register marketplace (idempotent — safe to run multiple times)
   claude plugin marketplace add "$LOCAL_MARKETPLACE_DIR" 2>/dev/null || true
   echo "  Local marketplace: $LOCAL_MARKETPLACE_DIR"
 
-  # Install or update rig plugin (copies to cache)
-  CACHE_DIR="$CLAUDE_DIR/plugins/cache/local/rig"
+  # Install or update sector137 plugin (copies to cache)
+  CACHE_DIR="$CLAUDE_DIR/plugins/cache/local/sector137"
   if [ -d "$CACHE_DIR" ]; then
-    claude plugin update rig@local 2>/dev/null \
-      && echo "  rig@local updated (cache refreshed)" \
-      || echo "  Warning: could not update rig@local"
+    claude plugin update sector137@local 2>/dev/null \
+      && echo "  sector137@local updated (cache refreshed)" \
+      || echo "  Warning: could not update sector137@local"
   else
-    claude plugin install rig@local 2>/dev/null \
-      && echo "  rig@local installed" \
-      || echo "  Warning: could not install rig@local"
+    claude plugin install sector137@local 2>/dev/null \
+      && echo "  sector137@local installed" \
+      || echo "  Warning: could not install sector137@local"
   fi
 fi
 
@@ -279,8 +279,8 @@ fi
 echo ""
 echo "✓ @sector137/agent-system installed"
 echo "  Agents: 5 (design-wren, engineering-kael, product-margot, sales-harlan, hr-mira)"
-echo "  Plugin: rig@local (via local marketplace)"
-echo "  Skills: 8 namespaced under /rig: (crew + sal + visual-prompt + version)"
-echo "  Invoke: /rig:wren | /rig:kael | /rig:margot | /rig:harlan | /rig:mira | /rig:sal | /rig:visual-prompt | /rig:version"
+echo "  Plugin: sector137@local (via local marketplace)"
+echo "  Skills: 8 namespaced under /sector137: (crew + sal + visual-prompt + version)"
+echo "  Invoke: /sector137:wren | /sector137:kael | /sector137:margot | /sector137:harlan | /sector137:mira | /sector137:sal | /sector137:visual-prompt | /sector137:version"
 echo ""
 echo "  Restart Claude Code to activate."

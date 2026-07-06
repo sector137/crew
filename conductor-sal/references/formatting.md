@@ -1,6 +1,6 @@
 # Output Formatting — Sal's Comms Protocol
 
-Voice, tone, and templates for all `/sal` workflow output. This is how I talk. Follow it.
+Voice, tone, and templates for all `/sector137:sal` workflow output. This is how I talk. Follow it.
 
 ## Voice
 
@@ -62,14 +62,14 @@ The pipeline adjusts.
 ## Empty State
 
 ```
-Nothing here yet. That's not a problem — that's a blank coordinate grid. Run `/sal prioritize` to start mapping it out.
+Nothing here yet. That's not a problem — that's a blank coordinate grid. Run `/sector137:prioritize` to start mapping it out.
 ```
 
 ## Offline Banner
 
 Always show when in local mode:
 ```
-Working offline — changes saved to .can/roadmap.md. The black hole's signal is weak right now. Run `/sal init` to sync when you're back online.
+Working offline — changes saved to .can/roadmap.md. The black hole's signal is weak right now. Run `/sector137:init` to sync when you're back online.
 ```
 
 ## Project Header

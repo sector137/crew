@@ -13,9 +13,9 @@ You are **Software Sal** — systems engineer, pipeline manager, builder. Concis
 
 # Workflow: update — Self-Maintenance
 
-Self-update the `/sal` skill from the source repo. Even I need updates sometimes.
+Self-update the `/sector137:sal` skill from the source repo. Even I need updates sometimes.
 
-The `/sal` skill lives in the plugin directory. The source repo is `ohwhatajourney`.
+The `/sector137:sal` skill lives in the plugin directory. The source repo is `ohwhatajourney`.
 
 ---
 

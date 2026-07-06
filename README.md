@@ -9,7 +9,7 @@ description: "Overview documentation for the agent system architecture and confi
 
 Welcome to the Claude Code Agent System - a sophisticated framework of specialized AI agents that work together to take your product from initial idea through to production deployment. This system implements a structured discovery-to-delivery workflow with quality gates, ensuring high-quality outcomes at every stage.
 
-## Sal's Crew — The Team (v2.0)
+## Sal's Crew — The Team
 
 This is not a generic agent framework. This is **Sal's Crew** — a tight four-person team plus a conductor on a small ship in deep space. Every character has depth, voice, and a defined relationship with Sal. Small crew. Everyone essential.
 
@@ -66,7 +66,7 @@ packages/agent-system/
 │   ├── references/
 │   └── skills/                  # Sal pipeline skills (add, build, ship, etc.)
 │
-│   # --- Sal's Crew: 5 active agents (v2.0) ---
+│   # --- Sal's Crew: 5 active agents ---
 │   # Agent dir name = Task tool subagent_type = sector137 plugin skill name
 │   # All crew invokable as /sector137:{name}
 │

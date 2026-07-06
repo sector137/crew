@@ -143,7 +143,7 @@ if [ "$MODE" = "git" ] && [ ${#CRITICAL[@]} -gt 0 ]; then
 fi
 
 if [ "$MODE" = "claude" ]; then
-  echo "💡 Run /rig:wren for a deeper design review"
+  echo "💡 Run /sector137:wren for a deeper design review"
 fi
 
 exit 0

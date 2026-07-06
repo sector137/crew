@@ -1,6 +1,6 @@
 # Mode Detection — Hull Sensor Check
 
-All `/sal` workflows detect MCP availability before proceeding. I need to know what instruments I have.
+All `/sector137:sal` workflows detect MCP availability before proceeding. I need to know what instruments I have.
 
 ## Detection
 
@@ -13,7 +13,7 @@ Call `mcp__sector137__get_issue_stats`.
 ## Local Mode Rules
 
 - Parse `.can/roadmap.md` using the schema in `references/roadmap-schema.md`
-- Always tell the user at the end: "Working offline — changes saved to `.can/roadmap.md`. Run `/sal init` to sync when the signal's back."
+- Always tell the user at the end: "Working offline — changes saved to `.can/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 - Assign `#local-N` IDs (increment from max existing local ID)
 
 ## Auth Errors

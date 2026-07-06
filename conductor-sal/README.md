@@ -1,6 +1,6 @@
 # Sector137 — Sal's Crew
 
-Software Sal — Pipeline Conductor of Sector 137. A Claude Code plugin (`sector137`) that provides 18 workflow skills and 60+ MCP tools for managing the full software delivery lifecycle.
+Software Sal — Pipeline Conductor of Sector 137. A Claude Code plugin (`sector137`) that provides 17 workflow skills and 40+ MCP tools for managing the full software delivery lifecycle.
 
 Sal is a genius systems engineer born on The Other Side — native to a universe where every problem is solved by software. He was drawn through the black hole by the noise of human software development. Now he takes in Deltas (features, bugs, improvements, chores), routes them through his crew (Margot, Kael, Wren, Harlan), and ships. When work ships, everyone who needs to know, knows. That's not a promise — that's a specification.
 
@@ -30,64 +30,59 @@ Set these in your environment or `.env` file. Without `SECTOR137_API_KEY`, Sal f
 
 Sal operates in two modes, detected automatically:
 
-- **MCP Mode** — Connected to the Sector137 API via the `sector137-mcp` package. Full access to 60+ tools for issues, releases, personas, prototypes, and more.
-- **Local Mode** — Offline fallback. Reads and writes `.can/roadmap.md` with `#local-N` IDs. All workflows except `prototype` work offline. Run `/sal init --sync` when back online to push local items to the server.
+- **MCP Mode** — Connected to the Sector137 API via the `sector137-mcp` package. Full access to 40+ tools for issues, releases, personas, prototypes, and more.
+- **Local Mode** — Offline fallback. Reads and writes `.can/roadmap.md` with `#local-N` IDs. All workflows except `prototype` work offline. Run `/sector137:init --sync` when back online to push local items to the server.
 
 ## Skills
 
-Every skill is a Claude Code slash command invoked as `/sal <skill>`. Each skill is a self-contained workflow defined in `skills/<name>/SKILL.md`.
+Every skill is a Claude Code slash command invoked as `/sector137:<skill>`. Each skill is a self-contained workflow defined in `playbooks/<name>/SKILL.md`.
 
 ### Pipeline Lifecycle
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| **init** | `/sal init` | Initialize or sync a project roadmap. Imports existing roadmap files, creates from scratch, or syncs local items to the server. |
-| **add** | `/sal add <description>` | Quick-capture a new issue. Infers category and priority from natural language. |
-| **prioritize** | `/sal prioritize` | Organize and triage the roadmap. Kanban view, inbox triage, release scoping, imbalance detection. |
-| **plan** | `/sal plan <issue>` | Read a spec, explore the codebase, produce a concrete implementation plan with files, steps, and risks. |
-| **build** | `/sal build <issues>` | Start implementing. TDD-first workflow with sub-tasks, type checking, and a human confirmation gate before marking done. |
-| **test** | `/sal test [mode]` | Run the test suite. Modes: `unit`, `e2e`, `types`, `sdk`, `all`, `changed`. |
-| **review** | `/sal review` | Performance review of staged/changed files. Fixes issues directly instead of just reporting them. |
-| **release** | `/sal release <version>` | Create a draft release. |
-| **scope** | `/sal scope <issues>` | Move issues into or out of the active release. |
-| **ship** | `/sal ship` | Publish the active release. Strict gate: all scoped issues must be done/cancelled, tests must pass, user must confirm. |
+| **init** | `/sector137:init` | Initialize or sync a project roadmap. Imports existing roadmap files, creates from scratch, or syncs local items to the server. |
+| **add** | `/sector137:add <description>` | Quick-capture a new issue. Infers category and priority from natural language. |
+| **prioritize** | `/sector137:prioritize` | Organize and triage the roadmap. Kanban view, inbox triage, release scoping, imbalance detection. |
+| **plan** | `/sector137:plan <issue>` | Read a spec, explore the codebase, produce a concrete implementation plan with files, steps, and risks. |
+| **test** | `/sector137:test [mode]` | Run the test suite. Modes: `unit`, `e2e`, `types`, `sdk`, `all`, `changed`. |
+| **review** | `/sector137:review` | Performance review of staged/changed files. Fixes issues directly instead of just reporting them. |
+| **release** | `/sector137:release <version>` | Create a draft release. |
+| **scope** | `/sector137:scope <issues>` | Move issues into or out of the active release. |
+| **ship** | `/sector137:ship` | Publish the active release. Strict gate: all scoped issues must be done/cancelled, tests must pass, user must confirm. |
 
 ### Context & Navigation
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| **whats-next** | `/sal whats-next` | Generate 5 prioritized next actions from the live roadmap, recent commits, and codebase TODOs. |
-| **ask** | `/sal ask <question>` | Ask Sal anything about the project, codebase, roadmap, or architecture. |
-| **issues** | `/sal issues <ids>` | Mark issues as done with completion notes. Runs a test gate before marking. |
-| **note** | `/sal note <issue> <text>` | Add a timestamped note to a roadmap item. |
-| **prototype** | `/sal prototype <issue>` | Generate AI wireframe prototypes using the Gen engine. MCP-only. |
+| **whats-next** | `/sector137:whats-next` | Generate 5 prioritized next actions from the live roadmap, recent commits, and codebase TODOs. |
+| **ask** | `/sector137:ask <question>` | Ask Sal anything about the project, codebase, roadmap, or architecture. |
+| **issues** | `/sector137:issues <ids>` | Mark issues as done with completion notes. Runs a test gate before marking. |
+| **note** | `/sector137:note <issue> <text>` | Add a timestamped note to a roadmap item. |
+| **prototype** | `/sector137:prototype <issue>` | Generate AI wireframe prototypes using the Gen engine. MCP-only. |
 
 ### Session Management
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| **continue** | `/sal continue` | Resume work after a break. Shows current branch, active issues, recent commits, and errors. |
-| **handoff** | `/sal handoff` | Generate a session summary and copy-paste-ready prompt for the next session. |
-| **update** | `/sal update` | Self-update the plugin from the source repo. |
+| **continue** | `/sector137:continue` | Resume work after a break. Shows current branch, active issues, recent commits, and errors. |
+| **handoff** | `/sector137:handoff` | Generate a session summary and copy-paste-ready prompt for the next session. |
+| **update** | `/sector137:update` | Self-update the plugin from the source repo. |
 
 ## Architecture
 
 ```
-agent-system/
-├── .claude-plugin/
-│   └── plugin.json          # Claude Code plugin registration
-├── .mcp.json                # MCP server configuration
+conductor-sal/
+├── README.md
 ├── package.json
-├── settings.json
 ├── references/              # Knowledge base
-│   ├── mcp-tools.md         # Complete MCP tool inventory (60+ tools)
-│   ├── roadmap-schema.md    # .can/roadmap.md format spec
+│   ├── formatting.md        # Sal's voice, output templates
+│   ├── mcp-tools.md         # Complete MCP tool inventory (40+ tools)
 │   ├── mode-detection.md    # MCP vs offline operation
-│   └── formatting.md        # Sal's voice, output templates
-└── skills/                  # 18 workflow skills
+│   └── roadmap-schema.md    # .can/roadmap.md format spec
+└── playbooks/               # 17 workflow playbooks
     ├── add/SKILL.md
     ├── ask/SKILL.md
-    ├── build/SKILL.md
     ├── continue/SKILL.md
     ├── handoff/SKILL.md
     ├── init/SKILL.md
@@ -105,9 +100,12 @@ agent-system/
     └── whats-next/SKILL.md
 ```
 
+> The plugin manifest (`.claude-plugin/plugin.json`), crew agents, `hooks/`, `shared/`,
+> and top-level `skills/` live one level up in the `agent-system/` package.
+
 ## MCP Tools
 
-When connected to the Sector137 API, Sal has access to 60+ tools via the `sector137-mcp` package:
+When connected to the Sector137 API, Sal has access to 40+ tools via the `sector137-mcp` package:
 
 | Domain | Tools | Examples |
 |--------|-------|---------|
@@ -116,7 +114,7 @@ When connected to the Sector137 API, Sal has access to 60+ tools via the `sector
 | Notes | 4 | `add_issue_note`, `list_issue_notes`, `update_issue_note` |
 | Tasks | 5 | `create_issue_task`, `complete_issue_task`, `list_issue_tasks` |
 | Prototypes | 4 | `generate_prototype`, `regenerate_prototype_step`, `get_prototype` |
-| Personas | 8 | `create_persona`, `ask_persona`, `run_persona_survey` |
+| Personas | 9 | `create_persona`, `ask_persona`, `run_persona_survey` |
 
 Full reference: `references/mcp-tools.md`
 
@@ -136,7 +134,7 @@ Full reference: `references/mcp-tools.md`
 
 ### Releases
 
-Releases start as drafts and are published via `/sal ship`. One active draft is recommended. Each release contains scoped issues linked by `releaseId`.
+Releases start as drafts and are published via `/sector137:ship`. One active draft is recommended. Each release contains scoped issues linked by `releaseId`.
 
 ## Offline Mode
 
@@ -167,7 +165,7 @@ syncedAt: null
 - **Setup CI pipeline** `done` `medium` `chore` #server-abc123
 ```
 
-Items created offline get `#local-N` IDs. Run `/sal init --sync` to push them to the server and get permanent IDs.
+Items created offline get `#local-N` IDs. Run `/sector137:init --sync` to push them to the server and get permanent IDs.
 
 ## Design Principles
 

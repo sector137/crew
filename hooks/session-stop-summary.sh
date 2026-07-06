@@ -1,7 +1,7 @@
 #!/bin/bash
 # session-stop-summary.sh — Stop event hook
 # Counts Claude responses. At 20 and 40 responses, if there are uncommitted
-# changes, suggests running /rig:sal handoff to capture session context.
+# changes, suggests running /sector137:sal handoff to capture session context.
 
 set -euo pipefail
 
@@ -33,6 +33,6 @@ if [ -z "$CHANGES" ]; then
 fi
 
 echo ""
-echo "📋 ${COUNT} responses this session with uncommitted changes. Consider running /rig:sal handoff to capture session context before wrapping up."
+echo "📋 ${COUNT} responses this session with uncommitted changes. Consider running /sector137:sal handoff to capture session context before wrapping up."
 
 exit 0

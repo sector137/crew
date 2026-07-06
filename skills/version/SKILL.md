@@ -1,7 +1,7 @@
 ---
 name: version
 description: >
-  Show, bump, or changelog the claude-agent-system version.
+  Show, bump, or changelog the sector137 version.
   Use when the user says "version show", "show version", "bump version",
   "bump minor", "bump patch", "version changelog", "what version is the agent system".
 argument-hint: "[show|bump|changelog] [major|minor|patch]"
@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Bash
 
 # version — Agent System Version Manager
 
-Manage the version of the `claude-agent-system` plugin.
+Manage the version of the `sector137` plugin.
 
 Plugin manifest: `~/.claude/.claude-plugin/plugin.json`
 Changelog: `~/.claude/CHANGELOG.md`
@@ -25,7 +25,7 @@ Arguments: $ARGUMENTS
 Read `~/.claude/.claude-plugin/plugin.json` and display:
 
 ```
-claude-agent-system v0.1.0
+sector137 v0.1.0
 Components: agents/, hooks/, skills/
 Git: [current commit hash if available]
 ```

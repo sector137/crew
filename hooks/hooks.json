@@ -1,5 +1,5 @@
 {
-  "description": "Hook definitions for the claude-agent-system. Paths use ~ for portability.",
+  "description": "Hook definitions for the sector137 plugin. Paths use ~ for portability.",
   "hooks": {
     "PreToolUse": [
       {
