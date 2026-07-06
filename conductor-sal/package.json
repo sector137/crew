@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ohmatey/ohwhatajourney",
-    "directory": "packages/agent-system/conductor-sal"
+    "url": "https://github.com/sector137/crew",
+    "directory": "conductor-sal"
   },
   "license": "MIT",
   "keywords": [

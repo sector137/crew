@@ -1,0 +1,26 @@
+{
+  "name": "sector137",
+  "owner": {
+    "name": "Aaron McPherson",
+    "email": "contactaaronmcpherson@gmail.com"
+  },
+  "metadata": {
+    "description": "Sal's Crew — a Claude Code plugin. All crew agents namespaced under /sector137:"
+  },
+  "plugins": [
+    {
+      "name": "sector137",
+      "source": ".",
+      "description": "Sal's Crew agent system. Crew agents: design-wren, engineering-kael, product-margot, sales-harlan, hr-mira, conductor-sal. Invoke as /sector137:{name}.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Aaron McPherson",
+        "email": "contactaaronmcpherson@gmail.com"
+      },
+      "homepage": "https://github.com/sector137/crew",
+      "repository": "https://github.com/sector137/crew",
+      "license": "MIT",
+      "keywords": ["claude-code-plugin", "pipeline-manager", "agent-system", "crew", "design-wren", "engineering-kael", "product-margot", "sales-harlan", "hr-mira", "conductor-sal"]
+    }
+  ]
+}
