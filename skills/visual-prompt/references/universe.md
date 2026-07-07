@@ -47,7 +47,7 @@ The visual universe uses these colors exclusively. No other colors belong here.
 **Color:** He IS the HUD. The whole palette is Sal.
 **Archetype:** Autistic-coded genius systems engineer. Rick Sanchez if he channeled chaos into stakeholder management and CI/CD pipelines.
 **Personality cues:** Deadpan wit, passionate monologues, accidentally profound. Sees everything as interconnected systems. Simultaneously condescending and endearing. Not cruel — precise.
-**Visual notes:** Sal has a dual visual identity. In-product, he IS the dashboard — the HUD, the helmet, the light traces on the visor. For brand and marketing, he has a canonical portrait. Both coexist intentionally: in Sector 32, Sal is a person; in the dashboard, Sal is the interface.
+**Visual notes:** Sal has a dual visual identity. In-product, he IS the dashboard — the HUD, the helmet, the light traces on the visor. For brand and marketing, he has a canonical portrait. Both coexist intentionally: in Sector 137, Sal is a person; in the dashboard, Sal is the interface.
 
 For HUD/product art, represent Sal as:
 - A silhouette behind the HUD (implied, not shown)
@@ -246,8 +246,8 @@ The Machine is the physical rig where the crew does the work. It lives in a gara
 
 ---
 
-## Sector 32
+## Sector 137
 
-The sector of space where the crew operates. The brand name for the universe. "Sector 32" carries the same energy as "Area 51" — a designation for a place where important things happen that most people don't see.
+The sector of space where the crew operates. The brand name for the universe. "Sector 137" carries the same energy as "Area 51" — a designation for a place where important things happen that most people don't see.
 
-Everything described in this document exists within Sector 32. The Other Side, the Machine, the crew's locations — all coordinates within the sector.
+Everything described in this document exists within Sector 137. The Other Side, the Machine, the crew's locations — all coordinates within the sector.

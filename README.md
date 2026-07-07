@@ -59,9 +59,9 @@ Their expertise now lives inside the active crew — see the "Absorbed Into" col
 Each agent and plugin lives in its own self-contained subdirectory:
 
 ```
-packages/agent-system/
+crew/
 ├── README.md                    # This file
-├── ../../.storyline/             # Crew operating model (at repo root)
+├── .storyline/             # Crew operating model (at repo root)
 ├── .claude-plugin/plugin.json   # sector137 plugin manifest
 ├── package.json
 ├── conductor-sal/               # Software Sal plugin (pipeline conductor)
@@ -99,9 +99,16 @@ packages/agent-system/
     └── templates/
 ```
 
-**Installation**: Run `bun run agent-system:install` from the monorepo root. This installs:
-- Each crew agent as `~/.claude/agents/{name}.md` → `packages/agent-system/{name}/SKILL.md`
-- Each interactive skill as `~/.claude/skills/{name}/` → `packages/agent-system/skills/{name}/`
+**Installation**: In Claude Code, add the marketplace and install the plugin:
+
+```
+/plugin marketplace add sector137/crew
+/plugin install sector137@sector137
+```
+
+For a local/dev install (symlinks agents + registers the plugin from a clone), run `bash scripts/install.sh`. This installs:
+- Each crew agent as `~/.claude/agents/{name}.md` → `{name}/SKILL.md`
+- Each interactive skill as `~/.claude/skills/{name}/` → `skills/{name}/`
 
 ## Skills: Interactive Specialist Modes
 
@@ -716,7 +723,7 @@ This system is designed to be adapted to your team's needs:
 5. Update metrics-dashboard.md with new cycle time metric
 
 ### Modifying Agent Roles
-1. Update agent configuration in `packages/agent-system/[agent-name]/SKILL.md`
+1. Update agent configuration in `[agent-name]/SKILL.md`
 2. Update docs-structure.json if directory changes needed
 3. Update this README.md to reflect changes
 4. Document decision in decision-log.md
@@ -730,10 +737,10 @@ This system is designed to be adapted to your team's needs:
 - Use `/sector137:sal` for status and coordination help
 
 ### Agent Configuration
-- Agent definitions: `packages/agent-system/[agent-name]/SKILL.md` (installed to `~/.claude/agents/[agent-name].md`)
-- Documentation schema: `packages/agent-system/shared/config/docs-structure.json`
-- Workflow templates: `packages/agent-system/shared/workflows/`
-- Project templates: `packages/agent-system/shared/templates/project-docs/`
+- Agent definitions: `[agent-name]/SKILL.md` (installed to `~/.claude/agents/[agent-name].md`)
+- Documentation schema: `shared/config/docs-structure.json`
+- Workflow templates: `shared/workflows/`
+- Project templates: `shared/templates/project-docs/`
 
 ### External Resources
 - Teresa Torres' Continuous Discovery Habits: https://www.producttalk.org/

@@ -15,7 +15,7 @@ You are **Software Sal** — systems engineer, pipeline manager, builder. Concis
 
 Self-update the `/sector137:sal` skill from the source repo. Even I need updates sometimes.
 
-The `/sector137:sal` skill lives in the plugin directory. The source repo is `ohwhatajourney`.
+The `/sector137:sal` skill lives in the plugin directory. The source repo is `sector137/crew`.
 
 ---
 
@@ -33,14 +33,14 @@ The `/sector137:sal` skill lives in the plugin directory. The source repo is `oh
 
 3. **Show changes to skill files since current HEAD:**
    ```bash
-   git diff HEAD..origin/main -- packages/agent-system/
+   git diff HEAD..origin/main
    ```
 
 4. **If no changes:** "Plugin is current — no changes from origin/main."
 
 5. **If changes found:** Show a summary:
    ```
-   Updates available in packages/agent-system/:
+   Updates available:
    - [file]: [brief description of diff]
 
    Pull these updates? (yes/no)
@@ -60,6 +60,6 @@ The `/sector137:sal` skill lives in the plugin directory. The source repo is `oh
 
 ## Notes
 
-- Only pulls the full repo (not a sparse checkout), so other project changes come in too
+- The whole repo is the plugin, so every incoming change is a plugin change
 - Always show the diff summary before pulling so user knows what's changing
 - If on a non-main branch, warn: "You're on branch [name] — pull will merge origin/main into current branch."

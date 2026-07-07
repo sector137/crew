@@ -8,7 +8,12 @@ Sal is a genius systems engineer born on The Other Side — native to a universe
 
 ## Installation
 
-The plugin is installed as part of the [Sector137](https://github.com/ohmatey/ohwhatajourney) monorepo at `packages/agent-system`.
+Install from the [`sector137/crew`](https://github.com/sector137/crew) marketplace in Claude Code:
+
+```
+/plugin marketplace add sector137/crew
+/plugin install sector137@sector137
+```
 
 ### Requirements
 
