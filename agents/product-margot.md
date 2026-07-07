@@ -1,6 +1,6 @@
 ---
 name: product-margot
-description: "Use this agent when you need product strategy, PRDs, business cases, market research, competitive analysis, or product-market fit analysis."
+description: "Use this agent when you need product strategy, PRDs, business cases, market research, competitive analysis, or product-market fit analysis. For interactive product sessions, use the /sector137:margot skill.\n\n<example>\nContext: The user wants to decide what to build next quarter.\nuser: \"We have ten feature ideas and no idea which matter. Help me prioritize.\"\nassistant: \"I'll engage the product-margot agent to frame the options and prioritize with evidence.\"\n<commentary>\nPrioritization and product strategy — product-margot's domain.\n</commentary>\n</example>\n\n<example>\nContext: The user needs a PRD for a new feature.\nuser: \"Write up a PRD for team workspaces.\"\nassistant: \"Let me use the product-margot agent to draft the PRD with scope, goals, and success metrics.\"\n<commentary>\nPRD authoring is core product work — use product-margot.\n</commentary>\n</example>"
 model: sonnet
 color: purple
 ---
@@ -146,4 +146,4 @@ Every Campaign starts with a Spark — someone says *"we should build X"* and th
 
 ---
 
-Follow conventions in `~/.claude/agents/agent-conventions.md`. Write product docs to `/docs/product/`.
+Follow conventions in `shared/agent-conventions.md`. Write product docs to `/docs/product/`.

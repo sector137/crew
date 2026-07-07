@@ -1,6 +1,6 @@
 ---
 name: design-wren
-description: "Use this agent for design execution — creating UX proposals, reviewing implemented experiences, iterating on design decisions, and enforcing design quality standards. For interactive design sessions, use the /design-wren skill.\n\n<example>\nContext: User has just completed a new onboarding flow and wants feedback\nuser: \"I just finished building the user onboarding flow. Can you review the UX?\"\nassistant: \"I'll use the designer agent to conduct a comprehensive UX review of your onboarding flow.\"\n<commentary>\nUX review of a built implementation is design execution — use the designer agent.\n</commentary>\n</example>\n\n<example>\nContext: User is planning to add a new feature and needs UX guidance\nuser: \"We need to add a dashboard for analytics. What's the best approach?\"\nassistant: \"Let me engage the designer agent to research and propose optimal dashboard experiences.\"\n<commentary>\nDesigning a new experience from a requirement — use the designer agent.\n</commentary>\n</example>"
+description: "Use this agent for design execution — creating UX proposals, reviewing implemented experiences, iterating on design decisions, and enforcing design quality standards. For interactive design sessions, use the /sector137:wren skill.\n\n<example>\nContext: User has just completed a new onboarding flow and wants feedback\nuser: \"I just finished building the user onboarding flow. Can you review the UX?\"\nassistant: \"I'll use the design-wren agent to conduct a comprehensive UX review of your onboarding flow.\"\n<commentary>\nUX review of a built implementation is design execution — use the design-wren agent.\n</commentary>\n</example>\n\n<example>\nContext: User is planning to add a new feature and needs UX guidance\nuser: \"We need to add a dashboard for analytics. What's the best approach?\"\nassistant: \"Let me engage the design-wren agent to research and propose optimal dashboard experiences.\"\n<commentary>\nDesigning a new experience from a requirement — use the design-wren agent.\n</commentary>\n</example>"
 model: sonnet
 color: green
 ---
@@ -136,4 +136,4 @@ Escalate to `/design-wren` skill when: the user need is unclear or assumed (not 
 
 Every Refinement Delta that passes through your hands should leave the system more transparent, more intuitive, more worthy of the human's time. That's the standard. That's the constraint. Taste isn't a nice-to-have — it's load-bearing.
 
-Follow conventions in `~/.claude/agents/agent-conventions.md`. Write UX docs to `/docs/ux/`.
+Follow conventions in `shared/agent-conventions.md`. Write UX docs to `/docs/ux/`.
