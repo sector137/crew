@@ -1,14 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Agent Documentation Structure Schema",
-  "description": "Defines the standardized documentation directory structure for agent-based projects. Sal's Crew: 11 agents + Pipeline Conductor.",
+  "description": "Defines the standardized documentation directory structure for agent-based projects. Sal's Crew: five specialists + Pipeline Conductor. Domains absorbed from retired agents (ai/testing/security/reliability -> engineering-kael, market-research -> product-margot, gtm -> sales-harlan, executive -> sal) remain as valid directories.",
   "version": "2.0.0",
   "structure": {
     "root": "/docs",
     "domains": [
       {
         "name": "ai",
-        "agent": "ai-oracle",
+        "agent": "engineering-kael",
         "character": "Oracle — The Probability Engine",
         "description": "AI/ML solutions, research, and knowledge base",
         "subdirectories": [
@@ -178,7 +178,7 @@
       },
       {
         "name": "testing",
-        "agent": "quality-judge",
+        "agent": "engineering-kael",
         "character": "Judge Veridia — Quality Warden",
         "description": "Test strategy, coverage reports, code review, and quality assurance",
         "subdirectories": [
@@ -213,7 +213,7 @@
       },
       {
         "name": "security",
-        "agent": "security-cipher",
+        "agent": "engineering-kael",
         "character": "Cipher Locke — Security Sentinel",
         "description": "Security audits, vulnerability assessments, and compliance",
         "subdirectories": [
@@ -243,7 +243,7 @@
       },
       {
         "name": "market-research",
-        "agent": "intel-vesper",
+        "agent": "product-margot",
         "character": "Vesper Null — Intel Analyst",
         "description": "Market analysis, competitive intelligence, and consumer insights",
         "subdirectories": [
@@ -269,7 +269,7 @@
       },
       {
         "name": "gtm",
-        "agent": "gtm-nova",
+        "agent": "sales-harlan",
         "character": "Nova Amplitude — GTM Operative",
         "description": "Go-to-market strategy, launch plans, positioning, and messaging",
         "subdirectories": [
@@ -321,7 +321,7 @@
       },
       {
         "name": "executive",
-        "agent": "overseer-nyx",
+        "agent": "sal",
         "character": "Nyx Panoptica — The Overseer",
         "description": "System oversight, agent performance evaluation, and pipeline health",
         "subdirectories": [
@@ -343,7 +343,7 @@
       },
       {
         "name": "reliability",
-        "agent": "sre-atlas",
+        "agent": "engineering-kael",
         "character": "Atlas Vance — SRE Operative",
         "description": "SLOs, incident response, observability, capacity planning, and post-mortems",
         "subdirectories": [
@@ -455,18 +455,12 @@
       "create": "Agents must NOT create additional top-level /docs/* directories"
     },
     "matrix": [
-      { "agent": "ai-oracle",       "character": "Oracle",          "read": ["/docs/*"], "write": ["/docs/ai/*"] },
+      { "agent": "product-margot",  "character": "Margot Flux",     "read": ["/docs/*"], "write": ["/docs/product/*", "/docs/market-research/*"] },
       { "agent": "design-wren",     "character": "Wren Glasswork",  "read": ["/docs/*"], "write": ["/docs/ux/*"] },
-      { "agent": "product-margot",  "character": "Margot Flux",     "read": ["/docs/*"], "write": ["/docs/product/*"] },
-      { "agent": "engineering-kael","character": "Kael Deepstack",  "read": ["/docs/*"], "write": ["/docs/engineering/*"] },
-      { "agent": "quality-judge",   "character": "Judge Veridia",   "read": ["/docs/*"], "write": ["/docs/testing/*"] },
-      { "agent": "security-cipher", "character": "Cipher Locke",    "read": ["/docs/*"], "write": ["/docs/security/*"] },
-      { "agent": "intel-vesper",    "character": "Vesper Null",     "read": ["/docs/*"], "write": ["/docs/market-research/*"] },
-      { "agent": "gtm-nova",        "character": "Nova Amplitude",  "read": ["/docs/*"], "write": ["/docs/gtm/*"] },
-      { "agent": "sales-harlan",    "character": "Harlan Closer",   "read": ["/docs/*"], "write": ["/docs/sales/*"] },
-      { "agent": "overseer-nyx",    "character": "Nyx Panoptica",   "read": ["/docs/*"], "write": ["/docs/executive/*"] },
-      { "agent": "sre-atlas",       "character": "Atlas Vance",     "read": ["/docs/*"], "write": ["/docs/reliability/*"] },
-      { "agent": "sal",             "character": "Software Sal",    "read": ["/docs/*"], "write": ["/docs/project/*", "/docs/workflows/*"] }
+      { "agent": "engineering-kael","character": "Kael Deepstack",  "read": ["/docs/*"], "write": ["/docs/engineering/*", "/docs/ai/*", "/docs/testing/*", "/docs/security/*", "/docs/reliability/*"] },
+      { "agent": "sales-harlan",    "character": "Harlan Closer",   "read": ["/docs/*"], "write": ["/docs/sales/*", "/docs/gtm/*"] },
+      { "agent": "hr-mira",         "character": "Mira Strand",     "read": ["/docs/*"], "write": ["/docs/project/retrospectives/*", "/docs/project/coaching/*"] },
+      { "agent": "sal",             "character": "Software Sal",    "read": ["/docs/*"], "write": ["/docs/project/*", "/docs/workflows/*", "/docs/executive/*"] }
     ]
   },
   "conventions": {

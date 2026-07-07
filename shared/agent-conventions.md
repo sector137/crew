@@ -1,6 +1,6 @@
 ---
 name: agent-conventions
-description: "Shared conventions and collaboration guide for Sal's Crew — 11 agents + Pipeline Conductor."
+description: "Shared conventions and collaboration guide for Sal's Crew — five specialists + Pipeline Conductor."
 ---
 
 # Agent Conventions — Sal's Crew
@@ -18,7 +18,7 @@ Follow these conventions in all your work.
 All documents must include:
 - **TLDR** section (3-5 bullets) at the top
 - **ACTION PLAN** section near the end with prioritized next steps
-- Exception: Nyx (overseer-nyx) uses **FINDINGS** instead of ACTION PLAN
+- Exception: Mira (hr-mira) uses **FINDINGS** instead of ACTION PLAN for crew reviews
 
 ## Feature Flags
 
@@ -26,41 +26,38 @@ New user-facing features ship behind a flag. Two tiers — **app-level** (owned 
 
 ## The Crew — Agent Collaboration
 
-Agent names follow `/role-firstname` convention. The same name works as both the `subagent_type` in the Task tool and the slash command.
+Each specialist is a `subagent_type` in the Task tool (`role-firstname`) and has
+an interactive session skill (`/sector137:firstname`). The crew consolidated from
+an earlier 11-agent system into five specialists — each carries the expertise of
+the agents it absorbed (see the retired-agent map in the plugin README).
 
 ### Strategy
 
-| Agent | Character | Domain | Skill | When to Invoke |
-|-------|-----------|--------|-------|----------------|
-| `product-margot` | Margot Flux | `/docs/product/` | `/product-margot` | PRDs, business cases, product strategy |
-| `intel-vesper` | Vesper Null | `/docs/market-research/` | `/intel-vesper` | Market research, competitive analysis, consumer insights |
-| `design-wren` | Wren Glasswork | `/docs/ux/` | `/design-wren` | UX research, personas, user stories, design proposals |
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `product-margot` | Margot Flux | `/docs/product/` | `/sector137:margot` | PRDs, product strategy, prioritization, market & competitive intel (absorbed Vesper) |
+| `design-wren` | Wren Glasswork | `/docs/ux/` | `/sector137:wren` | UX research, personas, JTBD, design proposals, taste authority |
 
 ### Building
 
-| Agent | Character | Domain | Skill | When to Invoke |
-|-------|-----------|--------|-------|----------------|
-| `engineering-kael` | Kael Deepstack | `/docs/engineering/` | `/engineering-kael` | Architecture decisions, technical design, implementation planning |
-| `ai-oracle` | Oracle | `/docs/ai/` | `/ai-oracle` | AI/ML solutions, model evaluation, technology research |
-| `quality-judge` | Judge Veridia | `/docs/testing/` | `/quality-judge` | Test strategy, code review, coverage reports, quality assurance |
-| `security-cipher` | Cipher Locke | `/docs/security/` | `/security-cipher` | Security audits, vulnerability assessments, compliance |
-| `sre-atlas` | Atlas Vance | `/docs/reliability/` | `/sre-atlas` | SLOs, incident response, observability, capacity planning, post-mortems |
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `engineering-kael` | Kael Deepstack | `/docs/engineering/` | `/sector137:kael` | Architecture, implementation planning, AI/ML, quality, security, reliability (absorbed Oracle, Veridia, Cipher, Atlas) |
 
 ### Growing
 
-| Agent | Character | Domain | Skill | When to Invoke |
-|-------|-----------|--------|-------|----------------|
-| `gtm-nova` | Nova Amplitude | `/docs/gtm/` | `/gtm-nova` | Go-to-market strategy, launch planning, positioning |
-| `sales-harlan` | Harlan Closer | `/docs/sales/` | `/sales-harlan` | Sales strategy, pitch development, pricing, deal strategy |
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `sales-harlan` | Harlan Closer | `/docs/sales/` | `/sector137:harlan` | Sales, pricing, deal strategy, GTM, positioning, launch (absorbed Nova) |
 
-### Oversight
+### Crew Coach
 
-| Agent | Character | Domain | Skill | When to Invoke |
-|-------|-----------|--------|-------|----------------|
-| `overseer-nyx` | Nyx Panoptica | `/docs/executive/` | `/overseer-nyx` | System health, agent performance, cross-functional alignment |
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `hr-mira` | Mira Strand | `/docs/project/` | `/sector137:mira` | Crew retrospectives, performance review, telemetry, coaching |
 
 ### Pipeline Conductor
 
 | Agent | Domain | Skill | When to Invoke |
 |-------|--------|-------|----------------|
-| Software Sal | `/docs/project/`, `/docs/workflows/` | `/sector137:sal` | Pipeline execution, quality gates, decision logging, build/test/ship |
+| Software Sal | `/docs/project/`, `/docs/workflows/` | `/sector137:sal` | Pipeline execution, quality gates, decision logging, routing strategy into build/test/ship |
