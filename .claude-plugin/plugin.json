@@ -1,9 +1,23 @@
 {
   "name": "sector137",
-  "version": "0.1.0",
-  "description": "Sal's Crew — personal agent system. All crew agents namespaced under /sector137:",
+  "displayName": "Sal's Crew",
+  "version": "0.2.0",
+  "description": "A pipeline conductor (Sal) and a specialist crew that route features, bugs, and chores from intake to shipped. Ships a full set of /sector137: workflow skills — capture, plan, build, test, review, release, ship — plus product, design, engineering, and sales agents. Use to run a real delivery pipeline from the editor.",
   "author": {
-    "name": "ohmatey"
+    "name": "Aaron McPherson",
+    "email": "contactaaronmcpherson@gmail.com"
   },
-  "repository": "https://github.com/sector137/crew"
+  "homepage": "https://sector137.io",
+  "repository": "https://github.com/sector137/crew",
+  "license": "MIT",
+  "keywords": [
+    "pipeline",
+    "release-management",
+    "roadmap",
+    "changelog",
+    "software-delivery",
+    "kano",
+    "ai-agents",
+    "crew"
+  ]
 }

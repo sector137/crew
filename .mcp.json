@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sector137": {
+      "type": "http",
+      "url": "https://sector137.io/mcp"
+    }
+  }
+}

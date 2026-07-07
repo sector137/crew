@@ -85,10 +85,10 @@ done
 
 for agent in "${CREW[@]}"; do
   LINK="$AGENTS_DIR/${agent}.md"
-  TARGET="$PACKAGE_DIR/${agent}/SKILL.md"
+  TARGET="$PACKAGE_DIR/agents/${agent}.md"
 
   if [ ! -f "$TARGET" ]; then
-    echo "  Warning: agent SKILL.md not found: $agent"
+    echo "  Warning: agent definition not found: $agent"
     continue
   fi
 

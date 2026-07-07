@@ -11,16 +11,16 @@
     {
       "name": "sector137",
       "source": ".",
-      "description": "Sal's Crew agent system. Crew agents: design-wren, engineering-kael, product-margot, sales-harlan, hr-mira, conductor-sal. Invoke as /sector137:{name}.",
-      "version": "0.1.0",
+      "description": "Sal's Crew — a pipeline conductor (Sal) plus five specialist agents (product-margot, engineering-kael, design-wren, sales-harlan, hr-mira). A full set of /sector137: pipeline skills route work from intake to shipped. Pairs with the sector137 MCP server.",
+      "version": "0.2.0",
       "author": {
         "name": "Aaron McPherson",
         "email": "contactaaronmcpherson@gmail.com"
       },
-      "homepage": "https://github.com/sector137/crew",
+      "homepage": "https://sector137.io",
       "repository": "https://github.com/sector137/crew",
       "license": "MIT",
-      "keywords": ["claude-code-plugin", "pipeline-manager", "agent-system", "crew", "design-wren", "engineering-kael", "product-margot", "sales-harlan", "hr-mira", "conductor-sal"]
+      "keywords": ["claude-code-plugin", "pipeline-manager", "release-management", "roadmap", "changelog", "crew", "kano", "ai-agents"]
     }
   ]
 }
