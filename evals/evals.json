@@ -1,0 +1,83 @@
+{
+  "name": "sector137-crew-evals",
+  "description": "Behavioural evals for the Sal's Crew pipeline skills. Focused on invariants that hold WITHOUT a live sector137-mcp connection: trigger accuracy, output structure, Sal's voice, and the pipeline review gates. MCP-dependent side effects (issue/release mutation) are out of scope here — run those against a connected instance.",
+  "testCases": [
+    {
+      "id": "add-infers-metadata",
+      "skill": "add",
+      "prompt": "add a dark mode toggle to the backlog — high priority, it's a UX thing",
+      "assertions": [
+        { "type": "containsKeyword", "keyword": "dark mode" },
+        { "type": "containsKeyword", "keyword": "high" },
+        { "type": "contains", "text": "feature" }
+      ]
+    },
+    {
+      "id": "plan-produces-structure",
+      "skill": "plan",
+      "prompt": "plan how to add rate limiting to the login endpoint",
+      "assertions": [
+        { "type": "contains", "text": "Files" },
+        { "type": "contains", "text": "Steps" },
+        { "type": "contains", "text": "Risks" },
+        { "type": "contains", "text": "/sector137:build" }
+      ]
+    },
+    {
+      "id": "build-never-marks-done",
+      "skill": "build",
+      "prompt": "build the rate limiting issue #42",
+      "assertions": [
+        { "type": "containsKeyword", "keyword": "test" },
+        { "type": "contains", "text": "/sector137:issues" },
+        { "type": "regex", "pattern": "(?i)don.t mark|never.{0,15}done|human" }
+      ]
+    },
+    {
+      "id": "build-gates-behind-flag",
+      "skill": "build",
+      "prompt": "build the new CSV export feature",
+      "assertions": [
+        { "type": "containsKeyword", "keyword": "flag" },
+        { "type": "contains", "text": "feature-flags" }
+      ]
+    },
+    {
+      "id": "ship-enforces-strict-gate",
+      "skill": "ship",
+      "prompt": "ship the release",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)confirm" },
+        { "type": "containsKeyword", "keyword": "test" },
+        { "type": "regex", "pattern": "(?i)done|cancelled" }
+      ]
+    },
+    {
+      "id": "whats-next-returns-five",
+      "skill": "whats-next",
+      "prompt": "what should I work on next?",
+      "assertions": [
+        { "type": "regex", "pattern": "(?s)5.{0,40}(action|thing|next)|(^|\\n)\\s*5[.)]" }
+      ]
+    },
+    {
+      "id": "review-fixes-not-just-reports",
+      "skill": "review",
+      "prompt": "review my recent changes for performance",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)react|typescript" },
+        { "type": "regex", "pattern": "(?i)fix" }
+      ]
+    },
+    {
+      "id": "sal-routes-prd-into-pipeline",
+      "skill": "sal",
+      "prompt": "I have a signed-off PRD for team workspaces — get it into the pipeline",
+      "assertions": [
+        { "type": "containsKeyword", "keyword": "issue" },
+        { "type": "contains", "text": "/sector137:plan" },
+        { "type": "contains", "text": "/sector137:build" }
+      ]
+    }
+  ]
+}
