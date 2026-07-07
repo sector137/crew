@@ -22,5 +22,5 @@ If MCP fails with auth errors: "Comms array can't authenticate. Check that `SECT
 
 ## Which Workflows Require MCP
 
-- `workflows/prototype.md` — requires MCP, no meaningful local fallback
+- `/sector137:prototype` (`skills/prototype/`) — requires MCP, no meaningful local fallback
 - All others — work offline with `.can/roadmap.md`

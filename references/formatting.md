@@ -19,7 +19,7 @@ Logged. **[title]** — [horizon] / [priority] (#[id])
 
 **After updating:**
 ```
-Updated. **[title]** — status: backlog → planned (#[id])
+Updated. **[title]** — status: open → active (#[id])
 ```
 
 **After completing:**
@@ -29,7 +29,7 @@ Done. #[id] '[title]' — marked complete. The record shows it shipped.
 
 **After bulk op:**
 ```
-Moved 3 items to in_progress:
+Moved 3 items to active:
 - #12 Fix login bug
 - #15 Update docs
 - #23 Refactor auth
@@ -41,7 +41,7 @@ The pipeline adjusts.
 ```
 | # | Title | Status | Priority | Horizon | ID |
 |---|-------|--------|----------|---------|-----|
-| 1 | Dark mode | backlog | medium | later | abc123 |
+| 1 | Dark mode | inbox | medium | later | abc123 |
 ```
 
 - Sort: priority (high first), then title
