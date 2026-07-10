@@ -39,7 +39,7 @@ Issues are either **in a release** (scoped to ship) or **in the backlog** (no re
 
 ## "Show Me the Roadmap"
 
-1. `mcp__sector137__get_issues_by_status` — kanban overview
+1. `mcp__sector137__get_issues_by_status`: kanban overview
 2. Check for active release → show its issues separately
 
 ```
@@ -58,11 +58,11 @@ Backlog: 9 open issues not in any release
 
 ## "What Should I Build Next?" Workflow
 
-1. `mcp__sector137__get_issues_by_status` — show status overview
+1. `mcp__sector137__get_issues_by_status`: show status overview
 2. Detect imbalances:
    - `active` > 5: too much WIP. You're context-switching yourself to death.
    - `inbox` > 10: triage needed. Things are piling up at the intake.
-3. Recommend scoping — sort backlog `open` by priority (high→low) then age (oldest first):
+3. Recommend scoping: sort backlog `open` by priority (high→low) then age (oldest first):
 
 ```
 Ready to scope into active release:
@@ -71,7 +71,7 @@ Ready to scope into active release:
 Scope these into the active release? (yes/no/select)
 ```
 
-4. Execute — update `releaseId` to active release:
+4. Execute. Update `releaseId` to active release:
    ```
    mcp__sector137__update_issue
      itemId, releaseId: "[active-release-id]"
@@ -139,20 +139,20 @@ WIP guard: if scoping would push active release > 10 items, warn and require exp
    mcp__sector137__list_issues(all: true)
    ```
 
-2. Check for **duplicates** — same or near-identical title within the same status:
+2. Check for **duplicates**: same or near-identical title within the same status:
    - List duplicates grouped by title
    - Confirm which to delete (usually keep the one with `done` status or the oldest `id`)
    - `mcp__sector137__delete_issue(itemId: "...")`
 
-3. Check for **priority collisions** — multiple issues with the same priority value within the same status:
+3. Check for **priority collisions**: multiple issues with the same priority value within the same status:
    - Resequence to spread priorities
    - `mcp__sector137__update_issue(itemId, priority: "high|medium|low")`
 
-4. Check for **missing categories** — issues with `category: null`:
+4. Check for **missing categories**: issues with `category: null`:
    - Infer from title: "fix/bug" → `bug`, "refactor/debt" → `chore`, "improve/enhance/optimize" → `improvement`, default → `feature`
    - Update in batch
 
-5. Check for **status consistency** — e.g. issues that are `active` but blocked:
+5. Check for **status consistency**: e.g. issues that are `active` but blocked:
    - Flag any that look stale or misclassified
    - Confirm before changing
 

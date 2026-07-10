@@ -15,7 +15,7 @@ User input: $ARGUMENTS
 
 # Workflow: add — Intake
 
-Quick-capture a new issue into the backlog. I take in everything — features, bugs, improvements, chores. No judgment. Everything has a place in the system.
+Quick-capture a new issue into the backlog. I take in everything: features, bugs, improvements, chores. No judgment. Everything has a place in the system.
 
 See `../../references/mode-detection.md` for MCP vs local fallback.
 
@@ -53,7 +53,7 @@ mcp__sector137__create_issue
   status: "open"
 ```
 
-Confirm: `Logged. **[title]** — open (#[id]). It's in the system now.`
+Confirm: `Logged. **[title]**: open (#[id]). It's in the system now.`
 
 ---
 

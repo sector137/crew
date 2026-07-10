@@ -24,7 +24,7 @@ This directory contains test strategy, coverage reports, and quality assurance d
 ## Key Documents
 
 ### Living Documents
-- **`test-strategy.md`** - Comprehensive test strategy, standards, and QA guidelines
+- **`test-strategy.md`** - Complete test strategy, standards, and QA guidelines
 
 ### Coverage Reports
 Coverage reports are stored in `/coverage-reports/` with naming: `coverage-report-{scope}-{YYYY-MM-DD}.md`

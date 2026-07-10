@@ -41,7 +41,7 @@ Work locally instead? I'll save changes to .can/roadmap.md and sync later. (yes/
 ## Step 2: Scan for Existing Roadmap
 
 Check paths in order:
-1. `.can/roadmap.md` — if found and has `#local-*` IDs → offer **Step 3D (Sync Mode)**
+1. `.can/roadmap.md`: if found and has `#local-*` IDs → offer **Step 3D (Sync Mode)**
 2. `ROADMAP.md`
 3. `docs/roadmap.md`
 4. `docs/product/roadmap.md`
@@ -52,7 +52,7 @@ Found → **Step 3A (Import Mode)**. Not found → **Step 3B (Create Mode)**.
 
 ## Step 3A: Import Mode (file found, MCP connected)
 
-Parse file — extract items from NOW/NEXT/LATER sections.
+Parse file: extract items from NOW/NEXT/LATER sections.
 
 | Section | horizon | status |
 |---------|---------|--------|
@@ -112,7 +112,7 @@ See `../../references/roadmap-schema.md` for format.
 
 Same discovery questions as Create Mode. Write `.can/roadmap.md` with `#local-{n}` IDs.
 
-Confirm: "Recorded locally — {N} items in `.can/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
+Confirm: "Recorded locally: {N} items in `.can/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 
 ---
 

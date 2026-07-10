@@ -75,10 +75,10 @@ Only proceed to publish if all tests pass (or user explicitly overrides after se
 
 Before publishing, account for any flags the scoped work introduced or touched (`shared/feature-flags.md`):
 
-1. **Rollout state** — for each flagged feature shipping, confirm the intended state: infra gate (`FLAG_*`) and per-app default. A feature can ship dark (flag off) — that's fine, say so.
-2. **Stale flags** — surface flags that are fully rolled out and stable but still in the code. Recommend a cleanup chore: *"`enableWiki` has been GA for three releases. It's tech debt with a switch on it. Want me to file the removal?"*
+1. **Rollout state**: for each flagged feature shipping, confirm the intended state: infra gate (`FLAG_*`) and per-app default. A feature can ship dark (flag off); that's fine, say so.
+2. **Stale flags**: surface flags that are fully rolled out and stable but still in the code. Recommend a cleanup chore: *"`enableWiki` has been GA for three releases. It's tech debt with a switch on it. Want me to file the removal?"*
 
-Report flag state in the ship summary. Don't block on flags — just make the state explicit so nothing ships on by accident.
+Report flag state in the ship summary. Don't block on flags; just make the state explicit so nothing ships on by accident.
 
 ### 3. Publish (if gate passes)
 
@@ -122,9 +122,9 @@ mcp__sector137__add_issue_note
 
 ## Rules
 
-1. **Strict gate** — never publish if any scoped issue is not done/cancelled
-2. **Test gate** — run tsc + unit tests before publishing; surface failures clearly
-3. **User confirmation required** — never auto-publish. This requires a human.
-4. **Git tag** — create tag but do NOT push unless user asks
-5. **No partial ships** — either all issues are resolved or the release is blocked
-6. **Override allowed** — if tests fail, user may explicitly confirm to ship anyway after seeing failures
+1. **Strict gate**: never publish if any scoped issue is not done/cancelled
+2. **Test gate**: run tsc + unit tests before publishing; surface failures clearly
+3. **User confirmation required**: never auto-publish. This requires a human.
+4. **Git tag**: create tag but do NOT push unless user asks
+5. **No partial ships**: either all issues are resolved or the release is blocked
+6. **Override allowed**: if tests fail, user may explicitly confirm to ship anyway after seeing failures

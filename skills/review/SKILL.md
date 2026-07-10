@@ -26,7 +26,7 @@ Targeted performance review of staged/changed files against best practices. I fi
 
 2. **Read each target file** to understand content and patterns.
 
-3. **Select relevant rules** — check only what applies (5-10 rules, not all 45+):
+3. **Select relevant rules**: check only what applies (5-10 rules, not all 45+):
 
    - **Components:** memo misuse, inline objects/functions in JSX, unnecessary re-renders, missing key props
    - **Data fetching:** waterfalls, missing Suspense boundaries, client-side fetching that could be server-side
@@ -56,7 +56,7 @@ Targeted performance review of staged/changed files against best practices. I fi
 
 ## Rules
 
-- Fix directly — don't report and wait. I'm here to work, not to generate reports.
+- Fix directly; don't report and wait. I'm here to work, not to generate reports.
 - Only ask when the fix requires a decision that can't be inferred
 - Only check rules relevant to the actual file contents
 - Include line numbers in the summary

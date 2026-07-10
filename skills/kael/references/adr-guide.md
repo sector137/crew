@@ -25,11 +25,11 @@ PROPOSED → ACCEPTED → DEPRECATED → SUPERSEDED
               REJECTED
 ```
 
-- **PROPOSED**: Under discussion, not yet decided
-- **ACCEPTED**: Decision made, in effect
-- **REJECTED**: Considered and not adopted (keep these — useful context)
-- **DEPRECATED**: Was accepted, no longer recommended (but still in use)
-- **SUPERSEDED**: Replaced by a newer ADR (link to the new one)
+- PROPOSED: Under discussion, not yet decided
+- ACCEPTED: Decision made, in effect
+- REJECTED: Considered and not adopted (keep these — useful context)
+- DEPRECATED: Was accepted, no longer recommended (but still in use)
+- SUPERSEDED: Replaced by a newer ADR (link to the new one)
 
 ---
 

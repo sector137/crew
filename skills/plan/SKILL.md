@@ -36,7 +36,7 @@ Call `mcp__sector137__get_issue_stats`. If MCP unavailable, continue offline.
 ### 2. Explore the Codebase
 
 Based on the issue, read:
-- `CLAUDE.md` — project conventions and architecture
+- `CLAUDE.md`: project conventions and architecture
 - Relevant source files (use Glob + Grep to locate them)
 - Existing tests near the affected area
 - Schema files if data model changes are involved
@@ -53,7 +53,7 @@ Output a concrete implementation plan:
 **Approach:** [1-2 sentences on the overall strategy]
 
 **Files to change:**
-- `path/to/file.ts` — [what changes and why]
+- `path/to/file.ts`: [what changes and why]
 - `path/to/other.tsx` — [what changes and why]
 
 **Steps:**
@@ -88,6 +88,6 @@ If no issue ID (offline / description-only mode), skip this step.
 ## Rules
 
 - Be specific. File paths, not vague descriptions.
-- If there's a decision to make, surface it — don't hide it in the plan.
+- If there's a decision to make, surface it; don't hide it in the plan.
 - If the issue spec is vague, say so and ask for clarification before planning.
-- Keep the plan under 400 words. If it's longer, the scope is too big — flag it.
+- Keep the plan under 400 words. If it's longer, the scope is too big; flag it.

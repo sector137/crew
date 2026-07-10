@@ -95,13 +95,13 @@ Each decision entry includes:
 
 Tag decisions with categories for easy filtering:
 
-- **Product**: Product strategy, features, pricing, positioning
-- **Technical**: Architecture, technology choices, infrastructure
-- **UX**: User experience, design patterns, interaction models
-- **Security**: Security controls, compliance, data handling
-- **Process**: Team processes, workflows, quality gates
-- **Business**: Business model, go-to-market, partnerships
-- **AI**: AI/ML models, approaches, data strategies
+- Product: Product strategy, features, pricing, positioning
+- Technical: Architecture, technology choices, infrastructure
+- UX: User experience, design patterns, interaction models
+- Security: Security controls, compliance, data handling
+- Process: Team processes, workflows, quality gates
+- Business: Business model, go-to-market, partnerships
+- AI: AI/ML models, approaches, data strategies
 
 ---
 

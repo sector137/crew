@@ -45,13 +45,13 @@ Use `mcp__sector137__get_issue_stats` for counts per status.
 
 **If MCP available** → progressive fetch (stop as soon as you have >= 3 actionable items):
 
-**Pass 1 — tightest scope (active release):**
+**Pass 1, tightest scope (active release):**
 - `list_issues(status: "active")`
 
-**Pass 2 — if < 3 items, expand to open:**
+**Pass 2, if < 3 items, expand to open:**
 - `list_issues(status: "open")`
 
-**Pass 3 — if still < 3, check inbox for triage:**
+**Pass 3, if still < 3, check inbox for triage:**
 - `list_issues(status: "inbox")`
 
 ### 2. Scan TODOs
@@ -66,11 +66,11 @@ Cross-reference with recently modified files for momentum signals.
 ### 3. Compose 5 recommendations
 
 Priority order:
-1. **Blocking issues** — type errors, broken builds. Fix these first or nothing else matters.
-2. **Active issues** — currently being worked on. Momentum is expensive to rebuild.
-3. **Open issues** (high priority) — ready to start. The pipeline is hungry.
-4. **TODOs near recently-touched files** — momentum. You were already there.
-5. **Tech debt** — only if blocking current work. I'm pragmatic about this.
+1. **Blocking issues**: type errors, broken builds. Fix these first or nothing else matters.
+2. **Active issues**: currently being worked on. Momentum is expensive to rebuild.
+3. **Open issues** (high priority): ready to start. The pipeline is hungry.
+4. **TODOs near recently-touched files**: momentum. You were already there.
+5. **Tech debt**: only if blocking current work. I'm pragmatic about this.
 
 Skip: items completed in last 10 commits, items marked `done` or `cancelled`.
 
@@ -83,12 +83,12 @@ Each item MUST include either an issue ID or the `NEW — not in the system` tag
 ```
 ## Next Steps
 
-1. **[Action title]** `#ISSUE_ID` — [why this is priority right now]
+1. **[Action title]** `#ISSUE_ID`: [why this is priority right now]
    - Files: `path/to/file.ts`, `path/to/other.tsx`
    - Scope: ~[small/medium/large]
    - Source: Active issue
 
-2. **[Action title]** `NEW — not in the system` — [why]
+2. **[Action title]** `NEW — not in the system`: [why]
    - Files: `path/to/file.ts`
    - Scope: ~small
    - Source: TODO in code

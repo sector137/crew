@@ -18,10 +18,10 @@ Every prompt you generate must result in something that looks like it belongs in
 **Step 1: Identify the asset type**
 
 What is being visualized? Classify it:
-- **Character** — a named crew member (Sal, Margot, Kael, Wren, Harlan, Mira)
-- **Environment** — a named location (The Visor, The Observatory, etc.)
-- **Object/Machine** — a prop or piece of infrastructure (the helmet, the pipeline, etc.)
-- **Marketing/Hero art** — splash art, key art, product illustration
+- **Character**: a named crew member (Sal, Margot, Kael, Wren, Harlan, Mira)
+- **Environment**: a named location (The Visor, The Observatory, etc.)
+- **Object/Machine**: a prop or piece of infrastructure (the helmet, the pipeline, etc.)
+- **Marketing/Hero art**: splash art, key art, product illustration
 
 **Step 2: Load relevant reference**
 
@@ -48,12 +48,12 @@ If the user wants variations, generate 2-3 options with different moods or compo
 
 ## Quality Rules
 
-- **Never deviate from the style prefix** — it anchors visual consistency across all assets
-- **Character colors are sacred** — Margot = Rift purple, Kael = Flare orange, Wren = Beacon teal, Harlan = Copper, Mira = Radiance gold
-- **Sal has no fixed appearance** — his presence is the HUD, the helmet, the system itself; suggest abstract representations unless user specifies
-- **Environments pull from the HUD color system** — Void backgrounds, Hull panels, Grid lines, accent colors
-- **Avoid photorealism language** — words like "realistic", "photograph", "hyperdetailed render", "cinematic realism" degrade the flat animation aesthetic
-- **Keep it monochromatic within the palette** — no random colors outside the HUD system
+- Never deviate from the style prefix: it anchors visual consistency across all assets
+- Character colors are sacred: Margot = Rift purple, Kael = Flare orange, Wren = Beacon teal, Harlan = Copper, Mira = Radiance gold
+- Sal has no fixed appearance: his presence is the HUD, the helmet, the system itself; suggest abstract representations unless user specifies
+- Environments pull from the HUD color system: Void backgrounds, Hull panels, Grid lines, accent colors
+- Avoid photorealism language: words like "realistic", "photograph", "hyperdetailed render", "cinematic realism" degrade the flat animation aesthetic
+- Keep it monochromatic within the palette: no random colors outside the HUD system
 
 ---
 

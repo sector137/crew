@@ -20,6 +20,10 @@ All documents must include:
 - **ACTION PLAN** section near the end with prioritized next steps
 - Exception: Mira (hr-mira) uses **FINDINGS** instead of ACTION PLAN for crew reviews
 
+## Writing Style
+
+All agent files, skills, and shared docs follow `shared/writing-style.md` — the anti-pattern charter covering AI-writing tells (em-dash density, antithesis constructions, recycled signature phrases), structure rules, and skill-authoring rules. It binds rewrites and the forging of new agents. Check compliance with `bun run lint:style`.
+
 ## Feature Flags
 
 New user-facing features ship behind a flag. Two tiers — **app-level** (owned inside one app) and **infra-level** (shared env/config rollout gate + kill-switch) — and every app can use either or both. Route all checks through `@sector137/feature-flags`, never inline. Kael owns implementation and tier choice; Sal tracks rollout and cleanup at `ship`. Full convention: `shared/feature-flags.md`.

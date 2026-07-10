@@ -3,6 +3,34 @@
 All notable changes to the Sal's Crew plugin (`sector137`) are documented here.
 This project follows [semantic versioning](https://semver.org/).
 
+## [0.3.0] — De-AI writing pass
+
+Rewrote the agent and persona-skill prose to remove AI-writing tells and added
+durable guardrails so future authoring stays clean.
+
+### Added
+- **`shared/writing-style.md`** — the anti-pattern charter: banned constructions
+  (antithesis reflex, aphoristic closers), em-dash budget, retired signature
+  phrases, structure rules, and skill-authoring rules sourced from Wikipedia's
+  "Signs of AI writing" and Anthropic's skill best practices.
+- **`scripts/style-lint.sh`** (`bun run lint:style`) — static checks for em-dash
+  density, antithesis constructions, banned phrases, and bold-bullet runs.
+- Three eval cases (`wren`, `kael`, `margot`) guarding that persona skills stay
+  operational after the persona trim.
+
+### Changed
+- The 5 agent files compressed (781 → ~390 lines): persona trimmed to a short
+  voice anchor, catchphrase lists / formative-insight blocks removed (lore
+  stays in `.storyline/crew/`), capability lists tightened into procedures,
+  duplicated content de-duped against each twin session skill. Frontmatter
+  descriptions untouched.
+- The 6 persona skills got the same prose pass; repeated-value output tables
+  became lists; pipeline skills and `shared/` docs got a mechanical em-dash
+  reduction.
+- `shared/workflows/discovery-to-delivery.md` rewritten from the retired
+  11-agent roster to the current 5-specialist crew + Sal.
+- `shared/agent-conventions.md` now points to the writing-style charter.
+
 ## [0.2.0] — Standard plugin layout
 
 Restructured into the canonical Claude Code plugin layout so every workflow is

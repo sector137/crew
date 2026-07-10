@@ -70,6 +70,36 @@
       ]
     },
     {
+      "id": "wren-review-stays-operational",
+      "skill": "wren",
+      "prompt": "review the checkout flow UX before we ship",
+      "assertions": [
+        { "type": "containsKeyword", "keyword": "design-principles" },
+        { "type": "regex", "pattern": "(?i)critical|high|severity" },
+        { "type": "contains", "text": "/docs/ux/" }
+      ]
+    },
+    {
+      "id": "kael-adr-has-structure",
+      "skill": "kael",
+      "prompt": "write an ADR for choosing Postgres over MongoDB for the events store",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)context" },
+        { "type": "regex", "pattern": "(?i)consequences|alternatives" },
+        { "type": "contains", "text": "/docs/engineering/adrs/" }
+      ]
+    },
+    {
+      "id": "margot-prd-keeps-doc-standard",
+      "skill": "margot",
+      "prompt": "create a PRD for team workspaces",
+      "assertions": [
+        { "type": "contains", "text": "TLDR" },
+        { "type": "contains", "text": "ACTION PLAN" },
+        { "type": "contains", "text": "/docs/product" }
+      ]
+    },
+    {
       "id": "sal-routes-prd-into-pipeline",
       "skill": "sal",
       "prompt": "I have a signed-off PRD for team workspaces — get it into the pipeline",

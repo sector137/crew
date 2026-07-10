@@ -5,6 +5,7 @@
   "main": ".claude-plugin/plugin.json",
   "license": "MIT",
   "scripts": {
-    "install:global": "bash scripts/install.sh"
+    "install:global": "bash scripts/install.sh",
+    "lint:style": "bash scripts/style-lint.sh"
   }
 }

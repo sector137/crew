@@ -24,7 +24,7 @@ This directory contains all AI/ML research, solution designs, and knowledge for 
 ## Key Documents
 
 ### Living Documents
-- **`ai-knowledge.md`** - Comprehensive AI knowledge base tracking all AI decisions, models, architecture, and learnings
+- **`ai-knowledge.md`** - Complete AI knowledge base tracking all AI decisions, models, architecture, and learnings
 
 ### Research Reports
 Research reports are stored in `/research/` with naming: `research-{topic}-{YYYY-MM-DD}.md`

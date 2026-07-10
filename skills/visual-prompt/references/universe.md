@@ -63,7 +63,7 @@ For character/brand art, use the canonical portrait as reference:
 
 **Canonical portrait:** `apps/landing/public/sal-profile.webp`
 
-**The Helmet:** Sal's primary physical interface. Sleek, dark, with glowing HUD elements projected on the visor. Think Iron Man suit — functional, not decorative. The visor glows Beacon green when the system is nominal.
+**The Helmet:** Sal's primary physical interface. Sleek, dark, with glowing HUD elements projected on the visor. Think Iron Man suit: all function, no ornament. The visor glows Beacon green when the system is nominal.
 
 ### Margot Flux — Product Manager
 

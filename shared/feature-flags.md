@@ -13,12 +13,12 @@ This is the canonical convention for how Sal's crew ships features behind flags.
 
 Flags let us ship dark, roll out gradually, and kill a feature without a deploy. Two kinds of control matter, and every app must be able to support **either or both**:
 
-- **App-level ("top-level") flags** — owned inside one app. The unit of control is something the app already models: a project, a workspace, a user. Stored in the app's own data (a DB column, a config row). Example: `projects.enableWiki` in `apps/app`.
-- **Infra-level flags** — a shared, env/config-driven set that spans apps. The unit of control is the *deployment / environment*. This is the rollout gate and the kill-switch ops reaches for when something is on fire. Backed by env today; a DB or PostHog resolver can slot in later behind the same interface.
+- **App-level ("top-level") flags**: owned inside one app. The unit of control is something the app already models: a project, a workspace, a user. Stored in the app's own data (a DB column, a config row). Example: `projects.enableWiki` in `apps/app`.
+- **Infra-level flags**: a shared, env/config-driven set that spans apps. The unit of control is the *deployment / environment*. This is the rollout gate and the kill-switch ops reaches for when something is on fire. Backed by env today; a DB or PostHog resolver can slot in later behind the same interface.
 
 ## The Package: `@sector137/feature-flags`
 
-One provider-agnostic core resolves all tiers. Do **not** hand-roll flag checks (`project.enableX !== false` scattered through the code) — route every check through the package so precedence is consistent.
+One provider-agnostic core resolves all tiers. Do **not** hand-roll flag checks (`project.enableX !== false` scattered through the code); route every check through the package so precedence is consistent.
 
 ```ts
 import { createFeatureFlags, envResolver, appResolver } from "@sector137/feature-flags";
@@ -40,7 +40,7 @@ Browser (Vite): `envResolver(import.meta.env, { prefix: "VITE_FLAG_" })`, or the
 
 ### Pluggable providers
 
-The infra tier is env-backed by default, but any tier accepts **any provider** — sync or async, duck-typed, no SDK dependency in the package. Stack a provider over env with `firstOf(...)` so a flag the provider doesn't know about falls back to `FLAG_*`:
+The infra tier is env-backed by default, but any tier accepts **any provider**: sync or async, duck-typed, no SDK dependency in the package. Stack a provider over env with `firstOf(...)` so a flag the provider doesn't know about falls back to `FLAG_*`:
 
 ```ts
 infra: firstOf(
@@ -49,11 +49,11 @@ infra: firstOf(
 )
 ```
 
-- `posthogResolver(client, { distinctId, flagKey? })` — PostHog (posthog-node async / posthog-js sync).
-- `providerResolver(fn)` / `asyncProviderResolver(fn)` — adapt any sync / async source (LaunchDarkly, a flags service).
+- `posthogResolver(client, { distinctId, flagKey? })`: PostHog (posthog-node async / posthog-js sync).
+- `providerResolver(fn)` / `asyncProviderResolver(fn)`: adapt any sync / async source (LaunchDarkly, a flags service).
 - Network-backed providers are **async**: resolve with `isEnabledAsync` / `getAllAsync`. The sync API throws rather than silently dropping a provider's opinion.
 
-In `apps/app`, plug one in at bootstrap with **zero call-site changes** via `registerInfraProvider(...)` (see `apps/app/src/lib/flags.ts`). Choosing a provider is an engineering decision — record it in an ADR. The default stays env/config (deterministic, git-versioned) until there's a reason to reach for a service.
+In `apps/app`, plug one in at bootstrap with **zero call-site changes** via `registerInfraProvider(...)` (see `apps/app/src/lib/flags.ts`). Choosing a provider is an engineering decision; record it in an ADR. The default stays env/config (deterministic, git-versioned) until there's a reason to reach for a service.
 
 ## Choosing a Tier
 
@@ -72,32 +72,32 @@ enabled = infraAllows(flag) AND appAllows(flag)
 ```
 
 - The tier(s) named by `tier` are **authoritative** and fall back to `default` when their resolver abstains.
-- The other tier can only **veto** (force OFF / kill-switch) — it can never force a flag ON.
+- The other tier can only **veto** (force OFF / kill-switch); it can never force a flag ON.
 
 Consequences worth internalizing:
 - An **infra kill-switch always wins.** `FLAG_ENABLE_WIKI=off` hides Wiki everywhere, whatever a project set.
 - Infra saying **ON means "allowed," not "forced."** A project that opted out stays out.
-- A **`both` flag with `default: false` stays off until infra opens the gate** — then each app unit opts in. That's the safe rollout shape for unfinished work.
+- A **`both` flag with `default: false` stays off until infra opens the gate**. Then each app unit opts in. That's the safe rollout shape for unfinished work.
 
 ## Env Conventions
 
 - Server: `FLAG_<SCREAMING_SNAKE_KEY>` (e.g. `FLAG_ENABLE_WIKI=off`).
-- Browser (Vite): `VITE_FLAG_<SCREAMING_SNAKE_KEY>` — set this too when a user-facing feature needs the SPA to reflect an infra kill-switch (locked toggle, "managed at infra level").
+- Browser (Vite): `VITE_FLAG_<SCREAMING_SNAKE_KEY>`: set this too when a user-facing feature needs the SPA to reflect an infra kill-switch (locked toggle, "managed at infra level").
 - Truthy: `on|true|1|enabled|yes`. Falsy: `off|false|0|disabled|no`. Anything else = abstain.
 
 ## Flag Lifecycle
 
 Every flag is a temporary object with an owner and an exit plan. Kael owns implementation; Sal tracks rollout and cleanup through the pipeline.
 
-1. **Add** — declare it in the app's registry with a `tier`, `default`, `owner`, and description. Document it with the spec template (`shared/templates/feature-flag-spec.md`).
-2. **Gate** — wrap the new behavior in `flags.isEnabled(key, ctx)`. New user-facing behavior ships gated by default (default off for `both`/`infra` until rollout).
-3. **Roll out** — flip the infra gate / per-app opt-in per the rollout plan. Sal notes flag state at `ship`.
-4. **Clean up** — once a flag is fully rolled out and stable, remove the flag and the dead branch. A flag that outlives its rollout is tech debt with a switch on it. Sal surfaces stale flags at `ship`.
+1. **Add**: declare it in the app's registry with a `tier`, `default`, `owner`, and description. Document it with the spec template (`shared/templates/feature-flag-spec.md`).
+2. **Gate**: wrap the new behavior in `flags.isEnabled(key, ctx)`. New user-facing behavior ships gated by default (default off for `both`/`infra` until rollout).
+3. **Roll out**: flip the infra gate / per-app opt-in per the rollout plan. Sal notes flag state at `ship`.
+4. **Clean up**: once a flag is fully rolled out and stable, remove the flag and the dead branch. A flag that outlives its rollout is tech debt with a switch on it. Sal surfaces stale flags at `ship`.
 
 ## Anti-patterns
 
 - ❌ Inline flag checks that bypass the package (`project.enableX !== false`).
-- ❌ A flag with no `owner` or no cleanup criteria — it will live forever.
+- ❌ A flag with no `owner` or no cleanup criteria; it will live forever.
 - ❌ Using an app-level flag as a kill-switch. Ops can't reach a per-tenant column in an incident. Kill-switches are infra-tier.
 - ❌ Branching on a flag deep in the stack when the decision belongs at a boundary (route, page, feature entry).
 

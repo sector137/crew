@@ -464,11 +464,11 @@ After completing work:
 
 ### Key Files Reference
 
-- **Structure Definition**: `~/.claude/agents/config/docs-structure.json`
-- **Root Instructions**: `~/.claude/CLAUDE.md`
-- **Operations Guide**: `~/.claude/agents/docs-operations.md` (this file)
-- **Project Template**: `~/.claude/agents/templates/project-docs/`
-- **Agent Files**: `~/.claude/agents/{agent-name}.md`
+- Structure Definition: `~/.claude/agents/config/docs-structure.json`
+- Root Instructions: `~/.claude/CLAUDE.md`
+- Operations Guide: `~/.claude/agents/docs-operations.md` (this file)
+- Project Template: `~/.claude/agents/templates/project-docs/`
+- Agent Files: `~/.claude/agents/{agent-name}.md`
 
 ---
 
