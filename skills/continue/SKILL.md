@@ -27,7 +27,7 @@ Quick context recovery to resume work after a break or new session. I'll tell yo
 
 2. **Read roadmap state:**
    - Check MCP: `mcp__sector137__list_issues(status: "active")`
-   - If MCP fails: read `.can/roadmap.md` active items
+   - If MCP fails: read `.sector137/roadmap.md` active items
 
 3. **Check for errors:**
    - If `tsconfig.json` exists: `cd apps/app && bunx tsc --noEmit 2>&1 | head -10`

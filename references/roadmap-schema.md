@@ -1,4 +1,4 @@
-# .can/roadmap.md Schema — The Local Flightplan
+# .sector137/roadmap.md Schema — The Local Flightplan
 
 Local fallback file format for offline operation. When the Comms Array is down, this is how we track The Other Side.
 

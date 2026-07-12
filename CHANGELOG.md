@@ -3,6 +3,51 @@
 All notable changes to the Sal's Crew plugin (`sector137`) are documented here.
 This project follows [semantic versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Release log + self-update tooling.** `CHANGELOG.md` is now the machine-readable
+  release log (canonical `## [X.Y.Z] — Title` headings). `scripts/changelog.sh`
+  extracts the notes between two versions; `scripts/version-check.sh`
+  (`bun run lint:version`) asserts `plugin.json`, `marketplace.json`, and
+  `package.json` agree. Git tags via `claude plugin tag` are the release event.
+  Runbook: `shared/releasing.md`.
+- **SessionStart update-check hook** (`hooks/check-plugin-update.sh`). Reads local
+  plugin state only (no network), throttled once per 24h, and nudges when a
+  marketplace install is behind. Silent on local dev checkouts.
+
+### Changed
+- **Hooks are now plugin-native.** Every command in `hooks/hooks.json` resolves
+  against `${CLAUDE_PLUGIN_ROOT}` instead of `~/.claude/hooks/`, and `install.sh`
+  no longer symlinks hooks (it cleans up any it created). Previously the commands
+  pointed at a `~/.claude/hooks/` directory that marketplace installs never
+  populated, so every hook silently did nothing. Now wired: the update-check,
+  the pre-commit quality gate, the UI-change and session-stop nudges. The two
+  hooks that bind to a specific external CLI — `rtk-rewrite.sh` (rtk) and
+  `gemini-qa-on-todo-complete.sh` (Gemini, which also spends API budget and runs
+  the test suite) — stay in `hooks/` but are left unwired, so installers opt into
+  those tools deliberately rather than by default.
+- **`/sector137:update` rewritten.** Detects install mode (marketplace vs local
+  checkout), shows the changelog delta, and warns when a duplicate install shadows
+  the `/sector137:` namespace. It updates via `claude plugin update` for marketplace
+  installs instead of assuming a git checkout.
+- **`/sector137:version` fixed.** Corrected the stale `~/.claude` paths and the
+  hardcoded example version, aligned the CHANGELOG heading format, added a `check`
+  subcommand, and routed `bump` through `claude plugin tag`.
+- **Version numbers synced to 0.3.0** across `plugin.json`, `marketplace.json`, and
+  `package.json` (they had drifted to 0.2.0 / 0.2.0 / 0.1.0).
+- **Local state path renamed**: `.can/roadmap.md` is now `.sector137/roadmap.md`,
+  matching the plugin namespace and the `.sector137/` directory the crew already
+  uses for other state. Updated across the README, `references/`, `shared/`, and
+  the 11 skills that read or write the offline roadmap.
+
+  Breaking for existing offline users: the skills no longer look for `.can/`.
+  Move the file before the next offline session.
+
+  ```
+  git mv .can .sector137
+  ```
+
 ## [0.3.0] — De-AI writing pass
 
 Rewrote the agent and persona-skill prose to remove AI-writing tells and added

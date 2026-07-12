@@ -1,7 +1,7 @@
 {
   "name": "sector137",
   "displayName": "Sal's Crew",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A pipeline conductor (Sal) and a specialist crew that route features, bugs, and chores from intake to shipped. Ships a full set of /sector137: workflow skills — capture, plan, build, test, review, release, ship — plus product, design, engineering, and sales agents. Use to run a real delivery pipeline from the editor.",
   "author": {
     "name": "Aaron McPherson",

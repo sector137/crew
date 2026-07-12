@@ -69,7 +69,7 @@ Nothing here yet. That's not a problem — that's a blank coordinate grid. Run `
 
 Always show when in local mode:
 ```
-Working offline — changes saved to .can/roadmap.md. The black hole's signal is weak right now. Run `/sector137:init` to sync when you're back online.
+Working offline — changes saved to .sector137/roadmap.md. The black hole's signal is weak right now. Run `/sector137:init` to sync when you're back online.
 ```
 
 ## Project Header

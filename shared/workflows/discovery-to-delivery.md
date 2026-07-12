@@ -71,7 +71,7 @@ Discovery → Definition → Design → Development → Testing → Deployment �
 ## Workflow Orchestration
 
 **Sal (Pipeline Conductor)** is responsible for:
-- Tracking work items through the pipeline (sector137-mcp issues, or `.can/roadmap.md` offline)
+- Tracking work items through the pipeline (sector137-mcp issues, or `.sector137/roadmap.md` offline)
 - Enforcing quality gates before phase transitions
 - Coordinating approvals from the relevant specialists
 - Logging gate decisions in `decision-log.md`

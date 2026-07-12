@@ -21,7 +21,7 @@ User input: $ARGUMENTS
 
 ## Pre-flight
 
-Call `mcp__sector137__get_issue_stats`. If MCP is unavailable, continue offline against `.can/roadmap.md`. See `../../references/mode-detection.md`.
+Call `mcp__sector137__get_issue_stats`. If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

@@ -41,7 +41,7 @@ Use `mcp__sector137__get_issue_stats` for counts per status.
 - If `list_projects` returns tags that appear to be sprint/cycle markers, use those tag IDs as an additional `tagIds` filter in Pass 1.
 - If no tags are returned, or tag semantics are ambiguous: skip tag filtering entirely.
 
-**If MCP unavailable** → read `.can/roadmap.md`, parse active release items. Note at end: "Roadmap read from `.can/roadmap.md` (offline)."
+**If MCP unavailable** → read `.sector137/roadmap.md`, parse active release items. Note at end: "Roadmap read from `.sector137/roadmap.md` (offline)."
 
 **If MCP available** → progressive fetch (stop as soon as you have >= 3 actionable items):
 

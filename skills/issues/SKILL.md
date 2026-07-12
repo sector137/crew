@@ -85,6 +85,6 @@ If user included note inline (e.g. "mark #42 done — rewrote auth middleware"),
 
 ## Local Mode Fallback
 
-Move item to `## Done` in `.can/roadmap.md`, update status tag to `done`.
+Move item to `## Done` in `.sector137/roadmap.md`, update status tag to `done`.
 
 If user provides a note, append under `**Notes:**` subsection.

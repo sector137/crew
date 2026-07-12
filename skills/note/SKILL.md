@@ -82,7 +82,7 @@ mcp__sector137__delete_issue_note
 
 ## Offline Fallback
 
-Append to `.can/roadmap.md` under the item's section:
+Append to `.sector137/roadmap.md` under the item's section:
 
 ```markdown
 **Notes:**

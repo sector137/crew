@@ -31,7 +31,7 @@ Call `mcp__sector137__get_issue_stats`.
 ```
 Comms array not reachable. Check SECTOR137_API_KEY in .mcp.json.
 
-Work locally instead? I'll save changes to .can/roadmap.md and sync later. (yes/no)
+Work locally instead? I'll save changes to .sector137/roadmap.md and sync later. (yes/no)
 ```
 - Yes → Step 3C (Local Mode)
 - No → Stop: "Set `SECTOR137_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
@@ -41,7 +41,7 @@ Work locally instead? I'll save changes to .can/roadmap.md and sync later. (yes/
 ## Step 2: Scan for Existing Roadmap
 
 Check paths in order:
-1. `.can/roadmap.md`: if found and has `#local-*` IDs → offer **Step 3D (Sync Mode)**
+1. `.sector137/roadmap.md`: if found and has `#local-*` IDs → offer **Step 3D (Sync Mode)**
 2. `ROADMAP.md`
 3. `docs/roadmap.md`
 4. `docs/product/roadmap.md`
@@ -80,7 +80,7 @@ mcp__sector137__create_issue
   title, description, horizon, status, category, priority: "medium"
 ```
 
-Confirm + update `.can/roadmap.md` with server IDs (`#server-{uuid}`), set `syncedAt`.
+Confirm + update `.sector137/roadmap.md` with server IDs (`#server-{uuid}`), set `syncedAt`.
 
 ---
 
@@ -103,22 +103,22 @@ LATER: • [item 3]
 Push to the system? (yes/edit/no)
 ```
 
-On confirmation: push to system, write `.can/roadmap.md`.
+On confirmation: push to system, write `.sector137/roadmap.md`.
 See `../../references/roadmap-schema.md` for format.
 
 ---
 
 ## Step 3C: Local Mode (MCP unavailable)
 
-Same discovery questions as Create Mode. Write `.can/roadmap.md` with `#local-{n}` IDs.
+Same discovery questions as Create Mode. Write `.sector137/roadmap.md` with `#local-{n}` IDs.
 
-Confirm: "Recorded locally: {N} items in `.can/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
+Confirm: "Recorded locally: {N} items in `.sector137/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 
 ---
 
 ## Step 3D: Sync Mode (local items → server)
 
-Triggered by `--sync` or when `.can/roadmap.md` has `#local-*` IDs and MCP is connected.
+Triggered by `--sync` or when `.sector137/roadmap.md` has `#local-*` IDs and MCP is connected.
 
 ```
 Found {N} unsynced items (#local-001 through #local-{n}).
@@ -127,7 +127,7 @@ Push to the system? (yes/no)
 
 For each `#local-*` item:
 1. `mcp__sector137__create_issue` with item data
-2. Update ID in `.can/roadmap.md`: `#local-{n}` → `#server-{uuid}`
+2. Update ID in `.sector137/roadmap.md`: `#local-{n}` → `#server-{uuid}`
 3. Set `syncedAt` in frontmatter
 
 Confirm:
@@ -135,7 +135,7 @@ Confirm:
 Synced {N} items. The system is calibrated.
 | Local ID   | Server ID       | Title |
 | #local-001 | #server-abc123  | Dark mode toggle |
-.can/roadmap.md updated.
+.sector137/roadmap.md updated.
 ```
 
 ---

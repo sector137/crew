@@ -1,18 +1,26 @@
 {
-  "description": "Hook definitions for the sector137 plugin. Paths use ~ for portability.",
+  "description": "Hook definitions for the sector137 plugin. Commands resolve against ${CLAUDE_PLUGIN_ROOT} so they work from the plugin cache without symlinks. Hooks that bind to a specific external CLI (rtk-rewrite.sh, gemini-qa-on-todo-complete.sh) ship in hooks/ but are left unwired here — enable them yourself if you use those tools.",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check-plugin-update.sh",
+            "timeout": 10,
+            "description": "Notify once/day when this plugin install is behind its marketplace"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/rtk-rewrite.sh",
-            "description": "Rewrites bash commands through RTK for token savings"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/pre-commit-quality-gate.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/pre-commit-quality-gate.sh",
             "description": "Runs quality gates before git commits"
           }
         ]
@@ -20,21 +28,11 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "TodoWrite",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/gemini-qa-on-todo-complete.sh",
-            "description": "Triggers Gemini QA review when code-related TODOs are completed"
-          }
-        ]
-      },
-      {
         "matcher": "Write",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/ui-change-tracker.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/ui-change-tracker.sh",
             "description": "Tracks UI file changes for design review"
           }
         ]
@@ -44,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/ui-change-tracker.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/ui-change-tracker.sh",
             "description": "Tracks UI file changes for design review"
           }
         ]
@@ -55,7 +53,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/session-stop-summary.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/session-stop-summary.sh",
             "description": "Generates session summary on stop"
           }
         ]

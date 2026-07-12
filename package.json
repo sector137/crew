@@ -1,11 +1,13 @@
 {
   "name": "@sector137/agent-system",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Sal's Crew — margot, kael, wren, harlan, mira, sal. Namespaced under /sector137: via the sector137 plugin.",
   "main": ".claude-plugin/plugin.json",
   "license": "MIT",
   "scripts": {
     "install:global": "bash scripts/install.sh",
-    "lint:style": "bash scripts/style-lint.sh"
+    "lint:style": "bash scripts/style-lint.sh",
+    "lint:version": "bash scripts/version-check.sh",
+    "lint": "bun run lint:version && bun run lint:style"
   }
 }

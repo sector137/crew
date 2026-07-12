@@ -59,10 +59,10 @@ Confirm: `Logged. **[title]**: open (#[id]). It's in the system now.`
 
 ## Local Mode
 
-Append to `.can/roadmap.md` under the Backlog section.
+Append to `.sector137/roadmap.md` under the Backlog section.
 See `../../references/roadmap-schema.md` for format.
 
-If `.can/roadmap.md` doesn't exist, create it with the full template from the schema.
+If `.sector137/roadmap.md` doesn't exist, create it with the full template from the schema.
 
 Confirm: `Saved locally. [title] → backlog #local-N. Run /sector137:init to sync when the signal's back.`
 

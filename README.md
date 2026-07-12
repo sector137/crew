@@ -8,8 +8,8 @@ features, bugs, and chores from intake to shipped, with review gates along the
 way. Every workflow is a `/sector137:` command.
 
 It pairs with the hosted **sector137 MCP server** — the crew drives the pipeline
-through it when connected, and falls back to a local `.can/roadmap.md` when
-offline.
+through it when connected, and falls back to a local `.sector137/roadmap.md`
+when offline.
 
 ## Install
 
@@ -20,7 +20,7 @@ offline.
 
 The plugin bundles a `.mcp.json` pointing at `https://sector137.io/mcp`; Claude
 Code offers to connect on first use (OAuth). Offline, everything except
-`/sector137:prototype` works against a local `.can/roadmap.md`.
+`/sector137:prototype` works against a local `.sector137/roadmap.md`.
 
 ## The pipeline — `/sector137:` skills
 
@@ -98,12 +98,18 @@ accuracy). See [`evals/README.md`](evals/README.md).
 - Claude Code with plugin support.
 - For the full pipeline: a `sector137` account / MCP connection (invite-only
   preview at [sector137.io](https://sector137.io)). Works offline against
-  `.can/roadmap.md` without it.
+  `.sector137/roadmap.md` without it.
 
 ## Development
 
 `scripts/install.sh` symlinks the agents and registers the plugin from a local
 clone — for hacking on the crew. For normal use, install from the marketplace.
+
+Cutting a release: follow [`shared/releasing.md`](shared/releasing.md). In short,
+sync the version across `plugin.json`, `marketplace.json`, and `package.json`
+(`bun run lint:version`), move `CHANGELOG.md`'s `[Unreleased]` section under the new
+version, then tag with `claude plugin tag --push`. Consumers update via
+`/sector137:update`, which reads that changelog to show what changed.
 
 ## License
 

@@ -31,7 +31,7 @@ If MCP unavailable, note it and continue — I can still read the codebase.
 
 1. **Understand the question** from `$ARGUMENTS`. Identify what kind of answer is needed:
    - **Codebase question** → read relevant source files
-   - **Roadmap question** → query MCP or read `.can/roadmap.md`
+   - **Roadmap question** → query MCP or read `.sector137/roadmap.md`
    - **Architecture question** → read `CLAUDE.md`, relevant source files
    - **Process question** → answer from context, no file reads needed
 

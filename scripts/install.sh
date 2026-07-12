@@ -251,36 +251,29 @@ MARKETPLACE_EOF
 fi
 
 # --- Hooks ---
-# Symlink version-controlled hook scripts to ~/.claude/hooks/
-# This ensures hooks survive machine wipes and are version-controlled.
+# Hooks are auto-discovered from the plugin's own hooks/hooks.json (commands
+# resolve against ${CLAUDE_PLUGIN_ROOT}), so no symlinking is needed. Clean up
+# any symlinks a previous install created under ~/.claude/hooks/, but only ones
+# that point back into this repo — never touch the user's own hook files.
 
 HOOKS_SRC="$PACKAGE_DIR/hooks"
 HOOKS_DIR="$CLAUDE_DIR/hooks"
-mkdir -p "$HOOKS_DIR"
 
-if [ -d "$HOOKS_SRC" ]; then
-  for hook in "$HOOKS_SRC"/*.sh; do
-    [ -f "$hook" ] || continue
-    HOOK_NAME="$(basename "$hook")"
-    LINK="$HOOKS_DIR/$HOOK_NAME"
-    rm -f "$LINK"
-    ln -s "$hook" "$LINK"
-    chmod +x "$hook"
-    echo "  ~/.claude/hooks/$HOOK_NAME → $hook"
+if [ -d "$HOOKS_DIR" ]; then
+  for link in "$HOOKS_DIR"/*.sh "$HOOKS_DIR/hooks.json"; do
+    [ -L "$link" ] || continue
+    target="$(readlink "$link")"
+    case "$target" in
+      "$HOOKS_SRC/"*) rm -f "$link"; echo "  removed stale hook symlink: $link" ;;
+    esac
   done
-  # Also sync hooks.json if present
-  if [ -f "$HOOKS_SRC/hooks.json" ]; then
-    rm -f "$HOOKS_DIR/hooks.json"
-    ln -s "$HOOKS_SRC/hooks.json" "$HOOKS_DIR/hooks.json"
-    echo "  ~/.claude/hooks/hooks.json → $HOOKS_SRC/hooks.json"
-  fi
 fi
 
 echo ""
 echo "✓ @sector137/agent-system installed"
 echo "  Agents: 5 (design-wren, engineering-kael, product-margot, sales-harlan, hr-mira)"
 echo "  Plugin: sector137@local (via local marketplace)"
-echo "  Skills: 8 namespaced under /sector137: (crew + sal + visual-prompt + version)"
-echo "  Invoke: /sector137:wren | /sector137:kael | /sector137:margot | /sector137:harlan | /sector137:mira | /sector137:sal | /sector137:visual-prompt | /sector137:version"
+echo "  Hooks: auto-discovered from the plugin (no ~/.claude/hooks symlinks)"
+echo "  Invoke: /sector137:sal | /sector137:wren | /sector137:kael | /sector137:margot | /sector137:harlan | /sector137:mira"
 echo ""
 echo "  Restart Claude Code to activate."

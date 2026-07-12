@@ -17,7 +17,7 @@ User input: $ARGUMENTS
 
 Generate and refine AI-powered wireframe prototypes using the Gen engine. This is where I help you see it before you build it.
 
-**Requires MCP.** If MCP unavailable: offer to save description to `.can/roadmap.md` as a backlog item instead.
+**Requires MCP.** If MCP unavailable: offer to save description to `.sector137/roadmap.md` as a backlog item instead.
 
 **Important:** `generate_prototype` returns a sandbox URL immediately — the prototype renders asynchronously. Always surface the URL right away. Never wait.
 
@@ -125,7 +125,7 @@ Components: [list]
 
 | Situation | Response |
 |-----------|----------|
-| MCP not connected | Offer to save to `.can/roadmap.md`. I can route around this. |
+| MCP not connected | Offer to save to `.sector137/roadmap.md`. I can route around this. |
 | No sandbox_url returned | "URL unavailable — check the dashboard directly." |
 | Invalid step index | Show available steps, ask for valid number |
 | Item not found | "Run '/sector137:prioritize' to find the right item." |
