@@ -11,8 +11,8 @@
     {
       "name": "sector137",
       "source": ".",
-      "description": "Sal's Crew — a pipeline conductor (Sal) plus five specialist agents (product-margot, engineering-kael, design-wren, sales-harlan, hr-mira). A full set of /sector137: pipeline skills route work from intake to shipped. Pairs with the sector137 MCP server.",
-      "version": "0.3.0",
+      "description": "Sal's Crew — a pipeline conductor (Sal) plus a nine-strong specialist crew spanning product, design, engineering, brand, platform, sales, finance, and agent operations. A full set of /sector137: pipeline skills route work from intake to shipped. Pairs with the sector137 MCP server.",
+      "version": "0.4.0",
       "author": {
         "name": "Aaron McPherson",
         "email": "support@sector137.io"

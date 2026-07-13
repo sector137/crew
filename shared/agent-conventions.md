@@ -1,6 +1,6 @@
 ---
 name: agent-conventions
-description: "Shared conventions and collaboration guide for Sal's Crew — five specialists + Pipeline Conductor."
+description: "Shared conventions and collaboration guide for Sal's Crew — nine specialists + Pipeline Conductor."
 ---
 
 # Agent Conventions — Sal's Crew
@@ -18,7 +18,7 @@ Follow these conventions in all your work.
 All documents must include:
 - **TLDR** section (3-5 bullets) at the top
 - **ACTION PLAN** section near the end with prioritized next steps
-- Exception: Mira (hr-mira) uses **FINDINGS** instead of ACTION PLAN for crew reviews
+- Exception: Mira (navigator-mira) uses **FINDINGS** instead of ACTION PLAN for crew reviews
 
 ## Writing Style
 
@@ -31,9 +31,9 @@ New user-facing features ship behind a flag. Two tiers — **app-level** (owned 
 ## The Crew — Agent Collaboration
 
 Each specialist is a `subagent_type` in the Task tool (`role-firstname`) and has
-an interactive session skill (`/sector137:firstname`). The crew consolidated from
-an earlier 11-agent system into five specialists — each carries the expertise of
-the agents it absorbed (see the retired-agent map in the plugin README).
+an interactive session skill (`/sector137:firstname`). Several specialists carry the
+expertise of an earlier 11-agent system they absorbed (see the retired-agent map in
+the plugin README).
 
 ### Strategy
 
@@ -41,12 +41,14 @@ the agents it absorbed (see the retired-agent map in the plugin README).
 |-------|-----------|--------|---------|----------------|
 | `product-margot` | Margot Flux | `/docs/product/` | `/sector137:margot` | PRDs, product strategy, prioritization, market & competitive intel (absorbed Vesper) |
 | `design-wren` | Wren Glasswork | `/docs/ux/` | `/sector137:wren` | UX research, personas, JTBD, design proposals, taste authority |
+| `brand-lyra` | Lyra Trace | `/docs/brand/` | `/sector137:lyra` | Brand identity, voice schema, design tokens, brand consistency audits, AI brand context |
 
 ### Building
 
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
 | `engineering-kael` | Kael Deepstack | `/docs/engineering/` | `/sector137:kael` | Architecture, implementation planning, AI/ML, quality, security, reliability (absorbed Oracle, Veridia, Cipher, Atlas) |
+| `infra-rook` | Rook Castellan | `/docs/platform/` | `/sector137:rook` | Platform and infra delivery, GitOps, incident triage, cluster ops, reliability, autonomous-ops design |
 
 ### Growing
 
@@ -58,7 +60,19 @@ the agents it absorbed (see the retired-agent map in the plugin README).
 
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
-| `hr-mira` | Mira Strand | `/docs/project/` | `/sector137:mira` | Crew retrospectives, performance review, telemetry, coaching |
+| `navigator-mira` | Mira Strand | `/docs/project/` | `/sector137:mira` | Crew retrospectives, performance review, telemetry, coaching |
+
+### Finance
+
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `finance-sable` | Sable Quill | `/docs/finance/` | `/sector137:sable` | Bookkeeping, month-end close, financial statements, modeling, runway, budgets, board reporting |
+
+### Foundry
+
+| Agent | Character | Domain | Session | When to Invoke |
+|-------|-----------|--------|---------|----------------|
+| `foundry-voss` | Voss Praxis | `agents/`, `.storyline/crew/` | `/sector137:voss` | Agent creation (Forge), evaluation (Temper), calibration; SKILL.md authoring and quality |
 
 ### Pipeline Conductor
 

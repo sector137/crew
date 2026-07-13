@@ -3,7 +3,7 @@
 > The record of what was shipped — and the crew that ships it.
 
 **Sal's Crew** is a Claude Code plugin. It gives your editor a delivery pipeline: a
-conductor (Software Sal) plus five specialist agents that route features, bugs, and
+conductor (Software Sal) plus nine specialist agents that route features, bugs, and
 chores from intake to shipped, with review gates along the way. Every workflow is a
 `/sector137:` command.
 
@@ -103,7 +103,7 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 
 ## The crew — agents & sessions
 
-Five specialists. Each is a **subagent** (delegate to it via the Task tool or
+Nine specialists. Each is a **subagent** (delegate to it via the Task tool or
 `@agent-…`) *and* has an **interactive session skill**:
 
 | Agent | Session | Role |
@@ -111,8 +111,12 @@ Five specialists. Each is a **subagent** (delegate to it via the Task tool or
 | `product-margot` | `/sector137:margot` | Product — strategy, PRDs, market intel |
 | `engineering-kael` | `/sector137:kael` | Engineering — architecture, quality, security, reliability |
 | `design-wren` | `/sector137:wren` | Experience — UX research, design, taste authority |
+| `brand-lyra` | `/sector137:lyra` | Brand — identity, voice, design tokens |
+| `infra-rook` | `/sector137:rook` | Platform — infra, GitOps, incident triage, reliability |
 | `sales-harlan` | `/sector137:harlan` | Customer — sales, GTM, positioning, accounts |
-| `hr-mira` | `/sector137:mira` | Crew coach — retrospectives, telemetry, coaching |
+| `finance-sable` | `/sector137:sable` | Finance — bookkeeping, CFO modeling, runway |
+| `foundry-voss` | `/sector137:voss` | Foundry — agent creation, evaluation, calibration |
+| `navigator-mira` | `/sector137:mira` | Navigator + coach — cross-project awareness, retrospectives |
 
 Plus `/sector137:visual-prompt` for on-brand image-generation prompts.
 
@@ -132,7 +136,7 @@ crew/
 ├── .claude-plugin/{plugin.json, marketplace.json}
 ├── .mcp.json                 # hosted sector137 MCP pairing
 ├── skills/                   # every /sector137: command (pipeline + persona + utility)
-├── agents/                   # the 5 specialist subagents
+├── agents/                   # the 9 specialist subagents
 ├── references/               # pipeline knowledge base (MCP tools, modes, schema, docs links)
 ├── shared/                   # crew conventions, doc structure, templates, workflows
 ├── hooks/                    # quality-gate + design-review + session hooks

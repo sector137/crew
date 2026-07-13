@@ -21,7 +21,7 @@ Discovery → Definition → Design → Development → Testing → Deployment �
 | **Development** | engineering-kael, Sal (`build`) | Implementation plan, code, tests, security audit | Gate 4: Development → Testing |
 | **Testing** | Sal (`test`), engineering-kael | Test execution reports, coverage reports, security verification | Gate 5: Testing → Deployment |
 | **Deployment** | Sal (`release`/`ship`) | Release, deployment verification, monitoring | Gate 6: Deployment → Production |
-| **Operations** | product-margot, hr-mira | Health reports, user feedback, performance metrics, retrospective | Gate 7: Production → Iteration |
+| **Operations** | product-margot, navigator-mira | Health reports, user feedback, performance metrics, retrospective | Gate 7: Production → Iteration |
 
 ## Phase Details
 
@@ -65,7 +65,7 @@ Discovery → Definition → Design → Development → Testing → Deployment �
 **Objective:** Validate launch success and plan next iteration.
 - product-margot: success metrics tracking, user feedback
 - sales-harlan: voice-of-customer signal from the field
-- hr-mira: retrospective, crew performance review, lessons learned
+- navigator-mira: retrospective, crew performance review, lessons learned
 - Output to: `/docs/project/retrospectives/`
 
 ## Workflow Orchestration

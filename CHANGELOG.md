@@ -5,7 +5,19 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] — The full crew
+
 ### Added
+- **Four more specialists — the crew reaches nine.** `brand-lyra` (`/sector137:lyra`,
+  brand identity and voice), `infra-rook` (`/sector137:rook`, platform, GitOps, and
+  incident triage), `finance-sable` (`/sector137:sable`, bookkeeping and CFO modeling),
+  and `foundry-voss` (`/sector137:voss`, agent creation and calibration) join product,
+  design, engineering, and sales. Each ships as a subagent plus an interactive session
+  skill and a `.storyline/crew/` profile, matching the existing crew's shape.
+- **`navigator-mira` replaces `hr-mira`.** Mira grows from Crew Coach to Navigator and
+  Crew Coach — cross-project situational awareness and risk surfacing on top of the
+  retrospective, telemetry, and coaching work. Her `/sector137:mira` session and
+  `.storyline/crew/mira.md` profile move with her.
 - **MCP contract test + tool snapshot.** `tests/mcp-contract.ts` (`bun run test:mcp`)
   speaks Streamable HTTP JSON-RPC to the live server, diffs its tools against
   `tests/snapshots/mcp-tools.snapshot.json`, and — even with no key — verifies that

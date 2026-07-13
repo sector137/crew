@@ -459,7 +459,7 @@
       { "agent": "design-wren",     "character": "Wren Glasswork",  "read": ["/docs/*"], "write": ["/docs/ux/*"] },
       { "agent": "engineering-kael","character": "Kael Deepstack",  "read": ["/docs/*"], "write": ["/docs/engineering/*", "/docs/ai/*", "/docs/testing/*", "/docs/security/*", "/docs/reliability/*"] },
       { "agent": "sales-harlan",    "character": "Harlan Closer",   "read": ["/docs/*"], "write": ["/docs/sales/*", "/docs/gtm/*"] },
-      { "agent": "hr-mira",         "character": "Mira Strand",     "read": ["/docs/*"], "write": ["/docs/project/retrospectives/*", "/docs/project/coaching/*"] },
+      { "agent": "navigator-mira",         "character": "Mira Strand",     "read": ["/docs/*"], "write": ["/docs/project/retrospectives/*", "/docs/project/coaching/*"] },
       { "agent": "sal",             "character": "Software Sal",    "read": ["/docs/*"], "write": ["/docs/project/*", "/docs/workflows/*", "/docs/executive/*"] }
     ]
   },
