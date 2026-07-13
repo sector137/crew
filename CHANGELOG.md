@@ -18,6 +18,10 @@ This project follows [semantic versioning](https://semver.org/).
   Crew Coach — cross-project situational awareness and risk surfacing on top of the
   retrospective, telemetry, and coaching work. Her `/sector137:mira` session and
   `.storyline/crew/mira.md` profile move with her.
+- **`/sector137:decompose` skill.** Break a big issue into sub-issues, batch-create
+  them under the parent, and work them one at a time — it proposes the breakdown for
+  approval and never closes the parent for you. `references/mcp-tools.md` grows to
+  document the board and tag tools.
 - **MCP contract test + tool snapshot.** `tests/mcp-contract.ts` (`bun run test:mcp`)
   speaks Streamable HTTP JSON-RPC to the live server, diffs its tools against
   `tests/snapshots/mcp-tools.snapshot.json`, and — even with no key — verifies that

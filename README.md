@@ -83,6 +83,7 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 | **Intake & plan** | `/sector137:add` | Quick-capture an issue; infers title, priority, category |
 | | `/sector137:prioritize` | Kanban view, triage, scope into the release, audit |
 | | `/sector137:plan` | Read the spec, explore code, produce an implementation plan |
+| | `/sector137:decompose` | Break a big issue into sub-issues under the parent; work them one at a time |
 | **Build & verify** | `/sector137:build` | Implement TDD-first; sub-tasks; human confirmation gate |
 | | `/sector137:test` | Run the suite — unit / e2e / types / sdk / changed |
 | | `/sector137:review` | Performance/quality pass; fixes issues directly |

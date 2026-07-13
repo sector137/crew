@@ -100,9 +100,6 @@ release always exists (it is the running "next"). You scope issues onto it, then
 | Tool | Purpose | Key parameters |
 |------|---------|----------------|
 | `get_product_tags` | List existing tags (assign real tagIds, don't invent) | `productId` |
-| `create_tag` | Create a tag under the key's product | `label` (req), `color` |
-| `update_tag` | Rename or recolor a tag | `tagId` (req), `label`, `color` |
-| `delete_tag` | Delete a tag (removes it from all issues) | `tagId` (req) |
 
 ## Boards — parallel work tracks
 
@@ -112,9 +109,7 @@ release always exists (it is the running "next"). You scope issues onto it, then
 | `create_board` | New board (not "Intake") | `universeId` (req), `name` (req), `description`, `viewMode` |
 | `update_board` | Rename / archive / reorder | `boardId` (req), `name`, `status`, `position`, `viewMode` |
 | `delete_board` | Delete a board (clears issues' `boardId`) | `boardId` (req) |
-| `list_board_labels` | A board's label vocabulary (resolve `labelIds`) | `boardId` (req) |
 | `create_board_label` | Add a label to a board | `boardId` (req), `name` (req), `color` |
-| `update_board_label` | Rename or recolor a board label | `boardId` (req), `labelId` (req), `name`, `color` |
 | `delete_board_label` | Remove a board label | `boardId` (req), `labelId` (req) |
 
 ## Data Model
