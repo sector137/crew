@@ -194,7 +194,7 @@ except: pass
   "plugins": [
     {
       "name": "sector137",
-      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /sector137:",
+      "description": "Sal's Crew — a Claude Code plugin. All crew agents namespaced under /sector137:",
       "author": {
         "name": "sector137"
       },
@@ -216,7 +216,7 @@ MARKETPLACE_EOF
   "plugins": [
     {
       "name": "sector137",
-      "description": "Sal's Crew — personal agent system. All crew agents namespaced under /sector137:",
+      "description": "Sal's Crew — a Claude Code plugin. All crew agents namespaced under /sector137:",
       "author": {
         "name": "sector137"
       },

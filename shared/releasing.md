@@ -34,6 +34,30 @@ Gate on prose:
 bun run lint:style
 ```
 
+Gate on docs links (needs network for the liveness check):
+
+```
+bun run lint:links
+```
+
+Gate on the MCP contract. Without a key this still checks skill and doc tool references against the checked-in snapshot; with a key it also diffs the live server. A snapshot diff means either the server changed (reseed deliberately with `bun run test:mcp:update`) or a skill/doc drifted (fix it):
+
+```
+SECTOR137_API_KEY=YOUR_KEY bun run test:mcp
+```
+
+Run the behavioural evals (advisory until the suite has a stable green run behind it). Needs an OpenRouter key:
+
+```
+OPENROUTER_API_KEY=YOUR_KEY bun run evals
+```
+
+The whole gate set also runs as one:
+
+```
+bun run lint
+```
+
 Now edit four files by hand to the new version:
 
 - `.claude-plugin/plugin.json`: set `version`

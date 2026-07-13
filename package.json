@@ -8,6 +8,12 @@
     "install:global": "bash scripts/install.sh",
     "lint:style": "bash scripts/style-lint.sh",
     "lint:version": "bash scripts/version-check.sh",
-    "lint": "bun run lint:version && bun run lint:style"
+    "lint:links": "bash scripts/link-check.sh",
+    "lint:plugin": "command -v claude >/dev/null 2>&1 && claude plugin validate . --strict || echo 'lint:plugin: claude CLI not found — skipped'",
+    "lint": "bun run lint:version && bun run lint:style && bun run lint:links && bun run lint:plugin",
+    "test:mcp": "bun tests/mcp-contract.ts",
+    "test:mcp:update": "bun tests/mcp-contract.ts --update",
+    "evals": "bun evals/runner/run.ts",
+    "evals:offline": "bun evals/runner/run.ts --mode offline"
   }
 }

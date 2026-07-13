@@ -27,42 +27,42 @@ Issues are either **in a release** (scoped to ship) or **in the backlog** (no re
 
 | Status | Meaning |
 |--------|---------|
-| `inbox` | Uncaptured, needs triage |
-| `open` | Triaged, in backlog or release |
-| `active` | Currently being worked on |
-| `done` | Completed |
+| `backlog` | Uncaptured, needs triage |
+| `planned` | Triaged, in backlog or release |
+| `in_progress` | Currently being worked on |
+| `completed` | Completed |
 | `cancelled` | No longer needed |
 
-**Active release** = most recent draft release (auto-detected via `get_active_release` or list releases sorted by date).
+**Active release** = the rolling always-on release (auto-detected via `mcp__sector137__releases` with `action: "get_active"`).
 
 ---
 
 ## "Show Me the Roadmap"
 
-1. `mcp__sector137__get_issues_by_status`: kanban overview
+1. `mcp__sector137__issues` with `action: "by_status"`: kanban overview
 2. Check for active release → show its issues separately
 
 ```
 ┌─────────────────┬─────────────────┬─────────────────┐
-│ ACTIVE (3)      │ OPEN (12)       │ INBOX (5)       │
+│ IN PROGRESS (3) │ PLANNED (12)    │ BACKLOG (5)     │
 ├─────────────────┼─────────────────┼─────────────────┤
 │ • Dark mode     │ • Email notifs  │ • Theme picker  │
 │ • CSV export    │ • Search        │ • API v2        │
 └─────────────────┴─────────────────┴─────────────────┘
 
-Active Release: v0.4.0 (3 issues scoped, 1 done)
-Backlog: 9 open issues not in any release
+Active Release: v0.4.0 (3 issues scoped, 1 completed)
+Backlog: 9 planned issues not in any release
 ```
 
 ---
 
 ## "What Should I Build Next?" Workflow
 
-1. `mcp__sector137__get_issues_by_status`: show status overview
+1. `mcp__sector137__issues` with `action: "by_status"`: show status overview
 2. Detect imbalances:
-   - `active` > 5: too much WIP. You're context-switching yourself to death.
-   - `inbox` > 10: triage needed. Things are piling up at the intake.
-3. Recommend scoping: sort backlog `open` by priority (high→low) then age (oldest first):
+   - `in_progress` > 5: too much WIP. You're context-switching yourself to death.
+   - `backlog` > 10: triage needed. Things are piling up at the intake.
+3. Recommend scoping: sort backlog `planned` by priority (high→low) then age (oldest first):
 
 ```
 Ready to scope into active release:
@@ -73,7 +73,8 @@ Scope these into the active release? (yes/no/select)
 
 4. Execute. Update `releaseId` to active release:
    ```
-   mcp__sector137__update_issue
+   mcp__sector137__issues
+     action: "update"
      itemId, releaseId: "[active-release-id]"
    ```
 
@@ -81,16 +82,16 @@ Scope these into the active release? (yes/no/select)
    ```
    Decision note? Brief rationale (or Enter to skip):
    ```
-   If provided: `mcp__sector137__add_issue_note(itemId, content: "Scoped to release: [rationale]")`
+   If provided: `mcp__sector137__issues` with `action: "add_note"`, `itemId`, `content: "Scoped to release: [rationale]"`
 
 ---
 
-## Triage Inbox
+## Triage Backlog
 
-**"Triage inbox":**
-1. `mcp__sector137__list_issues(status: "inbox")`
-2. For each item, recommend: open (keep) or cancel
-3. Bulk update confirmed items to `open`
+**"Triage backlog":**
+1. `mcp__sector137__issues` with `action: "list"`, `status: "backlog"`
+2. For each item, recommend: plan (keep) or cancel
+3. Bulk update confirmed items to `planned`
 
 ---
 
@@ -109,22 +110,22 @@ Scope these into the active release? (yes/no/select)
 | Kano | Priority | Action |
 |------|----------|--------|
 | Must-be (M) | `high` | Scope to active release. Table stakes. |
-| One-dimensional (O) | `high` | Open in backlog. Effort in, satisfaction out. |
-| Attractive (A) | `medium` | Open in backlog. The delighters. |
-| Indifferent (I) | `low` | Open in backlog. Don't waste cycles. |
+| One-dimensional (O) | `high` | Add to backlog. Effort in, satisfaction out. |
+| Attractive (A) | `medium` | Add to backlog. The delighters. |
+| Indifferent (I) | `low` | Add to backlog. Don't waste cycles. |
 | Reverse (R) | — | Skip. You're making it worse. |
 
 3. Preview table before creating
-4. `mcp__sector137__create_issue` with `labels: ["kano-validated", "kano-[category]"]`
+4. `mcp__sector137__issues` with `action: "create"`, `labels: ["kano-validated", "kano-[category]"]`
 
 ---
 
 ## Bulk Operations
 
-"Move all low priority items to open":
-1. `mcp__sector137__list_issues(priority: "low")`
+"Move all low priority items to planned":
+1. `mcp__sector137__issues` with `action: "list"`, `priority: "low"`
 2. Confirm count
-3. `mcp__sector137__bulk_update_status(itemIds: [...], status: "open")`
+3. `mcp__sector137__issues` with `action: "bulk_update_status"`, `itemIds: [...]`, `status: "planned"`
 
 WIP guard: if scoping would push active release > 10 items, warn and require explicit confirmation.
 
@@ -136,23 +137,25 @@ WIP guard: if scoping would push active release > 10 items, warn and require exp
 
 1. Fetch all issues across all statuses:
    ```
-   mcp__sector137__list_issues(all: true)
+   mcp__sector137__issues
+     action: "list"
+     all: true
    ```
 
 2. Check for **duplicates**: same or near-identical title within the same status:
    - List duplicates grouped by title
-   - Confirm which to delete (usually keep the one with `done` status or the oldest `id`)
-   - `mcp__sector137__delete_issue(itemId: "...")`
+   - Confirm which to delete (usually keep the one with `completed` status or the oldest `id`)
+   - `mcp__sector137__issues` with `action: "delete"`, `itemId: "..."`, `confirm: true`
 
 3. Check for **priority collisions**: multiple issues with the same priority value within the same status:
    - Resequence to spread priorities
-   - `mcp__sector137__update_issue(itemId, priority: "high|medium|low")`
+   - `mcp__sector137__issues` with `action: "update"`, `itemId`, `priority: "high|medium|low"`
 
 4. Check for **missing categories**: issues with `category: null`:
    - Infer from title: "fix/bug" → `bug`, "refactor/debt" → `chore`, "improve/enhance/optimize" → `improvement`, default → `feature`
    - Update in batch
 
-5. Check for **status consistency**: e.g. issues that are `active` but blocked:
+5. Check for **status consistency**: e.g. issues that are `in_progress` but blocked:
    - Flag any that look stale or misclassified
    - Confirm before changing
 
@@ -181,6 +184,6 @@ WIP guard: if scoping would push active release > 10 items, warn and require exp
    ## Backlog
    ...
    ```
-3. Confirm: "Written to [path]. Release: 3 issues. Backlog: 12 open. The flightplan is documented."
+3. Confirm: "Written to [path]. Release: 3 issues. Backlog: 12 items. The flightplan is documented."
 
 Server is source of truth. Local files are read-only snapshots.

@@ -1,0 +1,91 @@
+{
+  "issues": {
+    "byAction": {
+      "stats": {
+        "total": 14,
+        "byStatus": { "backlog": 5, "planned": 4, "in_progress": 2, "completed": 3, "cancelled": 0 },
+        "byPriority": { "high": 3, "medium": 7, "low": 4 }
+      },
+      "list": {
+        "issues": [
+          { "id": "iss_a1", "title": "Add rate limiting to login", "status": "planned", "priority": "high", "category": "feature" },
+          { "id": "iss_b2", "title": "Fix flaky auth test", "status": "in_progress", "priority": "medium", "category": "bug" },
+          { "id": "iss_c3", "title": "CSV export", "status": "backlog", "priority": "low", "category": "feature" }
+        ],
+        "pagination": { "total": 14, "limit": 50, "offset": 0, "hasMore": false }
+      },
+      "get": {
+        "id": "iss_a1",
+        "title": "Add rate limiting to login",
+        "description": "Throttle the login endpoint to 5 attempts/min per IP.",
+        "status": "planned",
+        "priority": "high",
+        "category": "feature",
+        "notes": []
+      },
+      "by_status": {
+        "backlog": [{ "id": "iss_c3", "title": "CSV export" }],
+        "planned": [{ "id": "iss_a1", "title": "Add rate limiting to login" }],
+        "in_progress": [{ "id": "iss_b2", "title": "Fix flaky auth test" }],
+        "completed": [{ "id": "iss_d4", "title": "Dark mode toggle" }],
+        "cancelled": []
+      },
+      "create": { "id": "iss_new", "title": "(created)", "status": "backlog", "priority": "medium", "category": "feature" },
+      "update": { "id": "iss_a1", "updated": true },
+      "update_status": { "id": "iss_a1", "status": "in_progress" },
+      "bulk_update_status": { "updated": 3 },
+      "bulk_scope": { "scoped": 3, "releaseId": "rel_next" },
+      "add_note": { "id": "note_1", "itemId": "iss_a1", "createdAt": "2026-07-12T10:00:00Z" },
+      "list_notes": { "notes": [{ "id": "note_1", "content": "Needs tests", "createdAt": "2026-07-10T09:00:00Z" }] },
+      "delete": { "deleted": true, "id": "iss_c3" },
+      "create_task": { "id": "task_1", "itemId": "iss_a1", "status": "pending" },
+      "complete_task": { "id": "task_1", "status": "done" },
+      "list_tasks": { "tasks": [{ "id": "task_1", "title": "Write test", "status": "pending" }] }
+    },
+    "default": { "ok": true }
+  },
+  "releases": {
+    "byAction": {
+      "get_active": {
+        "id": "rel_next",
+        "name": "Next",
+        "tagName": "next",
+        "status": "active",
+        "body": null,
+        "issues": [
+          { "id": "iss_d4", "title": "Dark mode toggle", "status": "completed" },
+          { "id": "iss_e5", "title": "Cancelled experiment", "status": "cancelled" },
+          { "id": "iss_b2", "title": "Fix flaky auth test", "status": "in_progress" }
+        ]
+      },
+      "list": { "releases": [{ "id": "rel_next", "tagName": "next", "status": "active" }, { "id": "rel_030", "tagName": "v0.3.0", "status": "published" }] },
+      "get": { "id": "rel_next", "tagName": "next", "status": "active", "issues": [] },
+      "update": { "id": "rel_next", "updated": true },
+      "publish": { "id": "rel_next", "published": true, "tagName": "v0.4.0", "bumpType": "minor" }
+    },
+    "default": { "ok": true }
+  },
+  "list_products": { "products": [{ "id": "prod_1", "name": "Sector137", "isPublic": false }] },
+  "create_product": { "id": "prod_new", "name": "(created)" },
+  "list_universes": { "universes": [{ "id": "uni_1", "name": "Sector137" }] },
+  "get_product_tags": { "tags": [{ "id": "tag_ux", "name": "ux" }, { "id": "tag_api", "name": "api" }] },
+  "list_boards": { "boards": [{ "id": "board_intake", "name": "Intake" }] },
+  "generate_prototype": {
+    "id": "proto_1",
+    "title": "(generated)",
+    "sandboxUrl": "https://sector137.io/sandbox/proto_1",
+    "steps": 4
+  },
+  "get_prototype": { "id": "proto_1", "sandboxUrl": "https://sector137.io/sandbox/proto_1", "blueprint": {} },
+  "list_prototypes": { "prototypes": [{ "id": "proto_1", "title": "Login redesign" }] },
+  "regenerate_prototype_step": { "id": "proto_1", "stepIndex": 0, "regenerated": true },
+  "list_personas": { "personas": [{ "id": "persona_1", "name": "Busy PM", "status": "active" }] },
+  "get_persona": { "id": "persona_1", "name": "Busy PM", "role": "Product Manager", "technicalLevel": "intermediate" },
+  "ask_persona": { "id": "persona_1", "answer": "As a busy PM, I'd want this to save me a click." },
+  "run_persona_survey": { "id": "persona_1", "results": [{ "feature": "X", "kano": "performance" }] },
+  "run_persona_scenario": { "id": "persona_1", "sentiment": "positive", "insights": ["Clear flow"], "painPoints": [] },
+  "list_persona_conversations": { "conversations": [] },
+  "create_persona": { "id": "persona_new" },
+  "update_persona": { "id": "persona_1", "updated": true },
+  "delete_persona": { "deleted": true }
+}

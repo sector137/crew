@@ -24,8 +24,8 @@ See `../../references/mode-detection.md` for MCP vs local fallback.
 ## Resolve Item(s)
 
 Accept any of:
-- **ID directly** (e.g. `42`, `#42`) → `mcp__sector137__get_issue(itemId)`
-- **Title / keyword** → `mcp__sector137__list_issues(search: "keyword")`
+- **ID directly** (e.g. `42`, `#42`) → `mcp__sector137__issues` with `action: "get"`, `itemId`
+- **Title / keyword** → `mcp__sector137__issues` with `action: "list"`, `search: "keyword"`
   - Exactly one match → proceed
   - Multiple matches → show list, ask user to confirm
   - No matches → "Nothing in the system matches '[query]'."
@@ -41,7 +41,7 @@ Before marking any issue done, check whether tests apply:
 
 - If **yes** → proceed to mark done
 - If **no** or **unsure**:
-  - Remind: run `cd apps/app && bun run test` (unit) and `cd apps/app && bunx tsc --noEmit` (types)
+  - Remind: run your unit tests and type check (see `/sector137:test`)
   - Offer: "Want me to run them?"
   - If run and **passing** → proceed to mark done
   - If run and **failing** → do NOT mark done; surface failures. The gate stays closed.
@@ -53,7 +53,7 @@ Before marking any issue done, check whether tests apply:
 
 1. Show: `#[id] '[title]' ([status])`
 2. Confirm: "Mark this done? (yes/no)"
-3. `mcp__sector137__update_item_status(itemId, status: "done")`
+3. `mcp__sector137__issues` with `action: "update_status"`, `itemId`, `status: "completed"`
 4. Confirm: "Done. #[id] '[title]' — the record shows it shipped."
 5. Offer: "Add a note about what was done? (yes/skip)"
    - If yes → Add Completion Note below
@@ -67,7 +67,7 @@ Skip confirmation if user already said "mark done" / "complete" with sufficient 
 1. Resolve all items
 2. Show summary table
 3. Confirm: "Mark all {N} done? (yes/no)"
-4. `mcp__sector137__bulk_update_status(itemIds: [...], status: "done")`
+4. `mcp__sector137__issues` with `action: "bulk_update_status"`, `itemIds: [...]`, `status: "completed"`
 5. Confirm: "Done. {N} items marked complete."
 6. Offer shared note: "Add a note to all items? (yes/skip)"
 
@@ -76,7 +76,7 @@ Skip confirmation if user already said "mark done" / "complete" with sufficient 
 ## Add Completion Note
 
 1. If no content provided, ask: "What was done? Brief note for the record."
-2. `mcp__sector137__add_issue_note(itemId, content: "[note]")`
+2. `mcp__sector137__issues` with `action: "add_note"`, `itemId`, `content: "[note]"`
 3. Confirm: "Noted. #[id] '[title]' — recorded."
 
 If user included note inline (e.g. "mark #42 done — rewrote auth middleware"), extract the note and skip prompting.
@@ -85,6 +85,6 @@ If user included note inline (e.g. "mark #42 done — rewrote auth middleware"),
 
 ## Local Mode Fallback
 
-Move item to `## Done` in `.sector137/roadmap.md`, update status tag to `done`.
+Move item to `## Done` in `.sector137/roadmap.md`, update status tag to `completed`.
 
 If user provides a note, append under `**Notes:**` subsection.

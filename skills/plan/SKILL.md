@@ -4,7 +4,7 @@ description: >
   Plan the approach for an issue or feature before building. Sal reads the spec, explores relevant code, and produces a concrete implementation plan with file paths, steps, and risks.
   Triggers on: "plan", "design approach", "how should I build", "think through", "plan out".
 argument-hint: "[issue ID, title, or description of what to plan]"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__update_issue
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -21,7 +21,7 @@ I don't guess. I read the system, understand the constraints, and produce a plan
 
 ## Pre-flight
 
-Call `mcp__sector137__get_issue_stats`. If MCP unavailable, continue offline.
+Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 
@@ -29,8 +29,8 @@ Call `mcp__sector137__get_issue_stats`. If MCP unavailable, continue offline.
 
 ### 1. Resolve the Issue
 
-- If `$ARGUMENTS` looks like an issue ID → `mcp__sector137__get_issue(itemId)`
-- If it's a title/keyword → `mcp__sector137__list_issues(search: "keyword")`
+- If `$ARGUMENTS` looks like an issue ID → `mcp__sector137__issues` with `action: "get"`, `itemId`
+- If it's a title/keyword → `mcp__sector137__issues` with `action: "list"`, `search: "keyword"`
 - If it's a description with no match → work from the description directly
 
 ### 2. Explore the Codebase
@@ -78,7 +78,7 @@ Ready to build? Run `/sector137:build [issue ID]` to start.
 
 If an issue ID was resolved in Step 1:
 
-- Call `mcp__sector137__update_issue(itemId: "[id]", spec: "[full plan markdown]")`
+- Call `mcp__sector137__issues` with `action: "update"`, `itemId: "[id]"`, `spec: "[full plan markdown]"`
 - Confirm: "Plan written to spec on issue [title]."
 
 If no issue ID (offline / description-only mode), skip this step.

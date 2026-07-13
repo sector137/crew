@@ -2,7 +2,7 @@
 title: Context Bus
 status: aspirational
 last_updated: 2026-02-26
-summary: Aspirational design for structured crew communication — signal types, channels, Langfuse observability layer.
+summary: Aspirational design for structured crew communication — signal types, channels, the telemetry observability layer.
 depends_on: [crew/mira.md, crew/sal.md, tool-privileges.md, operations.md]
 tags: [aspirational, communication, infrastructure]
 ---
@@ -54,22 +54,22 @@ The crew doesn't broadcast to everyone. Respect means not wasting someone's atte
 | **Ship** | Sal, Kael, Harlan | Release readiness, deployment gates, customer communication |
 | **Quality** | Mira, Sal | Performance metrics, drift patterns, coaching signals |
 
-### Observability Layer — Langfuse
+### Observability Layer — Telemetry
 
-Langfuse is the primary observability layer for the context bus:
+The telemetry layer is the primary observability layer for the context bus:
 
 - **Traces**: Every agent invocation is a trace. The bus reads trace metadata to understand what happened.
 - **Spans**: Individual steps within a trace. Tool calls, LLM calls, retrieval operations.
 - **Scores**: Evaluation metrics attached to traces — quality scores, relevance scores.
 - **Sessions**: Grouped traces for a user session. The bus can correlate signals across a session.
 
-Mira reads Langfuse traces to:
+Mira reads telemetry traces to:
 - Detect quality drift across sessions
 - Identify tool call anomalies
 - Measure token efficiency trends
 - Surface patterns the crew can't see about themselves
 
-Sal reads Langfuse traces to:
+Sal reads telemetry traces to:
 - Monitor pipeline throughput
 - Track state transitions
 - Detect when agents are blocked or underperforming
@@ -94,7 +94,7 @@ Sal orchestrates the context bus. This is the part of his job he loves most — 
 |-----------|---------|--------|
 | Signal generation | Manual (file writes, Sal reads) | Automatic (structured signals from conversations) |
 | Cross-agent context | File-based (`/docs/` reads) | Bus-based (signal routing) |
-| Observability | Limited (output review) | Langfuse traces + scores |
+| Observability | Limited (output review) | Telemetry traces + scores |
 | Quality monitoring | Reactive (Mira reads on request) | Proactive (Mira watches continuously) |
 | Conflict detection | Manual (Sal notices) | Automatic (bus pattern matching) |
 

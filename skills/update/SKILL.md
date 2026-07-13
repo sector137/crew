@@ -29,8 +29,8 @@ That prints `name@marketplace version scope`. Look up the marketplace source:
 jq -r --arg m "MARKETPLACE_NAME" '.[$m].source.source' ~/.claude/plugins/known_marketplaces.json
 ```
 
-- **`github` or `git` → Marketplace mode.** Installed from a published marketplace.
-- **`directory` → Dev-checkout mode.** A local working copy; you are the update source.
+- **`github` or `git` → Marketplace mode.** Installed from a published marketplace. This is the consumer path.
+- **`directory` → Dev-checkout mode.** A local working copy; you are the update source. This is the maintainer path (developing the plugin from source) — a consumer install never lands here.
 
 If `${CLAUDE_PLUGIN_ROOT}` is empty or unmatched (running from a raw source tree, not an install), treat it as Dev-checkout mode against the current git repo.
 
@@ -40,11 +40,16 @@ Tell the user which mode and scope you detected.
 
 The installed version is the one from step 1. The available version depends on mode.
 
-**Marketplace mode:** read the refreshed clone.
+**Marketplace mode:** refresh the local marketplace clone first, then read it. Without the refresh you compare against a stale catalog and miss the update.
 
+```bash
+claude plugin marketplace update MARKETPLACE_NAME
+```
 ```bash
 jq -r '.plugins[] | select(.name=="sector137") | .version' "$(jq -r --arg m "MARKETPLACE_NAME" '.[$m].installLocation' ~/.claude/plugins/known_marketplaces.json)/.claude-plugin/marketplace.json"
 ```
+
+(The `/plugin marketplace update` slash command does the same refresh from the menu.)
 
 **Dev-checkout mode:** fetch, then read the incoming manifest.
 

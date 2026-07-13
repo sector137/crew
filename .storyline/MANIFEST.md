@@ -26,7 +26,7 @@ tags: [index, meta]
 | `operations.md` | Sal's 10 Rules, pipeline states (FLOWING/CONSTRAINED/DEGRADED/HALTED), WIP limits, human authority model | rules, pipeline, authority |
 | `the-human.md` | The captain's arc — Week 1 through Year 1 transformation, what only humans contribute | human, arc, transformation |
 | `research.md` | The Observatory — synthetic personas, Kano/Intel missions, Gen prototypes, research flow | research, observatory, kano |
-| `context-bus.md` | Aspirational design for crew communication — signal types, channels, Langfuse observability | aspirational, communication, infrastructure |
+| `context-bus.md` | Aspirational design for crew communication — signal types, channels, telemetry observability | aspirational, communication, infrastructure |
 | `tool-privileges.md` | Aspirational privilege matrix — who touches what, MCP tool access, file system access, escalation paths | aspirational, permissions, trust |
 | `crew/README.md` | Crew roster, org chart, alliance structures, core loop, how each agent relates to the human | crew, index, org |
 | `crew/sal.md` | Software Sal — personality spectrum, WIP philosophy, overseer role, relationships, backstory | character, sal, conductor |
@@ -34,7 +34,7 @@ tags: [index, meta]
 | `crew/kael.md` | Kael Deepstack — 5 engineering modes, Lloyd Christmas energy, absorbed 4 specialties, backstory | character, kael, engineering |
 | `crew/wren.md` | Wren Glasswork — taste authority, research authority, design principles mechanism, backstory | character, wren, design |
 | `crew/harlan.md` | Harlan Closer — 4 customer modes, transporter ability, absorbed Nova's GTM, backstory | character, harlan, customer |
-| `crew/mira.md` | Mira Strand — behind-the-scenes crew coach, Langfuse telemetry reader, quality drift detection | character, mira, coaching |
+| `crew/mira.md` | Mira Strand — behind-the-scenes crew coach, telemetry reader, quality drift detection | character, mira, coaching |
 
 ---
 

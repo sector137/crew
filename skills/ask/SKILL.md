@@ -18,11 +18,13 @@ User input: $ARGUMENTS
 
 I know this system. Ask me anything.
 
+If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+
 ---
 
 ## Pre-flight
 
-Call `mcp__sector137__get_issue_stats` to check system state. Store counts.
+Call `mcp__sector137__issues` with `action: "stats"` to check system state. Store counts.
 If MCP unavailable, note it and continue — I can still read the codebase.
 
 ---
@@ -37,7 +39,7 @@ If MCP unavailable, note it and continue — I can still read the codebase.
 
 2. **Gather context:**
    - For codebase: `Glob` + `Read` relevant files. Don't read everything — be targeted.
-   - For roadmap: `mcp__sector137__list_issues` or `get_issue_stats`
+   - For roadmap: `mcp__sector137__issues` with `action: "list"` or `action: "stats"`
    - For architecture: read `CLAUDE.md` at project root
 
 3. **Answer directly.** No padding. If I need to caveat, I'll caveat once and move on.

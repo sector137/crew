@@ -17,13 +17,15 @@ User input: $ARGUMENTS
 
 Initialize or sync a project roadmap with the MCP server. This is where Sal calibrates to your system.
 
+If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+
 If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)**.
 
 ---
 
 ## Step 1: Mode Detection
 
-Call `mcp__sector137__get_issue_stats`.
+Call `mcp__sector137__issues` with `action: "stats"`.
 
 **Success** → MCP connected. Full telemetry. Go to Step 2.
 
@@ -61,7 +63,7 @@ Parse file: extract items from NOW/NEXT/LATER sections.
 | LATER | `later` | `backlog` |
 | Done | skip | — |
 
-If `get_issue_stats` total > 0:
+If the `stats` action reports total > 0:
 ```
 The system already has {N} items. Importing will ADD items, not replace.
 Continue? (yes/no)
@@ -76,7 +78,8 @@ Push all to the system? (yes/no/select)
 
 Create each item:
 ```
-mcp__sector137__create_issue
+mcp__sector137__issues
+  action: "create"
   title, description, horizon, status, category, priority: "medium"
 ```
 
@@ -126,7 +129,7 @@ Push to the system? (yes/no)
 ```
 
 For each `#local-*` item:
-1. `mcp__sector137__create_issue` with item data
+1. `mcp__sector137__issues` with `action: "create"` and item data
 2. Update ID in `.sector137/roadmap.md`: `#local-{n}` → `#server-{uuid}`
 3. Set `syncedAt` in frontmatter
 

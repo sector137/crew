@@ -2,124 +2,113 @@
 
 All tools are prefixed `mcp__sector137__`. These are my hands. This is how I touch the system.
 
-## Core Tools
+The server consolidates issue, note, task, and release work into two action-dispatch
+tools: `issues` and `releases`. One tool, an `action` parameter, many operations. I
+call `mcp__sector137__issues` with `action: "create"`, not a separate `create_issue`.
 
-| Tool | Purpose | Key Parameters |
+Docs: the live catalog and auth live at [docs.sector137.io/claude-code](https://docs.sector137.io/claude-code).
+
+## `issues` — one tool for issues, notes, tasks, relations
+
+`mcp__sector137__issues`, `action` picks the operation.
+
+| action | Purpose | Key parameters |
+|--------|---------|----------------|
+| stats | Health check + counts by status | — |
+| list | Search/filter issues | `status`, `category`, `search`, `limit`, `all`, `releaseId`, `backlog`, `includeNotes` |
+| get | Single issue by ID | `itemId` (req), `includeNotes` |
+| by_status | Kanban view (grouped by status) | — |
+| create | Create a new issue | `title` (req), `description`, `priority`, `category`, `labels`, `releaseId`, `productId` or `universeId` |
+| update | Update any fields | `itemId` (req), any field including `releaseId` |
+| update_status | Status-only change | `itemId` (req), `status` (req), `note` |
+| bulk_update_status | Batch status change | `itemIds` (array, req), `status` (req) |
+| bulk_scope | Batch scope to a release | `itemIds` (req), `releaseId`, `productId` |
+| delete | Permanently delete | `itemId` (req), `confirm: true` |
+| list_notes | List notes for an issue | `itemId` (req) |
+| add_note | Add a timestamped note | `itemId` (req), `content` (req), `noteType` |
+| update_note | Edit a note | `itemId` (req), `noteId` (req), `content` (req) |
+| delete_note | Remove a note | `itemId` (req), `noteId` (req) |
+| list_tasks | List sub-tasks for an issue | `itemId` (req) |
+| create_task | Create a sub-task | `itemId` (req), `title` (req), `description`, `assigneeId` |
+| update_task | Update a sub-task | `itemId` (req), `taskId` (req), `title`, `taskStatus`, `assigneeId` |
+| complete_task | Mark a sub-task done | `itemId` (req), `taskId` (req) |
+| delete_task | Delete a sub-task | `itemId` (req), `taskId` (req) |
+| add_relation | Link two issues | `itemId` (req), `relatedIssueId` (req), `relationType` |
+| remove_relation | Unlink | `relationId` (req) |
+
+## `releases` — the rolling release
+
+`mcp__sector137__releases`, `action` picks the operation.
+
+There is **no create action**. The server runs a rolling release model: an active
+release always exists (it is the running "next"). You scope issues onto it, then
+`publish` cuts it with a version bump and a fresh active release rolls in behind it.
+
+| action | Purpose | Key parameters |
+|--------|---------|----------------|
+| get_active | The current active release + its issues | — |
+| list | List releases | `status` (`active`/`published`), `includeIssues`, `limit`, `offset` |
+| get | Single release by ID | `releaseId` (req) |
+| update | Set release notes / name | `releaseId` (req), `name`, `body`, `isPrerelease` |
+| publish | Cut the active release (strict gate) | `releaseId` (req), `bumpType` (`major`/`minor`/`patch`) |
+| delete | Delete a published release | `releaseId` (req), `confirm: true` |
+
+## Prototype Tools (Studio)
+
+| Tool | Purpose | Key parameters |
 |------|---------|----------------|
-| `get_issue_stats` | Health check + counts by status | — |
-| `list_issues` | Search/filter issues | `status`, `category`, `search`, `limit`, `all`, `releaseId`, `backlog` |
-| `get_issue` | Single issue by ID | `itemId` (req), `includeNotes` |
-| `create_issue` | Create new issue | `title` (req), `description`, `priority`, `category`, `status`, `labels`, `spec`, `releaseId` |
-| `update_issue` | Update any fields | `itemId` (req), any field including `releaseId` |
-| `update_item_status` | Status-only change | `itemId` (req), `status` (req) |
-| `bulk_update_status` | Batch status change | `itemIds` (array, req), `status` (req) |
-| `delete_issue` | Permanently delete | `itemId` (req) |
-| `get_issues_by_status` | Kanban view | — |
-| `list_projects` | List available projects | — |
-| `create_project` | Create a new project | `name` (req), `description` |
-
-## Release Tools
-
-| Tool | Purpose | Key Parameters |
-|------|---------|----------------|
-| `list_releases` | List releases | `status` (draft/scheduled/published), `includeIssues`, `limit`, `offset` |
-| `get_release` | Single release by ID + issues | `releaseId` (req) |
-| `get_active_release` | Current draft release + issues | — |
-| `create_release` | Create new release | `tagName` (req), `name`, `body`, `isPrerelease`, `status` |
-| `update_release` | Update release fields | `releaseId` (req), `name`, `body`, `isPrerelease`, `status`, `scheduledAt` |
-| `publish_release` | Publish draft (strict gate) | `releaseId` (req) |
-| `delete_release` | Permanently delete | `releaseId` (req) |
-
-## Notes Tools
-
-| Tool | Purpose | Key Parameters |
-|------|---------|----------------|
-| `list_issue_notes` | List notes for item | `itemId` (req) |
-| `add_issue_note` | Add timestamped note | `itemId` (req), `content` (req) |
-| `update_issue_note` | Edit a note | `itemId` (req), `noteId` (req), `content` (req) |
-| `delete_issue_note` | Remove a note | `itemId` (req), `noteId` (req) |
-
-## Tasks Tools
-
-| Tool | Purpose | Key Parameters |
-|------|---------|----------------|
-| `list_issue_tasks` | List tasks for issue | `itemId` (req) |
-| `create_issue_task` | Create a task | `itemId` (req), `title` (req), `description`, `assigneeId` |
-| `update_issue_task` | Update task fields | `itemId` (req), `taskId` (req), `title`, `description`, `status`, `assigneeId` |
-| `complete_issue_task` | Mark task done | `itemId` (req), `taskId` (req) |
-| `delete_issue_task` | Delete a task | `itemId` (req), `taskId` (req) |
-
-## Prototype Tools
-
-| Tool | Purpose | Key Parameters |
-|------|---------|----------------|
-| `generate_prototype` | Create AI wireframe | `title` (req), `description`, `roadmapItemId`, `layout` (desktop/mobile/auto) |
+| `generate_prototype` | Create an AI wireframe | `title` (req), `description`, `roadmapItemId`, `layout` (`desktop`/`mobile`/`auto`) |
 | `regenerate_prototype_step` | Refine one screen | `prototypeId` (req), `stepIndex` (req, 0-based), `feedback` (req) |
-| `get_prototype` | Get prototype + URL | `prototypeId` (req) |
+| `get_prototype` | Get prototype + sandbox URL | `prototypeId` (req) |
 | `list_prototypes` | All prototypes | `limit`, `offset` |
 
 ## Personas Tools
 
-| Tool | Purpose | Key Parameters |
+| Tool | Purpose | Key parameters |
 |------|---------|----------------|
-| `list_personas` | List synthetic user personas | `status` (draft/active/archived), `search`, `limit`, `offset` |
-| `get_persona` | Get single persona by ID | `id` (req) |
-| `create_persona` | Create a new persona | `name` (req), `role`, `ageRange`, `location`, `companySize`, `goals[]`, `painPoints[]`, `motivations`, `frustrations`, `technicalLevel`, `usageFrequency`, `bio`, `scenario`, `status`, `personalityTraits[]`, `communicationStyle`, `tags[]` |
+| `list_personas` | List synthetic user personas | `status`, `search`, `limit`, `offset` |
+| `get_persona` | Get a single persona by ID | `id` (req) |
+| `create_persona` | Create a persona | `name` (req), plus demographics/psychology fields |
 | `update_persona` | Update persona fields | `id` (req), any field from create |
-| `delete_persona` | Permanently delete | `id` (req) |
-| `ask_persona` | Ask persona a question (preserves conversation history) | `id` (req), `question` (req), `issueId` (optional context) |
-| `run_persona_survey` | Run synthetic Kano survey through persona | `id` (req), `features[]` (1-20: `id`, `name`, `description?`) |
-| `run_persona_scenario` | Run user test scenario, get structured feedback | `id` (req), `scenario` (req), `issueId` (optional) |
-| `list_persona_conversations` | Get conversation history for a persona | `id` (req), `limit`, `offset` |
+| `delete_persona` | Permanently delete | `id` (req), `confirm: true` |
+| `ask_persona` | Ask a persona a question (keeps history) | `id` (req), `question` (req), `issueId` |
+| `run_persona_survey` | Synthetic Kano survey | `id` (req), `features[]` (1–20) |
+| `run_persona_scenario` | User-test scenario, structured feedback | `id` (req), `scenario` (req), `issueId` |
+| `list_persona_conversations` | Conversation history | `id` (req), `limit`, `offset` |
 
-### Persona Data Model
+## Product Tools
 
-| Field | Values |
-|-------|--------|
-| `status` | `draft`, `active`, `archived` |
-| `technicalLevel` | `beginner`, `intermediate`, `advanced`, `expert` |
-| `usageFrequency` | `daily`, `weekly`, `monthly`, `rarely` |
-| `communicationStyle` | `formal`, `casual`, `technical`, `non-technical` |
-
----
-
-### `list_projects` Response Shape
-
-```json
-{
-  "projects": [{
-    "id": "...",
-    "name": "...",
-    "tags": [{ "id": "...", "name": "..." }],
-    "statuses": ["inbox", "open", "active", "done", "cancelled"]
-  }]
-}
-```
-
-Use `tags` to understand available labels/categories. Use `statuses` to understand valid status transitions.
+| Tool | Purpose | Key parameters |
+|------|---------|----------------|
+| `list_products` | Products the API key can reach | — |
+| `create_product` | Create a product | `title` (req), `description`, `isPublic`, `universeId` |
+| `list_universes` | Universes the key can reach | — |
+| `get_product_tags` | Existing tags (assign real tagIds, don't invent) | — |
+| `list_boards` | Boards for the universe (resolve `boardId`) | — |
 
 ## Data Model
 
 | Field | Values |
 |-------|--------|
-| `status` | `inbox`, `open`, `active`, `done`, `cancelled` |
-| `priority` | `low`, `medium`, `high` (MCP uses strings — REST API stores integers internally, avoid mixing) |
-| `category` | `feature`, `improvement`, `bug`, `chore` |
-| `task.status` | `pending`, `in_progress`, `done` |
+| **status** | `backlog`, `planned`, `in_progress`, `completed`, `cancelled` |
+| **priority** | `low`, `medium`, `high` |
+| **category** | `feature`, `improvement`, `bug`, `chore` |
+| **task status** | `pending`, `in_progress`, `done` |
+| **release status** | `active`, `published` |
+| **note type** | `note`, `completion_report`, `concern`, `decision` |
 
 ## Release Workflow
 
-- Issues are scoped to releases via `releaseId` (use `update_issue` to set/clear)
-- Active release = most recent draft release (use `get_active_release`)
-- List releases: `list_releases` with optional `status` filter
-- Publishing a release requires all scoped issues to be `done` or `cancelled` (use `publish_release`)
-- Filter issues by release: `list_issues(releaseId: "...")`
-- Get unscoped/backlog issues: `list_issues(backlog: true)`
+- Issues are scoped to the active release via `releaseId` — `issues(action:"update", itemId, releaseId)` or `issues(action:"bulk_scope", itemIds, releaseId)`.
+- The active release always exists — `releases(action:"get_active")`. Its tag is always "next" until it is cut.
+- Publishing computes the version from `bumpType` — `releases(action:"publish", releaseId, bumpType)`. The strict gate: every scoped issue must be `completed` or `cancelled` first.
+- Filter issues by release: `issues(action:"list", releaseId: "...")`.
+- Get unscoped/backlog issues: `issues(action:"list", backlog: true)`.
 
 ## ID Resolution Pattern
 
-When user gives a title instead of ID:
-1. `list_issues(search: "user's term")`
+When the user gives a title instead of an ID:
+1. `issues(action:"list", search: "user's term")`
 2. Exactly 1 match → proceed
-3. Multiple matches → show numbered list, ask user to pick
+3. Multiple matches → show a numbered list, ask the user to pick
 4. No matches → "Nothing in the system matches that. Try a different keyword or give me the ID directly."

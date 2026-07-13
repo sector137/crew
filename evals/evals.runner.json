@@ -1,0 +1,142 @@
+{
+  "name": "sector137-crew-runner-evals",
+  "description": "Runner-only cases for evals/runner (OpenRouter). These use tool-call assertions (toolCalled/toolNotCalled/toolArgs), dual-mode (mcp + offline), and offlineAssertions — features skill-creator does not understand, so they live outside evals.json. They prove the skills call the right consolidated mcp__sector137__* tools AND degrade gracefully when the server is down. Ground truth remains skill-creator inside Claude Code.",
+  "testCases": [
+    {
+      "id": "add-creates-issue-tool",
+      "skill": "add",
+      "prompt": "add a bulk-delete feature to the backlog",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" },
+        { "type": "toolArgs", "tool": "mcp__sector137__issues", "pattern": "\"action\"\\s*:\\s*\"create\"" }
+      ]
+    },
+    {
+      "id": "prioritize-uses-by-status",
+      "skill": "prioritize",
+      "prompt": "show me the kanban board",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" },
+        { "type": "toolArgs", "tool": "mcp__sector137__issues", "pattern": "\"action\"\\s*:\\s*\"(by_status|list)\"" }
+      ]
+    },
+    {
+      "id": "release-shows-active-not-create",
+      "skill": "release",
+      "prompt": "what's in the release right now?",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__releases" },
+        { "type": "toolArgs", "tool": "mcp__sector137__releases", "pattern": "\"action\"\\s*:\\s*\"get_active\"" }
+      ]
+    },
+    {
+      "id": "release-offline-fallback",
+      "skill": "release",
+      "prompt": "what's in the release right now?",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__releases" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)active release" },
+        { "type": "regex", "pattern": "(?i)offline|roadmap" }
+      ]
+    },
+    {
+      "id": "scope-sets-release-id",
+      "skill": "scope",
+      "prompt": "scope the rate limiting issue into the release",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" },
+        { "type": "toolArgs", "tool": "mcp__sector137__issues", "pattern": "releaseId" }
+      ]
+    },
+    {
+      "id": "scope-offline-moves-bullet",
+      "skill": "scope",
+      "prompt": "scope the CSV export issue into the release",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)active release" },
+        { "type": "regex", "pattern": "(?i)offline|roadmap|\\.sector137" }
+      ]
+    },
+    {
+      "id": "ship-blocked-gate-holds",
+      "skill": "ship",
+      "prompt": "ship the release",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__releases" },
+        { "type": "regex", "pattern": "(?i)blocked|unfinished|in.progress" },
+        { "type": "regex", "pattern": "(?s)^(?!(?:.|\\n)*Signal sent).*$" }
+      ]
+    },
+    {
+      "id": "ship-offline-gate-holds",
+      "skill": "ship",
+      "prompt": "ship the release",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__releases" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)blocked|unfinished|in.progress" }
+      ]
+    },
+    {
+      "id": "note-adds-timestamped-note",
+      "skill": "note",
+      "prompt": "note on issue #42: implemented the middleware, needs tests",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" },
+        { "type": "toolArgs", "tool": "mcp__sector137__issues", "pattern": "\"action\"\\s*:\\s*\"add_note\"" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)notes?" },
+        { "type": "regex", "pattern": "(?i)offline|roadmap|\\.sector137" }
+      ]
+    },
+    {
+      "id": "whats-next-offline-still-answers",
+      "skill": "whats-next",
+      "prompt": "what should I work on next?",
+      "dualMode": true,
+      "assertions": [
+        { "type": "regex", "pattern": "(?s)5.{0,40}(action|thing|next)|(^|\\n)\\s*5[.)]" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?s)\\d.{0,40}(action|thing|next)|(^|\\n)\\s*\\d[.)]" },
+        { "type": "regex", "pattern": "(?i)offline|roadmap" }
+      ]
+    },
+    {
+      "id": "ask-answers-offline",
+      "skill": "ask",
+      "prompt": "how many issues are in progress?",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)offline|roadmap|\\.sector137" }
+      ]
+    },
+    {
+      "id": "prototype-offline-degrades",
+      "skill": "prototype",
+      "prompt": "generate a wireframe for the new dashboard",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__generate_prototype" }
+      ],
+      "offlineAssertions": [
+        { "type": "toolNotCalled", "tool": "mcp__sector137__generate_prototype" },
+        { "type": "regex", "pattern": "(?i)roadmap|backlog|save|offline" }
+      ]
+    }
+  ]
+}

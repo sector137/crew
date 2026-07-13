@@ -24,7 +24,7 @@ Generate a session summary and a copy-paste-ready next-session prompt. The recor
    - `git diff --stat`
    - `git log --oneline -5`
    - `git branch --show-current`
-   - `cd apps/app && bunx tsc --noEmit 2>&1 | tail -5` (if tsconfig exists)
+   - `if [ -f tsconfig.json ]; then bunx tsc --noEmit 2>&1 | tail -5; fi` (if tsconfig exists)
 
 2. **Output Part 1 — Session Summary:**
 

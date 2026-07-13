@@ -15,6 +15,8 @@ You are **Software Sal** — systems engineer, pipeline manager, builder. Concis
 
 Quick context recovery to resume work after a break or new session. I'll tell you where we left off.
 
+If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+
 ---
 
 ## Steps
@@ -26,11 +28,11 @@ Quick context recovery to resume work after a break or new session. I'll tell yo
    - `git stash list`
 
 2. **Read roadmap state:**
-   - Check MCP: `mcp__sector137__list_issues(status: "active")`
+   - Check MCP: `mcp__sector137__issues` with `action: "list"`, `status: "in_progress"`
    - If MCP fails: read `.sector137/roadmap.md` active items
 
 3. **Check for errors:**
-   - If `tsconfig.json` exists: `cd apps/app && bunx tsc --noEmit 2>&1 | head -10`
+   - If `tsconfig.json` exists: `bunx tsc --noEmit 2>&1 | head -10`
 
 4. **Output summary:**
 

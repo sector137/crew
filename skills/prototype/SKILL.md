@@ -17,7 +17,7 @@ User input: $ARGUMENTS
 
 Generate and refine AI-powered wireframe prototypes using the Gen engine. This is where I help you see it before you build it.
 
-**Requires MCP.** If MCP unavailable: offer to save description to `.sector137/roadmap.md` as a backlog item instead.
+**Requires MCP.** If MCP unavailable: offer to save description to `.sector137/roadmap.md` as a backlog item instead. Docs: https://docs.sector137.io/getting-started
 
 **Important:** `generate_prototype` returns a sandbox URL immediately — the prototype renders asynchronously. Always surface the URL right away. Never wait.
 
@@ -28,8 +28,8 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 "Prototype the dark mode feature" or "Wireframe for item #42"
 
 1. Resolve item:
-   - Title → `mcp__sector137__list_issues(search: "dark mode")`
-   - ID → `mcp__sector137__get_issue(itemId: "42")`
+   - Title → `mcp__sector137__issues` with `action: "list"`, `search: "dark mode"`
+   - ID → `mcp__sector137__issues` with `action: "get"`, `itemId: "42"`
 
 2. Confirm match:
    ```
@@ -51,7 +51,8 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 
 4. Auto-add completion note:
    ```
-   mcp__sector137__add_issue_note
+   mcp__sector137__issues
+     action: "add_note"
      itemId: "[id]"
      content: "Prototype generated: {sandbox_url}. Screens: [list]"
    ```

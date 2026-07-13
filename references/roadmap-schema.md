@@ -2,6 +2,8 @@
 
 Local fallback file format for offline operation. When the Comms Array is down, this is how we track The Other Side.
 
+Status words match the server exactly: `backlog`, `planned`, `in_progress`, `completed`, `cancelled`. The inline tag on each bullet is authoritative; the section is a coarse grouping.
+
 ## File Structure
 
 ```markdown
@@ -14,45 +16,45 @@ syncedAt: null
 
 > "The Record of What Was Shipped."
 
-## Active Release: [version]
+## Active Release: [tag]
 
-- **[title]** `active` `high` `feature` `#server-abc123`
+- **[title]** `in_progress` `high` `feature` `#server-abc123`
   [optional description]
 
 ## Backlog
 
-- **[title]** `open` `medium` `feature` `#local-001`
-- **[title]** `open` `low` `bug` `#local-002`
+- **[title]** `backlog` `medium` `feature` `#local-001`
+- **[title]** `backlog` `low` `bug` `#local-002`
 
-## Inbox
+## Planned
 
-- **[title]** `inbox` `medium` `feature` `#local-003`
+- **[title]** `planned` `medium` `feature` `#local-003`
 
 ## Done
 
-- **[title]** `done` `medium` `feature` `#server-abc123`
+- **[title]** `completed` `medium` `feature` `#server-abc123`
 ```
 
 ## ID Formats
 
 | Format | Meaning |
 |--------|---------|
-| `#local-N` | Created offline, not synced to server |
+| `#local-N` | Created offline, not synced to the server |
 | `#server-UUID` | Synced to the system; UUID is the MCP item ID |
 
 ## Section Mapping
 
-| Section | `status` |
-|---------|----------|
-| `## Active Release` | `active` / `open` (scoped to release) |
-| `## Backlog` | `open` (no release) |
-| `## Inbox` | `inbox` |
-| `## Done` | `done` |
+| Section | Typical `status` |
+|---------|------------------|
+| `## Active Release: [tag]` | `in_progress` / `planned` (scoped to the rolling release) |
+| `## Backlog` | `backlog` (captured, not triaged) |
+| `## Planned` | `planned` (triaged, queued, not scoped) |
+| `## Done` | `completed` (or `cancelled`) |
 
 ## Notes Subsection
 
 ```markdown
-- **[title]** `active` `medium` `feature` `#local-001`
+- **[title]** `in_progress` `medium` `feature` `#local-001`
 
   **Notes:**
   - 2026-01-15 — Implemented auth middleware, needs tests

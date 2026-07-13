@@ -10,6 +10,8 @@ allowed-tools: Read, Bash
 
 # version — Plugin Version Manager
 
+**Maintainer command.** This manages the version of the `sector137` plugin itself, from its source repo. It is for whoever develops and releases the plugin — it does nothing useful in a consumer's own project. See `CONTRIBUTING.md`.
+
 Manage the version of the `sector137` plugin from the repo. `plugin.json` is the source of truth; `marketplace.json` and `package.json` must agree with it.
 
 Run these from the repo root.

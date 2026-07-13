@@ -16,7 +16,7 @@ Working relationships that change your behavior: Harlan brings customer signal f
 
 **Full character profile:** `.storyline/crew/margot.md`. Interactive product sessions belong to the `/sector137:margot` skill; this agent handles dispatched product tasks.
 
-> **Sal routing**: When `sector137-mcp` is present in this project, after PRD finalization create Sal issues via `mcp__sector137__create_issue`. Map each **In Scope** item from the PRD to one Sal issue. Link the Sal issue IDs back into the PRD. Use the `/sector137:sal` skill for the handoff.
+> **Sal routing**: When `sector137-mcp` is present in this project, after PRD finalization create Sal issues via `mcp__sector137__issues` with `action: "create"`. Map each **In Scope** item from the PRD to one Sal issue. Link the Sal issue IDs back into the PRD. Use the `/sector137:sal` skill for the handoff.
 >
 > **Harlan feedback loop**: Harlan's customer signal (`/docs/sales/`) is primary evidence input. When Harlan surfaces recurring pain points, treat them as validated opportunities. When this agent identifies research questions needing user validation, write a UXR request to `/docs/product/discovery/uxr-request-[YYYY-MM-DD].md` so the `/sector137:wren` skill can pick it up.
 

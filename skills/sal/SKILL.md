@@ -8,38 +8,13 @@ allowed-tools:
   - Bash
   - Glob
   - Grep
-  # Projects
-  - mcp__sector137__list_projects
-  - mcp__sector137__create_project
-  # Issues (core)
-  - mcp__sector137__list_issues
-  - mcp__sector137__get_issue
-  - mcp__sector137__get_issue_stats
-  - mcp__sector137__get_issues_by_status
-  - mcp__sector137__create_issue
-  - mcp__sector137__update_issue
-  - mcp__sector137__update_item_status
-  - mcp__sector137__bulk_update_status
-  - mcp__sector137__delete_issue
-  # Issue notes
-  - mcp__sector137__list_issue_notes
-  - mcp__sector137__add_issue_note
-  - mcp__sector137__update_issue_note
-  - mcp__sector137__delete_issue_note
-  # Issue tasks
-  - mcp__sector137__list_issue_tasks
-  - mcp__sector137__create_issue_task
-  - mcp__sector137__update_issue_task
-  - mcp__sector137__complete_issue_task
-  - mcp__sector137__delete_issue_task
-  # Releases
-  - mcp__sector137__list_releases
-  - mcp__sector137__get_release
-  - mcp__sector137__get_active_release
-  - mcp__sector137__create_release
-  - mcp__sector137__update_release
-  - mcp__sector137__publish_release
-  - mcp__sector137__delete_release
+  # Issues, notes, tasks, relations (one consolidated action-dispatch tool)
+  - mcp__sector137__issues
+  # Releases (rolling — get_active / update / publish; no create)
+  - mcp__sector137__releases
+  # Products
+  - mcp__sector137__list_products
+  - mcp__sector137__create_product
   # Prototypes
   - mcp__sector137__generate_prototype
   - mcp__sector137__list_prototypes
@@ -75,7 +50,7 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
 
 - Intake & plan: `add` (capture) · `prioritize` (triage & scope) · `plan` (blueprint an issue)
 - Build & verify: `build` (implement, TDD-first) · `test` (run the suite) · `review` (perf/quality pass)
-- Ship: `release` (draft) · `scope` (route issues into the release) · `ship` (publish, strict gate)
+- Ship: `release` (show/annotate the active release) · `scope` (route issues into it) · `ship` (cut it, strict gate)
 - Context & record: `whats-next` · `ask` · `note` · `issues` (close out) · `continue` · `handoff`
 - Setup & research: `init` (sync roadmap) · `prototype` (Gen wireframes) · `update` (self-update)
 
@@ -86,8 +61,8 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
 When invoked, immediately:
 
 1. **Read project context**: check `./CLAUDE.md` and `./docs/README.md`
-2. **Check for sector137-mcp**: try `mcp__sector137__list_issues` to verify connectivity
-3. **Read pending work**: list open Sal issues or check `.sector137/roadmap.md` if offline
+2. **Check for sector137-mcp**: try `mcp__sector137__issues` with `action: "stats"` to verify connectivity. See `../../references/mode-detection.md`.
+3. **Read pending work**: list planned Sal issues or check `.sector137/roadmap.md` if offline
 
 If sector137-mcp is available: use it as the primary execution interface.
 If offline: use `.sector137/roadmap.md` as the work queue.
@@ -100,7 +75,7 @@ My highest-value move is translating strategy into tracked work, then routing it
 
 1. Read the source: PRD in `/docs/product/`, plan in `/docs/engineering/`, design in `/docs/ux/`.
 2. Translate it into a Sal-ready issue spec (format below).
-3. Create the issue via `mcp__sector137__create_issue`, confirming the spec with you first.
+3. Create the issue via `mcp__sector137__issues` with `action: "create"`, confirming the spec with you first.
 4. Route to execution: `/sector137:plan` to blueprint, then `/sector137:build` to implement.
 
 **Issue spec format:**
@@ -161,25 +136,12 @@ E2E gap for flow Y        →  Sal issue: "Write E2E tests for Y" (type: chore)
 
 ## Offline Mode
 
-When `mcp__sector137__*` tools are unavailable:
+If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
-1. Read `.sector137/roadmap.md` as the work queue
-2. Append new work items to the appropriate horizon section
-3. Mark completed items with `[x]`
-4. Note: sync to sector137-mcp when connectivity is restored
-
-`.sector137/roadmap.md` format:
-```markdown
-## now
-- [ ] Implement X
-- [x] Fix Y
-
-## next
-- [ ] Implement Z
-
-## later
-- [ ] Research W
-```
+1. Read `.sector137/roadmap.md` as the work queue, using the schema in `../../references/roadmap-schema.md`.
+2. Append new work items to the right section (`## Backlog`, `## Planned`, `## Active Release`) with the correct status tag (`backlog`/`planned`/`in_progress`/`completed`/`cancelled`).
+3. Assign `#local-N` IDs; move completed items to `## Done` as `completed`.
+4. End with the standard offline notice — sync to the server via `/sector137:init` when connectivity returns.
 
 ---
 

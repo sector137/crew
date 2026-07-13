@@ -44,16 +44,17 @@ Infer from the user's message. Only ask for `title` if missing. I can figure out
 ## MCP Mode
 
 ```
-mcp__sector137__create_issue
+mcp__sector137__issues
+  action: "create"
   title: "[title]"
   description: "[description if given]"
   priority: "[priority]"
   category: "[inferred]"
   labels: ["label1"]   (omit if none)
-  status: "open"
+  status: "backlog"
 ```
 
-Confirm: `Logged. **[title]**: open (#[id]). It's in the system now.`
+Confirm: `Logged. **[title]**: backlog (#[id]). It's in the system now.`
 
 ---
 

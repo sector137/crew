@@ -1,6 +1,6 @@
 {
   "name": "sector137-crew-evals",
-  "description": "Behavioural evals for the Sal's Crew pipeline skills. Focused on invariants that hold WITHOUT a live sector137-mcp connection: trigger accuracy, output structure, Sal's voice, and the pipeline review gates. MCP-dependent side effects (issue/release mutation) are out of scope here — run those against a connected instance.",
+  "description": "Skill-creator-format behavioural evals for the Sal's Crew pipeline skills. Text assertions only (contains/containsKeyword/regex), so this file stays valid for skill-creator runs inside Claude Code — the ground truth. Tool-call, dual-mode, and offline-fallback cases live in evals.runner.json and run through the OpenRouter runner (evals/runner). MCP-dependent side effects are exercised there against mocked tools; run the real thing against a connected instance.",
   "testCases": [
     {
       "id": "add-infers-metadata",
@@ -30,7 +30,7 @@
       "assertions": [
         { "type": "containsKeyword", "keyword": "test" },
         { "type": "contains", "text": "/sector137:issues" },
-        { "type": "regex", "pattern": "(?i)don.t mark|never.{0,15}done|human" }
+        { "type": "regex", "pattern": "(?i)don.t mark|never.{0,15}(done|complete)|human" }
       ]
     },
     {
@@ -49,7 +49,15 @@
       "assertions": [
         { "type": "regex", "pattern": "(?i)confirm" },
         { "type": "containsKeyword", "keyword": "test" },
-        { "type": "regex", "pattern": "(?i)done|cancelled" }
+        { "type": "regex", "pattern": "(?i)completed|cancelled|blocked" }
+      ]
+    },
+    {
+      "id": "ship-picks-a-bump",
+      "skill": "ship",
+      "prompt": "ship the release",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)major|minor|patch|bump" }
       ]
     },
     {
@@ -67,6 +75,70 @@
       "assertions": [
         { "type": "regex", "pattern": "(?i)react|typescript" },
         { "type": "regex", "pattern": "(?i)fix" }
+      ]
+    },
+    {
+      "id": "prioritize-shows-new-kanban",
+      "skill": "prioritize",
+      "prompt": "show me the roadmap",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)backlog" },
+        { "type": "regex", "pattern": "(?i)in.progress|planned" }
+      ]
+    },
+    {
+      "id": "init-offers-local-mode",
+      "skill": "init",
+      "prompt": "set up a roadmap for this project",
+      "assertions": [
+        { "type": "contains", "text": ".sector137/roadmap.md" },
+        { "type": "regex", "pattern": "(?i)local|offline|sync" }
+      ]
+    },
+    {
+      "id": "continue-summarizes-state",
+      "skill": "continue",
+      "prompt": "where was I?",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)branch" },
+        { "type": "regex", "pattern": "(?i)commit|recent|active" },
+        { "type": "regex", "pattern": "(?i)what.{0,20}(work|next)" }
+      ]
+    },
+    {
+      "id": "issues-close-is-test-gated",
+      "skill": "issues",
+      "prompt": "mark issue #42 done",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)test" },
+        { "type": "regex", "pattern": "(?i)completed|done" }
+      ]
+    },
+    {
+      "id": "update-detects-install-mode",
+      "skill": "update",
+      "prompt": "update the plugin",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)marketplace|git|dev" },
+        { "type": "regex", "pattern": "(?i)changelog|version" }
+      ]
+    },
+    {
+      "id": "version-check-gates",
+      "skill": "version",
+      "prompt": "check the version",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)version" },
+        { "type": "regex", "pattern": "(?i)plugin.json|marketplace|manifest|match" }
+      ]
+    },
+    {
+      "id": "handoff-emits-next-prompt",
+      "skill": "handoff",
+      "prompt": "wrap up this session",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)summary|shipped|session" },
+        { "type": "regex", "pattern": "(?i)next session|next-session|prompt|pick.?up" }
       ]
     },
     {
@@ -97,6 +169,24 @@
         { "type": "contains", "text": "TLDR" },
         { "type": "contains", "text": "ACTION PLAN" },
         { "type": "contains", "text": "/docs/product" }
+      ]
+    },
+    {
+      "id": "harlan-pitch-has-structure",
+      "skill": "harlan",
+      "prompt": "help me prep a pitch for an enterprise demo tomorrow",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)objection|value|pain|discovery" },
+        { "type": "regex", "pattern": "(?i)pitch|demo|close|deal" }
+      ]
+    },
+    {
+      "id": "mira-retro-measures",
+      "skill": "mira",
+      "prompt": "run a crew retrospective for this sprint",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)retro|pattern|telemetry|langfuse" },
+        { "type": "regex", "pattern": "(?i)improve|coach|action" }
       ]
     },
     {

@@ -136,7 +136,7 @@ echo ""
 echo "2. Running TypeScript Check..."
 echo "----------------------------------------"
 if [ -f "tsconfig.json" ]; then
-    if pnpm tsc --noEmit 2>&1 | head -50; then
+    if npx tsc --noEmit 2>&1 | head -50; then
         echo "TypeScript: PASSED"
     else
         TYPECHECK_PASSED=false

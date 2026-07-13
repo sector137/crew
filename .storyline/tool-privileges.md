@@ -24,7 +24,7 @@ tags: [aspirational, permissions, trust]
 | **Margot** | Issues, roadmap, personas, Kano studies | `/docs/product/` | Market data sources |
 | **Wren** | Personas, prototypes | `/docs/ux/`, design tokens | Frontend previews |
 | **Harlan** | Issues, releases, personas | `/docs/sales/` | Customer channels |
-| **Mira** | Read-only all | All `/docs/`, Langfuse | — |
+| **Mira** | Read-only all | All `/docs/`, telemetry | — |
 
 ---
 
@@ -46,7 +46,7 @@ Every crew member can READ across all `/docs/` directories. Cross-domain context
 
 ### Mira Watches, Never Touches
 
-Mira never modifies the system. She observes, measures, and reports. Her access reflects her role — read-only across all domains, plus Langfuse telemetry. She writes coaching briefs and retrospectives, but she doesn't modify anyone else's work. This boundary is what makes her feedback trustworthy — she has no stake in the outcome, only in the quality.
+Mira never modifies the system. She observes, measures, and reports. Her access reflects her role — read-only across all domains, plus the telemetry stream. She writes coaching briefs and retrospectives, but she doesn't modify anyone else's work. This boundary is what makes her feedback trustworthy — she has no stake in the outcome, only in the quality.
 
 > *"I don't fix the crew. I help them see what they're already doing. If I could edit their work, the seeing would be compromised."* — Mira
 

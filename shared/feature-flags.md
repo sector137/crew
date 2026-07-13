@@ -1,63 +1,30 @@
 ---
 name: feature-flags
-description: "Crew convention for feature flags — the two-tier model (app-level + infra-level), the shared @sector137/feature-flags package, and the flag lifecycle. Read before gating any new feature."
+description: "Crew convention for feature flags: the two-tier model (app-level + infra-level), precedence, and the flag lifecycle. Provider-agnostic — use whatever your project already has. Read before gating any new feature."
 ---
 
 # Feature Flags — Crew Convention
 
 > *"A flag is a promise you can keep or break without a redeploy. Build the switch before you build the room behind it."* — Kael
 
-This is the canonical convention for how Sal's crew ships features behind flags. It travels with the plugin, so every project the crew works on inherits it. The reference implementation lives in this repo at `apps/app` (see `apps/app/src/lib/flags.ts` + `apps/app/client/src/hooks/use-flags.ts`).
+This is how Sal's crew ships features behind flags. It is a convention, not a library: gate through **whatever your project already uses** (env vars, a config table, a flags service like LaunchDarkly or PostHog, a per-tenant DB column). The principles below hold regardless of the mechanism.
 
 ## Why
 
-Flags let us ship dark, roll out gradually, and kill a feature without a deploy. Two kinds of control matter, and every app must be able to support **either or both**:
+Flags let you ship dark, roll out gradually, and kill a feature without a deploy. Two kinds of control matter, and a project should be able to support **either or both**:
 
-- **App-level ("top-level") flags**: owned inside one app. The unit of control is something the app already models: a project, a workspace, a user. Stored in the app's own data (a DB column, a config row). Example: `projects.enableWiki` in `apps/app`.
-- **Infra-level flags**: a shared, env/config-driven set that spans apps. The unit of control is the *deployment / environment*. This is the rollout gate and the kill-switch ops reaches for when something is on fire. Backed by env today; a DB or PostHog resolver can slot in later behind the same interface.
+- **App-level ("top-level") flags**: owned inside one app. The unit of control is something the app already models: a project, a workspace, a user. Stored in the app's own data (a DB column, a config row).
+- **Infra-level flags**: an env/config-driven set that spans deployments. The unit of control is the *deployment / environment*. This is the rollout gate and the kill-switch ops reaches for when something is on fire.
 
-## The Package: `@sector137/feature-flags`
+## One flag helper, not scattered checks
 
-One provider-agnostic core resolves all tiers. Do **not** hand-roll flag checks (`project.enableX !== false` scattered through the code); route every check through the package so precedence is consistent.
+Route every check through a single helper so precedence is consistent. Do **not** hand-roll flag checks (`project.enableX !== false` scattered through the code); a lone helper that reads your project's flag source keeps the rule in one place and makes cleanup a one-line change.
 
-```ts
-import { createFeatureFlags, envResolver, appResolver } from "@sector137/feature-flags";
-
-const registry = {
-  enableWiki: { key: "enableWiki", tier: "both", default: true, owner: "engineering-kael" },
-};
-
-export const flags = createFeatureFlags({
-  registry,
-  infra: envResolver(process.env),                                  // FLAG_ENABLE_WIKI
-  app: appResolver((def, ctx) => (ctx.project as any)?.[def.key]),  // per-project column
-});
-
-flags.isEnabled("enableWiki", { project }); // boolean
-```
-
-Browser (Vite): `envResolver(import.meta.env, { prefix: "VITE_FLAG_" })`, or the React binding `@sector137/feature-flags/react` (`FeatureFlagsProvider`, `useFlag`).
-
-### Pluggable providers
-
-The infra tier is env-backed by default, but any tier accepts **any provider**: sync or async, duck-typed, no SDK dependency in the package. Stack a provider over env with `firstOf(...)` so a flag the provider doesn't know about falls back to `FLAG_*`:
-
-```ts
-infra: firstOf(
-  posthogResolver(phClient, { distinctId: (ctx) => ctx.userId }),  // PostHog (async)
-  envResolver(process.env),                                        // fallback
-)
-```
-
-- `posthogResolver(client, { distinctId, flagKey? })`: PostHog (posthog-node async / posthog-js sync).
-- `providerResolver(fn)` / `asyncProviderResolver(fn)`: adapt any sync / async source (LaunchDarkly, a flags service).
-- Network-backed providers are **async**: resolve with `isEnabledAsync` / `getAllAsync`. The sync API throws rather than silently dropping a provider's opinion.
-
-In `apps/app`, plug one in at bootstrap with **zero call-site changes** via `registerInfraProvider(...)` (see `apps/app/src/lib/flags.ts`). Choosing a provider is an engineering decision; record it in an ADR. The default stays env/config (deterministic, git-versioned) until there's a reason to reach for a service.
+Keep a small registry per app: each flag declares a `key`, a `tier` (`app` / `infra` / `both`), a `default`, and an `owner`. Whatever backs it (env, DB, a provider SDK) sits behind that helper, so swapping the backing store is invisible to call sites.
 
 ## Choosing a Tier
 
-Each flag declares a `tier`: `app`, `infra`, or `both`. Pick by asking *who decides whether this is on*:
+Pick by asking *who decides whether this is on*:
 
 | Situation | Tier | Why |
 |-----------|------|-----|
@@ -75,35 +42,35 @@ enabled = infraAllows(flag) AND appAllows(flag)
 - The other tier can only **veto** (force OFF / kill-switch); it can never force a flag ON.
 
 Consequences worth internalizing:
-- An **infra kill-switch always wins.** `FLAG_ENABLE_WIKI=off` hides Wiki everywhere, whatever a project set.
+- An **infra kill-switch always wins.** Turning a flag off at the infra tier hides the feature everywhere, whatever a project set.
 - Infra saying **ON means "allowed," not "forced."** A project that opted out stays out.
-- A **`both` flag with `default: false` stays off until infra opens the gate**. Then each app unit opts in. That's the safe rollout shape for unfinished work.
+- A **`both` flag with `default: false` stays off until infra opens the gate**, then each app unit opts in. That's the safe rollout shape for unfinished work.
 
 ## Env Conventions
 
+When the backing store is env vars, a predictable naming scheme keeps ops sane:
+
 - Server: `FLAG_<SCREAMING_SNAKE_KEY>` (e.g. `FLAG_ENABLE_WIKI=off`).
-- Browser (Vite): `VITE_FLAG_<SCREAMING_SNAKE_KEY>`: set this too when a user-facing feature needs the SPA to reflect an infra kill-switch (locked toggle, "managed at infra level").
-- Truthy: `on|true|1|enabled|yes`. Falsy: `off|false|0|disabled|no`. Anything else = abstain.
+- Browser (a bundler like Vite): mirror it with the bundler's public prefix (e.g. `VITE_FLAG_<KEY>`) when a user-facing feature needs the client to reflect an infra kill-switch.
+- Truthy: `on|true|1|enabled|yes`. Falsy: `off|false|0|disabled|no`. Anything else = abstain (fall back to `default`).
 
 ## Flag Lifecycle
 
 Every flag is a temporary object with an owner and an exit plan. Kael owns implementation; Sal tracks rollout and cleanup through the pipeline.
 
 1. **Add**: declare it in the app's registry with a `tier`, `default`, `owner`, and description. Document it with the spec template (`shared/templates/feature-flag-spec.md`).
-2. **Gate**: wrap the new behavior in `flags.isEnabled(key, ctx)`. New user-facing behavior ships gated by default (default off for `both`/`infra` until rollout).
+2. **Gate**: wrap the new behavior behind the flag helper. New user-facing behavior ships gated by default (default off for `both`/`infra` until rollout).
 3. **Roll out**: flip the infra gate / per-app opt-in per the rollout plan. Sal notes flag state at `ship`.
 4. **Clean up**: once a flag is fully rolled out and stable, remove the flag and the dead branch. A flag that outlives its rollout is tech debt with a switch on it. Sal surfaces stale flags at `ship`.
 
 ## Anti-patterns
 
-- ❌ Inline flag checks that bypass the package (`project.enableX !== false`).
+- ❌ Inline flag checks that bypass the helper (`project.enableX !== false`).
 - ❌ A flag with no `owner` or no cleanup criteria; it will live forever.
 - ❌ Using an app-level flag as a kill-switch. Ops can't reach a per-tenant column in an incident. Kill-switches are infra-tier.
 - ❌ Branching on a flag deep in the stack when the decision belongs at a boundary (route, page, feature entry).
 
 ## References
 
-- Package: `packages/feature-flags/` (`@sector137/feature-flags`)
-- Reference impl: `apps/app/src/lib/flags.ts`, `apps/app/client/src/hooks/use-flags.ts`
 - Spec template: `shared/templates/feature-flag-spec.md`
-- Project ADR (this repo): `docs/engineering/adrs/adr-001-feature-flags.md`
+- Record the choice of flag provider in an ADR when it's more than env/config.
