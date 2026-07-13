@@ -15,14 +15,17 @@ Docs: the live catalog and auth live at [docs.sector137.io/claude-code](https://
 | action | Purpose | Key parameters |
 |--------|---------|----------------|
 | stats | Health check + counts by status | — |
-| list | Search/filter issues | `status`, `category`, `search`, `limit`, `all`, `releaseId`, `backlog`, `includeNotes` |
-| get | Single issue by ID | `itemId` (req), `includeNotes` |
+| list | Search/filter issues | `status`, `category`, `horizon`, `search`, `limit`, `all`, `releaseId`, `backlog`, `parentId`, `includeNotes` |
+| get | Single issue by ID (includes `childCount`) | `itemId` (req), `includeNotes` |
 | by_status | Kanban view (grouped by status) | — |
-| create | Create a new issue | `title` (req), `description`, `priority`, `category`, `labels`, `releaseId`, `productId` or `universeId` |
-| update | Update any fields | `itemId` (req), any field including `releaseId` |
+| create | Create a new issue | `title` (req), `description`, `priority`/`priorityValue`, `horizon`, `category`, `labels`, `tagIds`, `labelIds`, `agentIds`, `parentId`, `releaseId`, `productId` or `universeId` |
+| bulk_create | Create many sub-issues under one parent in a single call | `items[]` (req, each needs `title`), `parentId`, `productId` or `universeId` |
+| update | Update any fields | `itemId` (req), any field including `releaseId`, `horizon`, `parentId` (null detaches) |
 | update_status | Status-only change | `itemId` (req), `status` (req), `note` |
 | bulk_update_status | Batch status change | `itemIds` (array, req), `status` (req) |
 | bulk_scope | Batch scope to a release | `itemIds` (req), `releaseId`, `productId` |
+| bulk_assign | Batch assign a user and/or agents | `itemIds` (req), `productId`, `assigneeId`, `agentIds` |
+| reorder | Move within its status column | `itemId` (req), `position` (req), `status` |
 | delete | Permanently delete | `itemId` (req), `confirm: true` |
 | list_notes | List notes for an issue | `itemId` (req) |
 | add_note | Add a timestamped note | `itemId` (req), `content` (req), `noteType` |
@@ -33,8 +36,16 @@ Docs: the live catalog and auth live at [docs.sector137.io/claude-code](https://
 | update_task | Update a sub-task | `itemId` (req), `taskId` (req), `title`, `taskStatus`, `assigneeId` |
 | complete_task | Mark a sub-task done | `itemId` (req), `taskId` (req) |
 | delete_task | Delete a sub-task | `itemId` (req), `taskId` (req) |
+| list_relations | List an issue's relations | `itemId` (req) |
 | add_relation | Link two issues | `itemId` (req), `relatedIssueId` (req), `relationType` |
-| remove_relation | Unlink | `relationId` (req) |
+| remove_relation | Unlink | `itemId` (req), `relationId` (req) |
+
+**Sub-issues.** An issue can be a child of another via `parentId`. Create children in
+one batch with `bulk_create` (shared `parentId`), list them with `list` (`parentId`),
+and read a parent's `childCount` from `get`. Sub-issues are real issues: dispatchable,
+scopable, taggable. `/sector137:decompose` drives the whole flow. Relations
+(`blocks`/`blocked_by`/`related_to`/`duplicate_of`) are peer links, separate from the
+parent/child hierarchy.
 
 ## `releases` — the rolling release
 
@@ -83,16 +94,38 @@ release always exists (it is the running "next"). You scope issues onto it, then
 | `list_products` | Products the API key can reach | — |
 | `create_product` | Create a product | `title` (req), `description`, `isPublic`, `universeId` |
 | `list_universes` | Universes the key can reach | — |
-| `get_product_tags` | Existing tags (assign real tagIds, don't invent) | — |
-| `list_boards` | Boards for the universe (resolve `boardId`) | — |
+
+## Tags — product work-item taxonomy
+
+| Tool | Purpose | Key parameters |
+|------|---------|----------------|
+| `get_product_tags` | List existing tags (assign real tagIds, don't invent) | `productId` |
+| `create_tag` | Create a tag under the key's product | `label` (req), `color` |
+| `update_tag` | Rename or recolor a tag | `tagId` (req), `label`, `color` |
+| `delete_tag` | Delete a tag (removes it from all issues) | `tagId` (req) |
+
+## Boards — parallel work tracks
+
+| Tool | Purpose | Key parameters |
+|------|---------|----------------|
+| `list_boards` | Boards for the universe (resolve `boardId`) | `universeId` (req) |
+| `create_board` | New board (not "Intake") | `universeId` (req), `name` (req), `description`, `viewMode` |
+| `update_board` | Rename / archive / reorder | `boardId` (req), `name`, `status`, `position`, `viewMode` |
+| `delete_board` | Delete a board (clears issues' `boardId`) | `boardId` (req) |
+| `list_board_labels` | A board's label vocabulary (resolve `labelIds`) | `boardId` (req) |
+| `create_board_label` | Add a label to a board | `boardId` (req), `name` (req), `color` |
+| `update_board_label` | Rename or recolor a board label | `boardId` (req), `labelId` (req), `name`, `color` |
+| `delete_board_label` | Remove a board label | `boardId` (req), `labelId` (req) |
 
 ## Data Model
 
 | Field | Values |
 |-------|--------|
-| **status** | `backlog`, `planned`, `in_progress`, `completed`, `cancelled` |
-| **priority** | `low`, `medium`, `high` |
+| **status** | `backlog`, `planned`, `in_progress`, `in_review`, `completed`, `cancelled` |
+| **horizon** | `now`, `next`, `later`, `someday` |
+| **priority** | `low`, `medium`, `high` (or `priorityValue`, a raw integer) |
 | **category** | `feature`, `improvement`, `bug`, `chore` |
+| **relation type** | `blocks`, `blocked_by`, `related_to`, `duplicate_of` |
 | **task status** | `pending`, `in_progress`, `done` |
 | **release status** | `active`, `published` |
 | **note type** | `note`, `completion_report`, `concern`, `decision` |

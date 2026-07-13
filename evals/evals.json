@@ -43,6 +43,25 @@
       ]
     },
     {
+      "id": "decompose-proposes-before-writing",
+      "skill": "decompose",
+      "prompt": "decompose the user onboarding epic #42 into sub-issues",
+      "assertions": [
+        { "type": "regex", "pattern": "(?i)propos|approv|before.{0,25}creat" },
+        { "type": "contains", "text": "bulk_create" },
+        { "type": "regex", "pattern": "(?i)parent|sub-issue|child" }
+      ]
+    },
+    {
+      "id": "decompose-never-closes-parent",
+      "skill": "decompose",
+      "prompt": "break epic #42 into sub-issues and work through them",
+      "assertions": [
+        { "type": "contains", "text": "/sector137:issues" },
+        { "type": "regex", "pattern": "(?i)parent.{0,25}(open|your call)|(never|don.t).{0,25}parent" }
+      ]
+    },
+    {
       "id": "ship-enforces-strict-gate",
       "skill": "ship",
       "prompt": "ship the release",

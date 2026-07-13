@@ -12,6 +12,27 @@
       ]
     },
     {
+      "id": "decompose-uses-bulk-create",
+      "skill": "decompose",
+      "prompt": "decompose onboarding epic #42 into exactly these three sub-issues and create them now, approved: 1) email verification 2) profile setup 3) welcome tour",
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" },
+        { "type": "toolArgs", "tool": "mcp__sector137__issues", "pattern": "\"action\"\\s*:\\s*\"bulk_create\"" }
+      ]
+    },
+    {
+      "id": "decompose-offline-fallback",
+      "skill": "decompose",
+      "prompt": "decompose the onboarding epic into sub-issues",
+      "dualMode": true,
+      "assertions": [
+        { "type": "toolCalled", "tool": "mcp__sector137__issues" }
+      ],
+      "offlineAssertions": [
+        { "type": "regex", "pattern": "(?i)offline|roadmap\\.md" }
+      ]
+    },
+    {
       "id": "prioritize-uses-by-status",
       "skill": "prioritize",
       "prompt": "show me the kanban board",
