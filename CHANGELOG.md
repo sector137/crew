@@ -5,6 +5,8 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] — UX walkthrough
+
 ### Added
 - **`/sector137:ux-walkthrough`.** Drives a real browser step-by-step through a user
   flow (from a natural-language description, a saved flow in `.sector137/ux-flows/`,
