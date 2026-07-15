@@ -87,6 +87,7 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 | **Build & verify** | `/sector137:build` | Implement TDD-first; sub-tasks; human confirmation gate |
 | | `/sector137:test` | Run the suite — unit / e2e / types / sdk / changed |
 | | `/sector137:review` | Performance/quality pass; fixes issues directly |
+| | `/sector137:ux-walkthrough` | Drive a real browser through a user flow, hand evidence to Wren for a UX report |
 | **Ship** | `/sector137:release` | Show and annotate the rolling active release |
 | | `/sector137:scope` | Route issues into or out of the active release |
 | | `/sector137:ship` | Cut the release — strict gate: scoped issues done, tests pass, you pick the version bump |

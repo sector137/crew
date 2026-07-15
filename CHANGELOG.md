@@ -5,6 +5,13 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **`/sector137:ux-walkthrough`.** Drives a real browser step-by-step through a user
+  flow (from a natural-language description, a saved flow in `.sector137/ux-flows/`,
+  or a prototype blueprint), captures neutral per-step UX evidence, then hands it to
+  `design-wren` for a severity-ranked UX report. Flows can be saved and re-run as
+  repeatable UX regression checks.
+
 ## [0.4.0] — The full crew
 
 ### Added
