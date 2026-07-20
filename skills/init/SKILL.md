@@ -19,17 +19,70 @@ Initialize or sync a project roadmap with the MCP server. This is where Sal cali
 
 If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
-If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)**.
+If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)** or **Step 0B (State Sync)**, whichever applies.
+
+---
+
+## Step 0: Local State Format Detection
+
+Before scanning for a roadmap file, check `.sector137/state.json`.
+
+**Found**: this project uses the newer JSON state format (a full `StateDocument`: `issues[]`/`issueTasks[]`/`issueNotes[]`/`releases[]`/`tags[]`, each entity wrapped in a `meta` envelope with `origin`/`serverId`/`localId`/`dirty`/`syncedAt`). Go to **Step 0A**.
+
+**Not found**: legacy project. Go to **Step 1 (Mode Detection)** and the `.sector137/roadmap.md` flow below.
+
+Both formats are valid. `state.json` is preferred for new projects: it round-trips losslessly with the server's `export_state`/`sync_state`/`import_state` tools, with no lossy markdown parsing. `roadmap.md` remains supported for projects already using it; don't migrate a working `roadmap.md` project unprompted.
+
+### Step 0A: Bind to a product
+
+Read `.sector137/state.json`. If it has no top-level `product` field, this project's local state has never been bound to a server-side product. Ask which product it belongs to:
+
+1. Call `mcp__sector137__list_products` (see note below on tool-name resolution).
+2. If exactly one product exists and its name obviously matches the repo (e.g. repo `tatiya`, product `Tatiya`), confirm with the user rather than assume: "Bind this project to the **{name}** product on the server? (yes/no/pick another)"
+3. If none match, offer `mcp__sector137__create_product` with the repo's directory name as a starting point, or let the user pick from the list.
+
+Once bound, note the `productId` and `universeId` for Step 0B. Don't ask again this session.
+
+### Step 0B: State Sync (bulk)
+
+This is the preferred sync path: one call instead of N `create` calls.
+
+1. Call `mcp__sector137__export_state` with the bound `productId` to fetch the server's current snapshot (issue count, for the preview below).
+2. Build the local `document`: the local file's `issues`/`issueTasks`/`issueNotes`/`releases`/`tags`, plus a `product: {id, slug, name}` field (and `universe` if known). **Status mapping**: `state.json` files written by older sessions may use ad-hoc status words (`"done"`, `"open"`) instead of the server enum (`backlog`/`planned`/`in_progress`/`completed`/`cancelled`). Map before sending:
+   | Local word | Maps to |
+   |---|---|
+   | `done` | `completed` |
+   | `open` + `horizon: now` | `planned` |
+   | `open` + `horizon: next` or `later` | `backlog` |
+   This is a best-effort default. Tell the user you applied it and that they can bulk-correct afterward with `mcp__sector137__issues` `action: "bulk_update_status"`.
+3. Preview: "Found {N} local issues ({X} done, {Y} open), server has {M}. Push local to server?" (yes/no)
+4. Call `mcp__sector137__sync_state` with the built `document`.
+   - **Success**: write the returned `document` back to `.sector137/state.json` verbatim (it carries the real `serverId`s and fresh `syncedAt` timestamps). Report a short summary table (created/updated/pulled/conflicts) from the `results` field.
+   - **Failure**: do not silently drop to Local Mode. Report the exact error to the user. If the error is `MISSING_DOCUMENT` / `"document is required"` with a non-empty document actually sent, this is a known, previously-seen server-side bug, not fixable from this plugin. Tell the user directly, then offer the fallback below rather than looping on retries.
+
+**Fallback if `sync_state` is broken or unavailable**: iterate `.sector137/state.json`'s `issues[]` and create them one at a time via `mcp__sector137__issues` `action: "create"` (same mechanism as Step 3D below), applying the same status mapping. Slower and loses the `results`/conflict-surfacing, but works against the same `create` endpoint every other flow in this skill already relies on. After each successful create, set that issue's `meta.serverId` and `meta.dirty: false` in `state.json` and write the file back incrementally, so an interrupted run doesn't lose progress or double-create on retry (check `meta.serverId` before creating).
 
 ---
 
 ## Step 1: Mode Detection
 
-Call `mcp__sector137__issues` with `action: "stats"`.
+Try `mcp__sector137__issues` with `action: "stats"` first.
 
-**Success** → MCP connected. Full telemetry. Go to Step 2.
+**Tool not found under that name** (only happens on first run in a project with no `.mcp.json`; the plugin's bundled MCP connection loads tools under a longer, plugin-namespaced form): search for a tool matching `*issues` on a server whose other tools include `list_products`/`releases`/`sync_state`. Use whatever name resolves; don't hard-fail just because the short name isn't present. Once resolved, use that same resolved name for every MCP call for the rest of this session, and don't re-resolve per call.
 
-**Failure** → Offer Local mode:
+Mention it once, don't nag: "Note: `.mcp.json` isn't set up in this project, so tool calls need an extra resolution step each session. Want me to add it? Gives every skill the short tool names directly. (yes/no)" If yes:
+1. Write `.mcp.json` at the project root:
+   ```json
+   {
+     "mcpServers": {
+       "sector137": { "type": "http", "url": "https://app.sector137.io/mcp" }
+     }
+   }
+   ```
+2. Add `.mcp.json` to `.gitignore` if not already covered (it's per-developer, see README's "Connect the server").
+3. Tell the user Claude Code will prompt to trust this project MCP server on the next tool call. That's expected, approve it.
+
+**Genuinely unreachable** (network/auth failure, not just a naming mismatch) → offer Local mode:
 ```
 Comms array not reachable. Check SECTOR137_API_KEY in .mcp.json.
 
@@ -37,6 +90,8 @@ Work locally instead? I'll save changes to .sector137/roadmap.md and sync later.
 ```
 - Yes → Step 3C (Local Mode)
 - No → Stop: "Set `SECTOR137_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
+
+**Success** → MCP connected. Full telemetry. Go to Step 2.
 
 ---
 
@@ -119,9 +174,9 @@ Confirm: "Recorded locally: {N} items in `.sector137/roadmap.md`. Run `/sector13
 
 ---
 
-## Step 3D: Sync Mode (local items → server)
+## Step 3D: Sync Mode (local items → server, roadmap.md projects)
 
-Triggered by `--sync` or when `.sector137/roadmap.md` has `#local-*` IDs and MCP is connected.
+Triggered by `--sync` or when `.sector137/roadmap.md` has `#local-*` IDs and MCP is connected. (Projects with `.sector137/state.json` use Step 0B instead — bulk sync, not this one-at-a-time flow.)
 
 ```
 Found {N} unsynced items (#local-001 through #local-{n}).
@@ -147,6 +202,9 @@ Synced {N} items. The system is calibrated.
 
 | Situation | Response |
 |-----------|----------|
-| MCP unavailable | Offer Local mode |
+| MCP unavailable (genuine network/auth failure) | Offer Local mode |
+| MCP tool names resolve under a different (plugin-namespaced) prefix | Resolve once, proceed. See Step 1. Don't treat as unavailable. |
+| `.sector137/state.json` has no bound product | Step 0A. Ask, don't guess. |
+| `sync_state` returns `MISSING_DOCUMENT` / `"document is required"` despite a real document being sent | Known server-side bug, not fixable here. Report it plainly and use the Step 0B fallback (per-issue `create` loop). |
 | Empty roadmap file | Treat as Create Mode |
 | User cancels | "No changes made. Run `/sector137:init` again when ready. I'm patient." |

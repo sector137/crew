@@ -6,9 +6,18 @@ All `/sector137:sal` workflows detect MCP availability before proceeding. I need
 
 Call `mcp__sector137__issues` with `action: "stats"`.
 
-**Success → MCP mode.** Full telemetry. Use MCP tools for all operations.
+**Tool not found under that exact name** (common on first run in a project without its
+own `.mcp.json` — the plugin's bundled connection loads tools under a longer,
+plugin-namespaced form, e.g. `mcp__plugin_sector137_sector137__issues`): this is not
+"MCP unavailable." Resolve the real tool name once (look for whatever tool on the same
+server matches `*issues` alongside `*list_products`/`*releases`/`*sync_state`) and reuse
+it for the rest of the session. Mention it once — offer to set up a project `.mcp.json`
+(see README's "Connect the server") so future sessions get the short name directly
+instead of re-resolving every time — but don't block on it.
 
-**Failure → Local mode.** Flying on instruments only. Read/write `.sector137/roadmap.md` instead.
+**Call succeeds (under either name) → MCP mode.** Full telemetry. Use MCP tools for all operations.
+
+**Call fails outright** (network error, auth error, no matching tool exists at all) **→ Local mode.** Flying on instruments only. Read/write `.sector137/roadmap.md` instead.
 
 ## Canonical Fallback Line
 

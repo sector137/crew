@@ -1,6 +1,12 @@
 # MCP Tools Reference — Sal's Instrument Panel
 
-All tools are prefixed `mcp__sector137__`. These are my hands. This is how I touch the system.
+Tools are prefixed `mcp__sector137__` when the project has its own `.mcp.json` (see
+README's "Connect the server"). Without one, the plugin's bundled connection still
+works, but Claude Code loads it under a longer, plugin-namespaced form instead
+(`mcp__plugin_sector137_sector137__...`). Every skill in this repo is written against
+the short form — resolve once per session if it's not present (see
+`mode-detection.md`) rather than treating a naming mismatch as "MCP unavailable."
+These are my hands either way. This is how I touch the system.
 
 The server consolidates issue, note, task, and release work into two action-dispatch
 tools: `issues` and `releases`. One tool, an `action` parameter, many operations. I
@@ -94,6 +100,31 @@ release always exists (it is the running "next"). You scope issues onto it, then
 | `list_products` | Products the API key can reach | — |
 | `create_product` | Create a product | `title` (req), `description`, `isPublic`, `universeId` |
 | `list_universes` | Universes the key can reach | — |
+
+## State Sync (bulk) — `.sector137/state.json` projects
+
+For projects using the newer JSON local-state format (see `roadmap-schema.md`'s note
+on `state.json` vs `roadmap.md`) instead of one-issue-at-a-time `create` calls.
+
+| Tool | Purpose | Key parameters |
+|------|---------|----------------|
+| `export_state` | Full snapshot for a product (issues + tasks + notes + releases + tags) | `productId` (required — there is no account-wide default; omitting it errors `MISSING_PRODUCT`) |
+| `sync_state` | Bidirectional: push local creates/updates, pull server-only entities, surface conflicts. Returns `{ document, results }` | `document` (the current local `StateDocument`, matching `export_state`'s output shape) |
+| `import_state` | Push-only: create local-only entities, update dirty ones with matching `etag`, return conflicts without auto-merging | `document` |
+
+Each entity in a `StateDocument` carries a sync envelope: `meta.origin` (`local` or
+`server`), `meta.serverId` (`null` until synced), `meta.dirty`, `meta.syncedAt`. Use
+`sync_state` for routine syncs (it reconciles both directions); reach for `import_state`
+only when you specifically want a one-way push and are prepared to handle conflicts
+yourself.
+
+**Known issue (as of 2026-07-20):** `sync_state` has returned `{"error":"document is
+required","code":"MISSING_DOCUMENT"}` even when a well-formed, non-empty `document` was
+sent — reproduced with both a full document and a minimal one. This is server-side (the
+server implementation isn't part of this repo — it's not something a plugin fix can
+patch) and needs root-causing against the live server, not the client. Until it's
+confirmed fixed, don't loop retrying it — fall back to the per-issue `create` loop
+(`skills/init/SKILL.md`'s Step 0B fallback) and tell the user plainly what happened.
 
 ## Tags — product work-item taxonomy
 

@@ -2,6 +2,14 @@
 
 Local fallback file format for offline operation. When the Comms Array is down, this is how we track The Other Side.
 
+**Note:** this is the markdown format for projects that predate the newer JSON state
+format. If `.sector137/state.json` exists in the project instead, that's the format in
+use — a full `StateDocument` (`issues[]`/`issueTasks[]`/`issueNotes[]`/`releases[]`/`tags[]`,
+each wrapped in a sync envelope) that round-trips with `mcp__sector137__export_state` /
+`sync_state` / `import_state` directly, no markdown parsing involved. See
+`mcp-tools.md`'s "State Sync (bulk)" section and `skills/init/SKILL.md`'s Step 0. Don't
+run both formats in the same project — `skills/init` picks one at Step 0 and stays on it.
+
 Status words match the server exactly: `backlog`, `planned`, `in_progress`, `in_review`, `completed`, `cancelled`. The inline tag on each bullet is authoritative; the section is a coarse grouping.
 
 ## File Structure

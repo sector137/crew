@@ -5,6 +5,31 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] — Project setup and state sync
+
+### Added
+- **`/sector137:init` supports `.sector137/state.json` projects.** New Step 0 detects
+  the newer JSON local-state format (a full `StateDocument`, round-trips with
+  `export_state`/`sync_state`/`import_state`) alongside the existing
+  `.sector137/roadmap.md` markdown flow, binds the project to a server-side product,
+  and bulk-syncs instead of creating issues one at a time. Falls back to a per-issue
+  `create` loop if the bulk sync tool errors, with a status-word mapping table for
+  older ad-hoc `state.json` files (`"done"`/`"open"` → the server's status enum).
+- **`references/mcp-tools.md` documents the bulk State Sync tools** (`export_state`,
+  `sync_state`, `import_state`) for the first time, including a known-issue note for a
+  reproduced `sync_state` server error (`MISSING_DOCUMENT`) so sessions don't waste
+  time re-discovering it.
+
+### Fixed
+- **Tool-name resolution when the plugin's bundled MCP connection loads without a
+  project-level `.mcp.json`.** Claude Code namespaces tools differently in that case
+  (`mcp__plugin_sector137_sector137__...` instead of the `mcp__sector137__...` every
+  skill is written against). `references/mode-detection.md` and `skills/init/SKILL.md`
+  now resolve the actual tool name once per session instead of treating the mismatch
+  as "MCP unavailable," and `/sector137:init` offers to write a project `.mcp.json` to
+  avoid the extra resolution step on future sessions. README's "Connect the server"
+  section explains the quirk and the fix up front.
+
 ## [0.5.0] — UX walkthrough
 
 ### Added

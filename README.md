@@ -42,18 +42,40 @@ Then apply it without restarting:
 
 Browse, enable, or disable it anytime from the `/plugin` menu (Installed tab).
 
-### 2. Connect the server (optional)
+### 2. Connect the server (optional, but recommended per-project)
 
 The plugin bundles a `.mcp.json` pointing at `https://app.sector137.io/mcp`. On your
 first `/sector137:` command Claude Code offers to connect via OAuth — approve it and
-the crew has live telemetry.
+the crew has live telemetry. This works with zero per-project setup.
 
-Running headless or in CI? Set an API key instead of OAuth: put `SECTOR137_API_KEY`
-(an `rl_live_…` key from your dashboard) in `.mcp.json` under
+**One naming quirk worth knowing about.** When the MCP server loads via the plugin's
+bundled connection (the path above), Claude Code namespaces its tools under a longer,
+plugin-prefixed form (`mcp__plugin_sector137_sector137__...`) rather than the short
+`mcp__sector137__...` every skill in this repo is written against. Skills still work —
+Sal resolves the actual tool name once per session (`references/mode-detection.md`) —
+but you'll see one extra trust/permission prompt per session instead of an
+auto-granted one. **Add a project-level `.mcp.json` to skip that**: at your project
+root (gitignored, per-developer — don't commit it):
+
+```json
+{
+  "mcpServers": {
+    "sector137": { "type": "http", "url": "https://app.sector137.io/mcp" }
+  }
+}
+```
+
+`/sector137:init` offers to create this for you on first run if it's missing. Claude
+Code will ask you to trust the new project MCP server the first time a tool call needs
+it — approve it once.
+
+Running headless or in CI? Same file, plus an API key instead of interactive OAuth: put
+`SECTOR137_API_KEY` (an `rl_live_…` key from your dashboard) under
 `mcpServers.sector137.env`. Setup: https://docs.sector137.io/claude-code.
 
-No server? Skip this step. Everything except `/sector137:prototype` works offline
-against `.sector137/roadmap.md`.
+No server? Skip this step entirely. Everything except `/sector137:prototype` works
+offline against `.sector137/roadmap.md` (or `.sector137/state.json` on newer projects —
+see `references/roadmap-schema.md`).
 
 ### 3. Your first five minutes
 
@@ -73,6 +95,7 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 - **"Can't authenticate" / auth error** → reconnect via OAuth, or set `SECTOR137_API_KEY`. See https://docs.sector137.io/claude-code.
 - **On an old version** → `/sector137:update` shows the changelog delta and updates in place.
 - **Two crews collide** (another plugin claims `/sector137:`) → `/sector137:update` names the shadowing install; disable the extra from the `/plugin` menu.
+- **Extra permission prompt every session for sector137 tools** → add a project `.mcp.json` (see "Connect the server" above) so tools load under the short name skills expect, instead of the plugin's longer namespaced form.
 
 ---
 
