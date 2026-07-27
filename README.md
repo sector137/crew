@@ -93,6 +93,9 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 
 - **Command not found after install** → run `/reload-plugins` (or restart the session).
 - **"Can't authenticate" / auth error** → reconnect via OAuth, or set `SECTOR137_API_KEY`. See https://docs.sector137.io/claude-code.
+- **OAuth redirects to `localhost` and just hangs/fails when Claude Code runs on a remote box** (SSH session, remote VM, container, devcontainer, etc.) accessed through a browser on a *different* machine → this is expected, not a bug on our end. The interactive OAuth flow starts a callback listener on `localhost` on whichever machine is running Claude Code; if your browser is on a separate machine, its "localhost" points at itself, not at the listener, so the redirect can never be caught. Two ways around it:
+  - **Recommended:** skip OAuth — set `SECTOR137_API_KEY` (see above). This is the documented path for headless/CI use, and a remote box reached through a browser terminal counts as headless here.
+  - Or forward the callback port over SSH so your browser's `localhost` actually reaches the remote listener, e.g. `ssh -L 3118:localhost:3118 user@remote-host`, then retry the `/sector137:` command for a fresh authorize link (an old/stale link's listener is already gone).
 - **On an old version** → `/sector137:update` shows the changelog delta and updates in place.
 - **Two crews collide** (another plugin claims `/sector137:`) → `/sector137:update` names the shadowing install; disable the extra from the `/plugin` menu.
 - **Extra permission prompt every session for sector137 tools** → add a project `.mcp.json` (see "Connect the server" above) so tools load under the short name skills expect, instead of the plugin's longer namespaced form.
