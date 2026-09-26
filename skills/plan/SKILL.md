@@ -4,7 +4,7 @@ description: >
   Plan the approach for an issue or feature before building. Sal reads the spec, explores relevant code, and produces a concrete implementation plan with file paths, steps, and risks.
   Triggers on: "plan", "design approach", "how should I build", "think through", "plan out".
 argument-hint: "[issue ID, title, or description of what to plan]"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues, mcp__plugin_sector137_sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -21,7 +21,7 @@ I don't guess. I read the system, understand the constraints, and produce a plan
 
 ## Pre-flight
 
-Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

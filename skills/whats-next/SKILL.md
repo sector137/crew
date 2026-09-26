@@ -17,7 +17,7 @@ User input: $ARGUMENTS
 
 Generate 5 prioritized next actions from live roadmap state, recent commits, and codebase signals. This is me looking at the system and telling you what matters.
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 Focus area (if specified): $ARGUMENTS
 

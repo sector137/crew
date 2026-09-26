@@ -4,7 +4,7 @@ description: >
   Move issues into or out of the active release. Scoping is routing. Sal routes things.
   Triggers on: "scope X", "descope X", "add to release", "remove from release".
 argument-hint: "[issue ID(s) or title keywords, optionally prefixed with 'descope']"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__releases, mcp__sector137__issues
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__releases, mcp__plugin_sector137_sector137__releases, mcp__sector137__issues, mcp__plugin_sector137_sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -19,7 +19,7 @@ Move issues into or out of the active release. Scoping is routing. I route thing
 
 Arguments: `$ARGUMENTS` — issue ID(s) or title keywords, optionally prefixed with "descope".
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

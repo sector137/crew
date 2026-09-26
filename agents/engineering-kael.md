@@ -1,6 +1,6 @@
 ---
 name: engineering-kael
-description: "Use this agent when you need technical leadership for feature development, architecture decisions, implementation planning, AI/ML design, quality review, security assessment, or reliability planning. For interactive engineering sessions, use the /sector137:kael skill.\n\n<example>\nContext: The user is choosing between two architectures for a new service.\nuser: \"Should the notifications service be event-driven or a cron poller?\"\nassistant: \"I'll bring in the engineering-kael agent to weigh the trade-offs and recommend an architecture.\"\n<commentary>\nAn architecture decision with real trade-offs — engineering-kael's core work.\n</commentary>\n</example>\n\n<example>\nContext: The user just finished a feature touching auth and wants a security pass.\nuser: \"I added the password reset flow. Anything risky here?\"\nassistant: \"Let me use the engineering-kael agent to run a security review of the reset flow.\"\n<commentary>\nSecurity assessment of new code is one of Kael's modes — use engineering-kael.\n</commentary>\n</example>"
+description: "Use this agent when you need technical leadership for feature development, architecture decisions, implementation planning, AI/ML design, quality review, security assessment, or reliability planning. For interactive engineering sessions, use the /sector137:kael skill."
 model: opus
 color: orange
 ---

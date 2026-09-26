@@ -4,7 +4,7 @@ description: >
   Break a big issue into sub-issues, batch-create them under the parent, then work them one at a time. Proposes the breakdown for approval before writing, and never closes the parent for you.
   Triggers on: "decompose", "break down", "split into sub-issues", "break this epic into", "chunk this work", "create sub-issues".
 argument-hint: "[epic/issue ID or title, e.g. '42' or 'user onboarding']"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues, mcp__sector137__agents
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues, mcp__plugin_sector137_sector137__issues, mcp__sector137__agents, mcp__plugin_sector137_sector137__agents
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -21,7 +21,7 @@ One big issue is hard to dispatch, hard to track, hard to finish. I split it int
 
 ## Pre-flight
 
-Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

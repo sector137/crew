@@ -17,7 +17,7 @@ User input: $ARGUMENTS
 
 Initialize or sync a project roadmap with the MCP server. This is where Sal calibrates to your system.
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)** or **Step 0B (State Sync)**, whichever applies.
 
@@ -82,14 +82,14 @@ Mention it once, don't nag: "Note: `.mcp.json` isn't set up in this project, so 
 2. Add `.mcp.json` to `.gitignore` if not already covered (it's per-developer, see README's "Connect the server").
 3. Tell the user Claude Code will prompt to trust this project MCP server on the next tool call. That's expected, approve it.
 
-**Genuinely unreachable** (network/auth failure, not just a naming mismatch) → offer Local mode:
+**Genuinely unreachable** (network/auth failure, not just a naming mismatch) → probe the server first and name the real cause (see `../../references/mode-detection.md`, "Before telling the user it's an auth problem"). Then offer Local mode:
 ```
-Comms array not reachable. Check SECTOR137_API_KEY in .mcp.json.
+Comms array not reachable: {server down (HTTP {code}) | not authorized: run `claude mcp login plugin:sector137:sector137`}.
 
-Work locally instead? I'll save changes to .sector137/roadmap.md and sync later. (yes/no)
+Work locally instead? I'll save changes to {.sector137/state.json if it exists, else .sector137/roadmap.md} and sync later. (yes/no)
 ```
 - Yes → Step 3C (Local Mode)
-- No → Stop: "Set `SECTOR137_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
+- No → Stop: "Fix the cause above, start a new session, then run `/sector137:init` again. I'll be here."
 
 **Success** → MCP connected. Full telemetry. Go to Step 2.
 
@@ -168,7 +168,9 @@ See `../../references/roadmap-schema.md` for format.
 
 ## Step 3C: Local Mode (MCP unavailable)
 
-Same discovery questions as Create Mode. Write `.sector137/roadmap.md` with `#local-{n}` IDs.
+**If `.sector137/state.json` exists, stop here:** the project already has local state. Tell the user it will sync once MCP is reachable, and never create `roadmap.md` beside it, because a second file is a competing source of truth.
+
+Otherwise: same discovery questions as Create Mode. Write `.sector137/roadmap.md` with `#local-{n}` IDs.
 
 Confirm: "Recorded locally: {N} items in `.sector137/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 

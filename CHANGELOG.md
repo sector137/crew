@@ -5,6 +5,45 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] — Fixes from real use
+
+Driven by an audit of 493 sessions in one heavy-use project (2026-07-20 → 09-26): the
+plugin was active in 5.5% of them, the MCP was unreachable for 27 days under a misleading
+label, and every offline fallback pointed at a file the project never had.
+
+### Changed
+- **Offline fallback prefers `.sector137/state.json`.** The canonical fallback line (11
+  skills + `references/mode-detection.md`) now reads `state.json` if it exists, else
+  `roadmap.md`. Local Mode Rules document writing `state.json` directly, and
+  `/sector137:init` Step 3C never creates `roadmap.md` beside an existing `state.json`.
+  Before this, sessions probed for `roadmap.md` and found nothing, and init's local mode
+  would have created a competing second roadmap.
+- **Outage vs auth.** Mode detection probes `https://app.sector137.io/mcp` before blaming
+  auth: `401` → `claude mcp login plugin:sector137:sector137`; `5xx`/timeout → server down,
+  logging in won't help. Claude Code shows "needs authentication" for both; the two
+  probed cases in the audit were both outages.
+- **`allowed-tools` lists both tool-name forms** (`mcp__sector137__X` and
+  `mcp__plugin_sector137_sector137__X`) in the 9 skills that name MCP tools, so
+  pre-approval works whether the server loads via the plugin or a project `.mcp.json`.
+  `tests/mcp-contract.ts` validates both forms.
+- **Agent descriptions trimmed** to their lead paragraph — the `<example>` blocks are gone.
+  Always-on cost falls from ~7.7K to ~4.6K tokens per session (`claude plugin details`).
+- **Wrap-up fast path.** `/sector137:sal wrap this session` (and "clean up this session")
+  goes straight to `handoff`. This was Sal's most common real request. `handoff`'s
+  triggers include both phrasings.
+
+### Removed
+- **Unwired the pre-commit quality gate, UI-change tracker and session-stop summary
+  hooks.** Plain stdout from PreToolUse/PostToolUse/Stop hooks never reaches the model,
+  and 422 design-review nudges produced 0 reviews. The scripts stay in `hooks/` for anyone
+  who wants to wire them. The SessionStart update check stays.
+
+### Fixed
+- **API-key setup.** README and `mode-detection.md` told headless users to put
+  `SECTOR137_API_KEY` under `mcpServers.sector137.env`, which does nothing for an `http`
+  server. The key goes in an `Authorization: Bearer` header; the README now registers it
+  with `claude mcp add --header` at local scope, outside any committed file.
+
 ## [0.6.0] — Project setup and state sync
 
 ### Added

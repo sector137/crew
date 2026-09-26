@@ -1,5 +1,5 @@
 {
-  "description": "Hook definitions for the sector137 plugin. Commands resolve against ${CLAUDE_PLUGIN_ROOT} so they work from the plugin cache without symlinks. Hooks that bind to a specific external CLI (rtk-rewrite.sh, gemini-qa-on-todo-complete.sh) ship in hooks/ but are left unwired here — enable them yourself if you use those tools.",
+  "description": "Hook definitions for the sector137 plugin. Commands resolve against ${CLAUDE_PLUGIN_ROOT} so they work from the plugin cache without symlinks. Only the update check is wired. The pre-commit quality gate, UI-change tracker and session-stop summary ship in hooks/ but are unwired: their plain stdout never reaches the model, and in real use 422 design-review nudges produced 0 reviews. rtk-rewrite.sh and gemini-qa-on-todo-complete.sh are likewise unwired \u2014 enable any of them yourself.",
   "hooks": {
     "SessionStart": [
       {
@@ -10,51 +10,6 @@
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check-plugin-update.sh",
             "timeout": 10,
             "description": "Notify once/day when this plugin install is behind its marketplace"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/pre-commit-quality-gate.sh",
-            "description": "Runs quality gates before git commits"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/ui-change-tracker.sh",
-            "description": "Tracks UI file changes for design review"
-          }
-        ]
-      },
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/ui-change-tracker.sh",
-            "description": "Tracks UI file changes for design review"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/session-stop-summary.sh",
-            "description": "Generates session summary on stop"
           }
         ]
       }
