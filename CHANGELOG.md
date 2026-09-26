@@ -32,6 +32,16 @@ label, and every offline fallback pointed at a file the project never had.
   goes straight to `handoff`. This was Sal's most common real request. `handoff`'s
   triggers include both phrasings.
 
+- **Product-scoped reads.** `issues` `list`/`stats` can't be filtered to one product and
+  were returning several products' issues mixed together. `mode-detection.md` now routes
+  roadmap reads through `export_state {productId}`, using the product bound in `state.json`.
+- **`/sector137:init` state sync, corrected.** The "known server bug" (`MISSING_DOCUMENT`)
+  was a client document in the wrong shape. Step 0B now builds the document from
+  `export_state` output (`{data, meta}` entities, all required top-level fields). The
+  fallback is `bulk_create` in batches of 10, with a checkpoint after each batch. After
+  importing history, init offers to publish a baseline release, because imported issues,
+  completed ones included, land on the active release and can't be detached.
+
 ### Removed
 - **Unwired the pre-commit quality gate, UI-change tracker and session-stop summary
   hooks.** Plain stdout from PreToolUse/PostToolUse/Stop hooks never reaches the model,

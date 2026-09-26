@@ -17,6 +17,8 @@ instead of re-resolving every time — but don't block on it.
 
 **Call succeeds (under either name) → MCP mode.** Full telemetry. Use MCP tools for all operations.
 
+**Read the right product.** `issues` `list` and `stats` take no `productId` and can return several products' issues mixed together, so never plan from them. Take the `productId` from `.sector137/state.json`'s top-level `product` (or `list_products`), read that product's roadmap with `export_state {productId}`, and filter locally. Writes (`create`, `bulk_create`, `update`) take the `productId` directly.
+
 **Call fails outright** (network error, auth error, no matching tool exists at all) **→ Local mode.** Flying on instruments only. Use the local state file (see Local Mode Rules).
 
 **Before telling the user it's an auth problem, find out which failure it is.** Claude Code
