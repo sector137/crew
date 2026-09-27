@@ -5,6 +5,19 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.2] — Sal's frontmatter parses again
+
+### Fixed
+- **`/sector137:sal` loaded with no metadata in 0.7.1.** Its description nested double
+  quotes inside a double-quoted YAML string, so the frontmatter failed to parse and every
+  field (description, allowed-tools) was silently dropped. Now single-quoted.
+- **`lint:plugin` could never fail.** It ran `claude plugin validate . --strict || echo
+  skipped`, so a failed validation printed "claude CLI not found — skipped" and exited 0.
+  And validating `.` checks only the marketplace manifest, not the plugin's skills. It
+  now also validates `.claude-plugin/plugin.json` (which parses every skill's
+  frontmatter) and fails for real when the CLI is present. Mutation-checked: re-breaking
+  the Sal line makes it exit 1.
+
 ## [0.7.1] — Wrap only when work is left
 
 ### Changed
