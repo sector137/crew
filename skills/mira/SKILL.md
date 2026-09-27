@@ -10,20 +10,31 @@ allowed-tools:
   - Task
   # Universes
   - mcp__sector137__list_universes
+  - mcp__plugin_sector137_sector137__list_universes
   - mcp__sector137__get_universe
+  - mcp__plugin_sector137_sector137__get_universe
   - mcp__sector137__get_universe_context
+  - mcp__plugin_sector137_sector137__get_universe_context
   - mcp__sector137__list_products
+  - mcp__plugin_sector137_sector137__list_products
   # Pipeline — Issues (read)
   - mcp__sector137__issues
+  - mcp__plugin_sector137_sector137__issues
   # Pipeline — Releases (read)
   - mcp__sector137__releases
+  - mcp__plugin_sector137_sector137__releases
   # Foundry — Agents (read + manage)
   - mcp__sector137__agents
+  - mcp__plugin_sector137_sector137__agents
   - mcp__sector137__list_crew_conversations
+  - mcp__plugin_sector137_sector137__list_crew_conversations
   - mcp__sector137__list_crew_threads
+  - mcp__plugin_sector137_sector137__list_crew_threads
   - mcp__sector137__ask_crew_agent
+  - mcp__plugin_sector137_sector137__ask_crew_agent
   # Tags (read)
   - mcp__sector137__get_product_tags
+  - mcp__plugin_sector137_sector137__get_product_tags
 ---
 
 # Mira Strand — Navigator + Crew Coach

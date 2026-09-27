@@ -17,7 +17,7 @@ User input: $ARGUMENTS
 
 Initialize or sync a project roadmap with the MCP server. This is where Sal calibrates to your system.
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 If `--sync` was passed in arguments, skip to **Step 3D (Sync Mode)** or **Step 0B (State Sync)**, whichever applies.
 
@@ -48,19 +48,21 @@ Once bound, note the `productId` and `universeId` for Step 0B. Don't ask again t
 This is the preferred sync path: one call instead of N `create` calls.
 
 1. Call `mcp__sector137__export_state` with the bound `productId` to fetch the server's current snapshot (issue count, for the preview below).
-2. Build the local `document`: the local file's `issues`/`issueTasks`/`issueNotes`/`releases`/`tags`, plus a `product: {id, slug, name}` field (and `universe` if known). **Status mapping**: `state.json` files written by older sessions may use ad-hoc status words (`"done"`, `"open"`) instead of the server enum (`backlog`/`planned`/`in_progress`/`completed`/`cancelled`). Map before sending:
+2. Build the `document` by editing step 1's `export_state` output, never from scratch. The server validates its exact shape: top-level `version`, `product`, `universe`, `exportedAt`, `lastSyncedAt`, `source`, all five arrays, and every entity wrapped as `{ "data": { … }, "meta": { … } }` (see `references/mcp-tools.md`). Append each local issue as `{data: {title, description, status, category, horizon, …}, meta: {origin: "local", serverId: null, localId, dirty: true, syncedAt: null}}`. Descriptions over 2,000 characters are rejected, so truncate them first with a pointer to the full text. **Status mapping**: `state.json` files written by older sessions may use ad-hoc status words (`"done"`, `"open"`) instead of the server enum (`backlog`/`planned`/`in_progress`/`completed`/`cancelled`). Map before sending:
    | Local word | Maps to |
    |---|---|
    | `done` | `completed` |
    | `open` + `horizon: now` | `planned` |
    | `open` + `horizon: next` or `later` | `backlog` |
-   This is a best-effort default. Tell the user you applied it and that they can bulk-correct afterward with `mcp__sector137__issues` `action: "bulk_update_status"`.
+   This is a best-effort default. Tell the user you applied it and that they can correct individual issues afterward with `mcp__sector137__issues` `action: "update_status"`.
 3. Preview: "Found {N} local issues ({X} done, {Y} open), server has {M}. Push local to server?" (yes/no)
 4. Call `mcp__sector137__sync_state` with the built `document`.
    - **Success**: write the returned `document` back to `.sector137/state.json` verbatim (it carries the real `serverId`s and fresh `syncedAt` timestamps). Report a short summary table (created/updated/pulled/conflicts) from the `results` field.
-   - **Failure**: do not silently drop to Local Mode. Report the exact error to the user. If the error is `MISSING_DOCUMENT` / `"document is required"` with a non-empty document actually sent, this is a known, previously-seen server-side bug, not fixable from this plugin. Tell the user directly, then offer the fallback below rather than looping on retries.
+   - **Failure**: do not silently drop to Local Mode. Report the exact error to the user. `MISSING_DOCUMENT` or `VALIDATION_ERROR "Required"` means the document's shape is wrong: re-derive it from `export_state` output rather than retrying the same payload. After one corrected retry, use the fallback below.
 
-**Fallback if `sync_state` is broken or unavailable**: iterate `.sector137/state.json`'s `issues[]` and create them one at a time via `mcp__sector137__issues` `action: "create"` (same mechanism as Step 3D below), applying the same status mapping. Slower and loses the `results`/conflict-surfacing, but works against the same `create` endpoint every other flow in this skill already relies on. After each successful create, set that issue's `meta.serverId` and `meta.dirty: false` in `state.json` and write the file back incrementally, so an interrupted run doesn't lose progress or double-create on retry (check `meta.serverId` before creating).
+**Fallback if `sync_state` still fails**: push the issues with `mcp__sector137__issues` `action: "bulk_create"` and the bound `productId`, 10 items per call (≤ 50 allowed), applying the same status mapping. Ids come back in input order. After each call, set those issues' `meta.serverId`, `meta.dirty: false` and `meta.syncedAt` in `state.json` and write the file back, so an interrupted run doesn't lose progress or double-create on retry (skip any issue that already has a `meta.serverId`).
+
+**After importing history**, every new issue, completed ones included, is attached to the product's active release, and there is no way to detach them. Offer to publish that release as a baseline ("Pre-import history", patch bump), then move the open issues into the new active release with single `update` calls carrying `releaseId`. `bulk_scope` has returned `Unauthorized` on OAuth logins. Publishing can't be undone, so ask first.
 
 ---
 
@@ -82,14 +84,14 @@ Mention it once, don't nag: "Note: `.mcp.json` isn't set up in this project, so 
 2. Add `.mcp.json` to `.gitignore` if not already covered (it's per-developer, see README's "Connect the server").
 3. Tell the user Claude Code will prompt to trust this project MCP server on the next tool call. That's expected, approve it.
 
-**Genuinely unreachable** (network/auth failure, not just a naming mismatch) → offer Local mode:
+**Genuinely unreachable** (network/auth failure, not just a naming mismatch) → probe the server first and name the real cause (see `../../references/mode-detection.md`, "Before telling the user it's an auth problem"). Then offer Local mode:
 ```
-Comms array not reachable. Check SECTOR137_API_KEY in .mcp.json.
+Comms array not reachable: {server down (HTTP {code}) | not authorized: run `claude mcp login plugin:sector137:sector137`}.
 
-Work locally instead? I'll save changes to .sector137/roadmap.md and sync later. (yes/no)
+Work locally instead? I'll save changes to {.sector137/state.json if it exists, else .sector137/roadmap.md} and sync later. (yes/no)
 ```
 - Yes → Step 3C (Local Mode)
-- No → Stop: "Set `SECTOR137_API_KEY` in `.mcp.json` and restart Claude Code, then run `/sector137:init` again. I'll be here."
+- No → Stop: "Fix the cause above, start a new session, then run `/sector137:init` again. I'll be here."
 
 **Success** → MCP connected. Full telemetry. Go to Step 2.
 
@@ -168,7 +170,9 @@ See `../../references/roadmap-schema.md` for format.
 
 ## Step 3C: Local Mode (MCP unavailable)
 
-Same discovery questions as Create Mode. Write `.sector137/roadmap.md` with `#local-{n}` IDs.
+**If `.sector137/state.json` exists, stop here:** the project already has local state. Tell the user it will sync once MCP is reachable, and never create `roadmap.md` beside it, because a second file is a competing source of truth.
+
+Otherwise: same discovery questions as Create Mode. Write `.sector137/roadmap.md` with `#local-{n}` IDs.
 
 Confirm: "Recorded locally: {N} items in `.sector137/roadmap.md`. Run `/sector137:init` to sync when the signal's back."
 
@@ -205,6 +209,6 @@ Synced {N} items. The system is calibrated.
 | MCP unavailable (genuine network/auth failure) | Offer Local mode |
 | MCP tool names resolve under a different (plugin-namespaced) prefix | Resolve once, proceed. See Step 1. Don't treat as unavailable. |
 | `.sector137/state.json` has no bound product | Step 0A. Ask, don't guess. |
-| `sync_state` returns `MISSING_DOCUMENT` / `"document is required"` despite a real document being sent | Known server-side bug, not fixable here. Report it plainly and use the Step 0B fallback (per-issue `create` loop). |
+| `sync_state` returns `MISSING_DOCUMENT` or `VALIDATION_ERROR "Required"` | The document's shape is wrong. Rebuild it from `export_state` output (Step 0B.2), retry once, then use the `bulk_create` fallback. |
 | Empty roadmap file | Treat as Create Mode |
 | User cancels | "No changes made. Run `/sector137:init` again when ready. I'm patient." |

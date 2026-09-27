@@ -4,7 +4,7 @@ description: >
   Implement an issue. TDD-first: break the work into sub-tasks, write tests, make them pass, type-check, then stop at a human confirmation gate before anything is marked done.
   Triggers on: "build", "implement", "start building", "code this", "build 1,2".
 argument-hint: "[issue ID(s) or title, e.g. '42' or '12,15' or 'dark mode toggle']"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues, mcp__plugin_sector137_sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -21,7 +21,7 @@ User input: $ARGUMENTS
 
 ## Pre-flight
 
-Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+Call `mcp__sector137__issues` with `action: "stats"`. If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: sal
-description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to .sector137/roadmap.md when offline."
+description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to the local .sector137/ state file when offline. Also the shortcut for wrapping up a session (routes to handoff)."
 allowed-tools:
   - Task
   - Read
@@ -10,26 +10,43 @@ allowed-tools:
   - Grep
   # Issues, notes, tasks, relations (one consolidated action-dispatch tool)
   - mcp__sector137__issues
+  - mcp__plugin_sector137_sector137__issues
   # Releases (rolling — get_active / update / publish; no create)
   - mcp__sector137__releases
+  - mcp__plugin_sector137_sector137__releases
   # Products
   - mcp__sector137__list_products
+  - mcp__plugin_sector137_sector137__list_products
   - mcp__sector137__create_product
+  - mcp__plugin_sector137_sector137__create_product
   # Prototypes
   - mcp__sector137__generate_prototype
+  - mcp__plugin_sector137_sector137__generate_prototype
   - mcp__sector137__list_prototypes
+  - mcp__plugin_sector137_sector137__list_prototypes
   - mcp__sector137__get_prototype
+  - mcp__plugin_sector137_sector137__get_prototype
   - mcp__sector137__regenerate_prototype_step
+  - mcp__plugin_sector137_sector137__regenerate_prototype_step
   # Personas
   - mcp__sector137__list_personas
+  - mcp__plugin_sector137_sector137__list_personas
   - mcp__sector137__get_persona
+  - mcp__plugin_sector137_sector137__get_persona
   - mcp__sector137__create_persona
+  - mcp__plugin_sector137_sector137__create_persona
   - mcp__sector137__update_persona
+  - mcp__plugin_sector137_sector137__update_persona
   - mcp__sector137__delete_persona
+  - mcp__plugin_sector137_sector137__delete_persona
   - mcp__sector137__ask_persona
+  - mcp__plugin_sector137_sector137__ask_persona
   - mcp__sector137__run_persona_survey
+  - mcp__plugin_sector137_sector137__run_persona_survey
   - mcp__sector137__run_persona_scenario
+  - mcp__plugin_sector137_sector137__run_persona_scenario
   - mcp__sector137__list_persona_conversations
+  - mcp__plugin_sector137_sector137__list_persona_conversations
 ---
 
 # /sector137:sal — Pipeline Conductor & Strategy Bridge
@@ -58,14 +75,16 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
 
 ## Activation Protocol
 
-When invoked, immediately:
+**Fast path — wrapping up.** If the request is to wrap, clean up, finish or hand off the session ("/sal wrap this session", "clean up this session when the PR is merged"), invoke `/sector137:handoff` straight away with the user's words as its argument. Skip the steps below and don't explain the routing — this is the most common thing people ask Sal for.
+
+Otherwise, when invoked, immediately:
 
 1. **Read project context**: check `./CLAUDE.md` and `./docs/README.md`
 2. **Check for sector137-mcp**: try `mcp__sector137__issues` with `action: "stats"` to verify connectivity. See `../../references/mode-detection.md`.
-3. **Read pending work**: list planned Sal issues or check `.sector137/roadmap.md` if offline
+3. **Read pending work**: list planned Sal issues, or read the local state file if offline
 
 If sector137-mcp is available: use it as the primary execution interface.
-If offline: use `.sector137/roadmap.md` as the work queue.
+If offline: use `.sector137/state.json` if it exists, else `.sector137/roadmap.md`, as the work queue.
 
 ---
 
@@ -136,7 +155,9 @@ E2E gap for flow Y        →  Sal issue: "Write E2E tests for Y" (type: chore)
 
 ## Offline Mode
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+
+With `state.json`, follow the Local Mode Rules in `mode-detection.md` and skip the `roadmap.md` steps below. With `roadmap.md`:
 
 1. Read `.sector137/roadmap.md` as the work queue, using the schema in `../../references/roadmap-schema.md`.
 2. Append new work items to the right section (`## Backlog`, `## Planned`, `## Active Release`) with the correct status tag (`backlog`/`planned`/`in_progress`/`completed`/`cancelled`).

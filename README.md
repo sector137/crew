@@ -69,9 +69,15 @@ root (gitignored, per-developer — don't commit it):
 Code will ask you to trust the new project MCP server the first time a tool call needs
 it — approve it once.
 
-Running headless or in CI? Same file, plus an API key instead of interactive OAuth: put
-`SECTOR137_API_KEY` (an `rl_live_…` key from your dashboard) under
-`mcpServers.sector137.env`. Setup: https://docs.sector137.io/claude-code.
+Running headless or in CI? Use an API key (an `rl_live_…` key from your dashboard)
+instead of interactive OAuth. The key goes in an `Authorization: Bearer` header — an `env`
+block has no effect on an `http` server. Register it outside any committed file:
+
+```
+claude mcp add --transport http --scope local sector137 https://app.sector137.io/mcp --header "Authorization: Bearer YOUR_KEY"
+```
+
+Setup: https://docs.sector137.io/claude-code.
 
 No server? Skip this step entirely. Everything except `/sector137:prototype` works
 offline against `.sector137/roadmap.md` (or `.sector137/state.json` on newer projects —
@@ -92,9 +98,9 @@ Or just type `/sector137:sal` and tell Sal your goal — he routes you to the ri
 ### Troubleshooting
 
 - **Command not found after install** → run `/reload-plugins` (or restart the session).
-- **"Can't authenticate" / auth error** → reconnect via OAuth, or set `SECTOR137_API_KEY`. See https://docs.sector137.io/claude-code.
+- **"Needs authentication"** → first check the server is actually up: `curl -s -o /dev/null -w '%{http_code}' https://app.sector137.io/mcp`. `401` means log in: `claude mcp login plugin:sector137:sector137` from a terminal. A `5xx` or no response means the server is down, and logging in won't help. See https://docs.sector137.io/claude-code.
 - **OAuth redirects to `localhost` and just hangs/fails when Claude Code runs on a remote box** (SSH session, remote VM, container, devcontainer, etc.) accessed through a browser on a *different* machine → this is expected, not a bug on our end. The interactive OAuth flow starts a callback listener on `localhost` on whichever machine is running Claude Code; if your browser is on a separate machine, its "localhost" points at itself, not at the listener, so the redirect can never be caught. Two ways around it:
-  - **Recommended:** skip OAuth — set `SECTOR137_API_KEY` (see above). This is the documented path for headless/CI use, and a remote box reached through a browser terminal counts as headless here.
+  - **Recommended:** skip OAuth — register the server with an API key header (see "Connect the server" above). This is the documented path for headless/CI use, and a remote box reached through a browser terminal counts as headless here.
   - Or forward the callback port over SSH so your browser's `localhost` actually reaches the remote listener, e.g. `ssh -L 3118:localhost:3118 user@remote-host`, then retry the `/sector137:` command for a fresh authorize link (an old/stale link's listener is already gone).
 - **On an old version** → `/sector137:update` shows the changelog delta and updates in place.
 - **Two crews collide** (another plugin claims `/sector137:`) → `/sector137:update` names the shadowing install; disable the extra from the `/plugin` menu.

@@ -261,7 +261,7 @@ async function skillToolRefs(): Promise<Map<string, string[]>> {
   const glob = new Glob("{skills,agents,references,evals}/**/*.{md,json}");
   for await (const rel of glob.scan(REPO)) {
     const text = await Bun.file(`${REPO}/${rel}`).text();
-    for (const m of text.matchAll(/mcp__sector137__([a-z][a-z0-9_]+)/g)) {
+    for (const m of text.matchAll(/mcp__(?:plugin_sector137_)?sector137__([a-z][a-z0-9_]+)/g)) {
       const name = m[1];
       if (!refs.has(name)) refs.set(name, []);
       if (!refs.get(name)!.includes(rel)) refs.get(name)!.push(rel);

@@ -2,7 +2,7 @@
 name: handoff
 description: >
   Generate a session summary and a copy-paste-ready next-session prompt. The record of what happened, packaged for the next version of you.
-  Triggers on: "handoff", "session summary", "wrap up", "next session".
+  Triggers on: "handoff", "session summary", "wrap up", "wrap this session", "clean up this session", "next session".
 argument-hint: "[optional notes about what was done]"
 allowed-tools: Read, Write, Glob, Grep, Bash, Edit
 ---

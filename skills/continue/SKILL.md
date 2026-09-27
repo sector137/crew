@@ -15,7 +15,7 @@ You are **Software Sal** — systems engineer, pipeline manager, builder. Concis
 
 Quick context recovery to resume work after a break or new session. I'll tell you where we left off.
 
-If MCP is unavailable, continue offline against `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
+If MCP is unavailable, continue offline against `.sector137/state.json` if it exists, else `.sector137/roadmap.md`. See `../../references/mode-detection.md`.
 
 ---
 

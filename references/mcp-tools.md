@@ -118,13 +118,23 @@ Each entity in a `StateDocument` carries a sync envelope: `meta.origin` (`local`
 only when you specifically want a one-way push and are prepared to handle conflicts
 yourself.
 
-**Known issue (as of 2026-07-20):** `sync_state` has returned `{"error":"document is
-required","code":"MISSING_DOCUMENT"}` even when a well-formed, non-empty `document` was
-sent — reproduced with both a full document and a minimal one. This is server-side (the
-server implementation isn't part of this repo — it's not something a plugin fix can
-patch) and needs root-causing against the live server, not the client. Until it's
-confirmed fixed, don't loop retrying it — fall back to the per-issue `create` loop
-(`skills/init/SKILL.md`'s Step 0B fallback) and tell the user plainly what happened.
+**The document must match `export_state`'s output shape exactly** (verified 2026-09-26).
+Earlier `MISSING_DOCUMENT` failures were an incomplete client document, not a server bug.
+The validator requires the top-level `version`, `product`, `universe`, `exportedAt`,
+`lastSyncedAt`, `source` and all five arrays, and every entity wrapped as
+`{ "data": { … }, "meta": { … } }`. A flat entity fails with `VALIDATION_ERROR "Required"`,
+which does not name the missing field. So call `export_state` first and build the document
+by editing its output, never from scratch. If it still fails, `issues` `bulk_create`
+(≤ 50 items per call, ids returned in input order) is the known-good fallback.
+
+**Scoping reads to one product.** `issues` `list` and `stats` take no `productId` filter
+and can return several products' issues mixed together. To read one product's roadmap, use
+`export_state` with its `productId`, then filter locally.
+
+**Imports land on the active release.** `bulk_create` attaches every new issue, completed
+ones included, to the product's rolling release, and nothing can detach them: `releaseId`
+must be a UUID, and there is no descope action. Before a bulk import of history, plan to
+publish a baseline release right after it.
 
 ## Tags — product work-item taxonomy
 
