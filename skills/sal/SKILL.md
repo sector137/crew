@@ -1,6 +1,6 @@
 ---
 name: sal
-description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to the local .sector137/ state file when offline. Also the shortcut for wrapping up a session: "wrap this session" checks for unfinished work and hands off only if some is left."
+description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to the local .sector137/ state file when offline. Also the shortcut for wrapping up a session: 'wrap this session' checks for unfinished work and hands off only if some is left."
 allowed-tools:
   - Task
   - Read
