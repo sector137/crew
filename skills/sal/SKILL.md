@@ -1,6 +1,6 @@
 ---
 name: sal
-description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to the local .sector137/ state file when offline. Also the shortcut for wrapping up a session (routes to handoff)."
+description: "Software Sal — Pipeline Conductor. Bridge strategy to Sal's execution pipeline. Use when you need to hand off product requirements, technical plans, or test directives to Sal for execution. Routes work through sector137-mcp tools when available, falls back to the local .sector137/ state file when offline. Also the shortcut for wrapping up a session: "wrap this session" checks for unfinished work and hands off only if some is left."
 allowed-tools:
   - Task
   - Read
@@ -75,7 +75,23 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
 
 ## Activation Protocol
 
-**Fast path — wrapping up.** If the request is to wrap, clean up, finish or hand off the session ("/sal wrap this session", "clean up this session when the PR is merged"), invoke `/sector137:handoff` straight away with the user's words as its argument. Skip the steps below and don't explain the routing — this is the most common thing people ask Sal for.
+**Fast path — wrapping up.** If the request is to wrap, clean up, finish or hand off the session ("/sal wrap this session", "clean up this session when the PR is merged"), skip the steps below and don't explain the routing — this is the most common thing people ask Sal for. A handoff exists to carry unfinished work into the next session, so only write one when something is actually left:
+
+1. **Check what's left.** Run these read-only checks:
+   - `git status --porcelain` (uncommitted work);
+   - `git log @{u}..HEAD --oneline` (unpushed commits; no upstream counts as unpushed);
+   - `gh pr list --author @me --state open --head "$(git branch --show-current)"` (this branch's open PR);
+   - this session's todo list, if one exists.
+2. **Decide.** Work is outstanding when any of these is true:
+   - the tree has uncommitted changes, or the branch has unpushed commits;
+   - this branch's open PR has failing checks or requested changes;
+   - a todo item from this session is not completed;
+   - the user still owes a decision this session asked for, or a follow-up was promised ("once it merges, …").
+
+   An open PR that is green and just waiting to be merged is **not** outstanding: list it in the close-out as "ready to merge".
+3. **Act on it.**
+   - **Outstanding** → invoke `/sector137:handoff` with the user's words plus a one-line list of what's left.
+   - **Nothing outstanding** → no handoff. Close out in three lines or fewer: what shipped (PR links), that the tree is clean and pushed, and anything the user asked to clean up (e.g. "worktree can be removed").
 
 Otherwise, when invoked, immediately:
 

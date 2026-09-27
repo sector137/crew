@@ -5,6 +5,22 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.1] — Wrap only when work is left
+
+### Changed
+- **`/sector137:sal wrap this session` only hands off when work is outstanding.** Sal
+  first checks for uncommitted or unpushed work, the branch's open PR (failing checks
+  or requested changes), unfinished todo items, and decisions the user still owes. If
+  anything is left, it runs `handoff`. If nothing is, it gives a close-out of three
+  lines or fewer: what shipped, the tree is clean and pushed, and what can be cleaned up.
+  A green PR waiting to merge doesn't count as outstanding.
+- The "wrap this session" / "clean up this session" triggers move from `handoff` back
+  to Sal, so every wrap-up goes through the check.
+
+### Fixed
+- `hooks.json` quotes `${CLAUDE_PLUGIN_ROOT}`, so an install path with a space no longer
+  splits the command (flagged by `claude plugin tag`).
+
 ## [0.7.0] — Fixes from real use
 
 Driven by an audit of 493 sessions in one heavy-use project (2026-07-20 → 09-26): the
