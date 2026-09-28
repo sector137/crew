@@ -1,6 +1,6 @@
 {
   "name": "@sector137/agent-system",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "description": "Sal's Crew \u2014 margot, kael, wren, lyra, rook, harlan, sable, voss, mira, sal. Namespaced under /sector137: via the sector137 plugin.",
   "main": ".claude-plugin/plugin.json",
   "license": "MIT",

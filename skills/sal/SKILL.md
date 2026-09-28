@@ -91,7 +91,7 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
    An open PR that is green and just waiting to be merged is **not** outstanding: list it in the close-out as "ready to merge".
 3. **Act on it.**
    - **Outstanding** → invoke `/sector137:handoff` with the user's words plus a one-line list of what's left.
-   - **Nothing outstanding** → no handoff. Close out in three lines or fewer: what shipped (PR links), that the tree is clean and pushed, and anything the user asked to clean up (e.g. "worktree can be removed").
+   - **Nothing outstanding** → no handoff, but still run `/sector137:handoff`'s Step 4 (issue write-back: same identification order, same `add_note` completion_report call) so the record lands even when nothing carries into a next session. Then close out in three lines or fewer: what shipped (PR links), that the tree is clean and pushed, and anything the user asked to clean up (e.g. "worktree can be removed").
 
 Otherwise, when invoked, immediately:
 

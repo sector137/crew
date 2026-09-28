@@ -5,6 +5,46 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] — The record writes back
+
+Driven by a 744-session usage audit: `handoff` (11 uses) and Sal's wrap fast path are
+the plugin's most-used actions, but neither ever wrote anything to the sector137
+server.
+
+### Added
+- **`/sector137:handoff` writes a completion_report note on the issue it worked.**
+  A new step identifies the session's issue (an issue UUID or `local-NNN` in the
+  branch name, then recent commit messages, then explicit session context), resolves
+  a `local-NNN` to its `meta.serverId` via `.sector137/state.json` when present, and
+  calls `add_note` with `noteType: "completion_report"`. Several matches ask which one;
+  none, or an unreachable MCP, skip silently with a one-line mention. `handoff` gains
+  the `issues` tool (both name forms) in `allowed-tools`.
+- **Sal's wrap fast path leaves the same note when nothing is outstanding.** The
+  "Nothing outstanding" branch now runs handoff's write-back step before the
+  three-line close-out, instead of the session's work going unrecorded just because
+  no next-session handoff was needed.
+
+### Changed
+- **`tests/mcp-contract.ts` supports several (server, url, snapshot) triples.** A
+  `SERVERS` list at the top of the file replaces the single hard-coded server/URL/
+  snapshot; today it still holds one entry (sector137), so behaviour is unchanged.
+  Sets up the coming domain-server split (studio, crew, brand, ops) to add entries
+  without touching the check logic.
+- **The skills/agents/references scan now also catches bare tool names**, not just
+  the `mcp__sector137__`-prefixed form. A backticked, underscored identifier
+  (`` `record_incident` ``) that matches no tool in any snapshot is now a contract
+  failure; known non-tool vocabulary (the `issues`/`releases` action verbs, the Data
+  Model enums, and a short hand-reviewed list of other tool ecosystems and metric
+  names) is excluded so ordinary prose doesn't false-positive. Mutation-checked:
+  reintroducing `list_projects` in `agents/navigator-mira.md` makes the check fail.
+
+### Fixed
+- **`agents/navigator-mira.md` named a tool that doesn't exist.** `list_projects` was
+  never a real tool; products are listed with `list_products`.
+- **`agents/infra-rook.md` named three real tools without the `mcp__sector137__`
+  prefix** (`record_incident`, `resolve_incident`, `get_dora_metrics`), inconsistent
+  with every other agent file. No behaviour change, just the naming convention.
+
 ## [0.7.2] — Sal's frontmatter parses again
 
 ### Fixed
