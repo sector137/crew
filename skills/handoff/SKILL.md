@@ -4,7 +4,7 @@ description: >
   Generate a session summary and a copy-paste-ready next-session prompt. The record of what happened, packaged for the next version of you.
   Triggers on: "handoff", "session summary", "next session". ("Wrap this session" goes through /sector137:sal, which hands off only when work is outstanding.)
 argument-hint: "[optional notes about what was done]"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__sector137__issues, mcp__plugin_sector137_sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -67,6 +67,20 @@ I'm continuing work on [project] on branch `feature/xyz`.
 - [Relevant decisions or constraints]
 ```
 ````
+
+4. **Write back to the tracked issue, if one is clear.** Identify the issue this session
+   worked on, checking in order: an issue UUID or `local-NNN` in the branch name; recent
+   commit messages on the branch (`git log @{u}..HEAD --oneline`, or the last 10 if no
+   upstream); the session's explicit context (an issue ID the user named). A `local-NNN`
+   match resolves to a real `itemId` via `.sector137/state.json` if present: find the
+   issue whose `id` (or `meta.localId`) is `local-NNN` and take its `meta.serverId`. No
+   `state.json`, or a `serverId` still `null`, counts as no match.
+   - **Exactly one match** → `mcp__sector137__issues` (or the `mcp__plugin_sector137_sector137__issues`
+     form), `action: "add_note"`, `itemId`, `noteType: "completion_report"`, `content`: a
+     concise summary of what shipped, the PR link if one exists, and what's left.
+   - **Several matches, or ambiguous** → list them and ask which one before writing.
+   - **None found, or the MCP call fails** → skip silently; note it in one line ("no
+     tracked issue identified" or "sector137 MCP unreachable, note not written").
 
 ## Rules
 
