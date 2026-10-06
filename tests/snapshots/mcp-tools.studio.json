@@ -1,0 +1,233 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, studio domain, served at /mcp/studio) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137-studio",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "ask_persona",
+      "description": "Ask a persona a question and get an in-character response. Conversation history is preserved for follow-ups.",
+      "required": [
+        "id",
+        "question"
+      ],
+      "properties": {
+        "id": "string",
+        "issueId": "string",
+        "question": "string"
+      }
+    },
+    {
+      "name": "create_persona",
+      "description": "Create a new synthetic user persona with demographics, psychology, and behavior profile.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "ageRange": "string",
+        "bio": "string",
+        "communicationStyle": "enum(4)",
+        "companySize": "string",
+        "decisionFactors": "array",
+        "frustrations": "string",
+        "goals": "array",
+        "location": "string",
+        "motivations": "string",
+        "name": "string",
+        "painPoints": "array",
+        "personalityTraits": "array",
+        "preferredTools": "array",
+        "role": "string",
+        "scenario": "string",
+        "status": "enum(3)",
+        "tags": "array",
+        "technicalLevel": "enum(4)",
+        "usageFrequency": "enum(4)"
+      }
+    },
+    {
+      "name": "delete_persona",
+      "description": "Permanently delete a persona and all its conversations. This action cannot be undone. Pass `confirm: true` to confirm.",
+      "required": [
+        "confirm",
+        "id"
+      ],
+      "properties": {
+        "confirm": "boolean",
+        "id": "string"
+      }
+    },
+    {
+      "name": "generate_prd",
+      "description": "Generate (AI write-spec) a new PRD version for a prototype — the doc that explains the design, assembled from the prototype's blueprint plus rationale. Returns the created PRD. May take a few seconds.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "generate_prototype",
+      "description": "Generate an AI-powered interactive wireframe prototype from a feature description. Returns a sandbox URL to view the prototype. May take 5-15 seconds.",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "description": "string",
+        "layout": "enum(4)",
+        "roadmapItemId": "string",
+        "title": "string"
+      }
+    },
+    {
+      "name": "get_persona",
+      "description": "Get a single persona by ID with full profile details.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": "string"
+      }
+    },
+    {
+      "name": "get_prd",
+      "description": "Get a single PRD by ID, including the full Markdown content, version, status, and links to its prototype and issue.",
+      "required": [
+        "prdId"
+      ],
+      "properties": {
+        "prdId": "string"
+      }
+    },
+    {
+      "name": "get_prototype",
+      "description": "Get a single prototype by ID, including the full blueprint JSON and sandbox URL.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "list_persona_conversations",
+      "description": "List conversation history for a persona. Returns messages in chronological order.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": "string",
+        "limit": "integer",
+        "offset": "integer"
+      }
+    },
+    {
+      "name": "list_personas",
+      "description": "List synthetic user personas with optional filtering by status or search text.",
+      "required": [],
+      "properties": {
+        "limit": "integer",
+        "offset": "integer",
+        "search": "string",
+        "status": "enum(3)"
+      }
+    },
+    {
+      "name": "list_prds",
+      "description": "List PRDs (product requirement docs) for the product. Each PRD belongs to a prototype and carries a version, status (draft|promoted), and the issue it links to. Returns summaries with full content.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "list_prototypes",
+      "description": "List generated prototypes for the product. Returns summaries without full blueprint JSON.",
+      "required": [],
+      "properties": {
+        "limit": "integer",
+        "offset": "integer"
+      }
+    },
+    {
+      "name": "promote_prototype",
+      "description": "Promote a prototype — the one-way door. Ensures a PRD exists (generates one if absent), marks the prototype + PRD as promoted, and emits studio.proposal.promoted so the Pipeline can spec an issue. Irreversible. Returns the validated (design + PRD) payload.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "regenerate_prototype_step",
+      "description": "Regenerate a single step in a prototype with user feedback. Use this to refine specific screens in a prototype.",
+      "required": [
+        "feedback",
+        "prototypeId",
+        "stepIndex"
+      ],
+      "properties": {
+        "feedback": "string",
+        "prototypeId": "string",
+        "stepIndex": "integer"
+      }
+    },
+    {
+      "name": "run_persona_scenario",
+      "description": "Run a user test scenario through a persona. Returns structured feedback including sentiment, insights, pain points, and suggestions.",
+      "required": [
+        "id",
+        "scenario"
+      ],
+      "properties": {
+        "id": "string",
+        "issueId": "string",
+        "scenario": "string"
+      }
+    },
+    {
+      "name": "run_persona_survey",
+      "description": "Run a synthetic Kano survey through a persona. The persona evaluates each feature as if they were a real survey respondent.",
+      "required": [
+        "features",
+        "id"
+      ],
+      "properties": {
+        "features": "array",
+        "id": "string"
+      }
+    },
+    {
+      "name": "update_persona",
+      "description": "Update an existing persona's profile fields.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "ageRange": "string",
+        "bio": "string",
+        "communicationStyle": "enum(4)",
+        "companySize": "string",
+        "decisionFactors": "array",
+        "frustrations": "string",
+        "goals": "array",
+        "id": "string",
+        "location": "string",
+        "motivations": "string",
+        "name": "string",
+        "painPoints": "array",
+        "personalityTraits": "array",
+        "preferredTools": "array",
+        "role": "string",
+        "scenario": "string",
+        "status": "enum(3)",
+        "tags": "array",
+        "technicalLevel": "enum(4)",
+        "usageFrequency": "enum(4)"
+      }
+    }
+  ]
+}

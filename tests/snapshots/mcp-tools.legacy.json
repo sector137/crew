@@ -1,0 +1,972 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, legacy domain, served at /mcp) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "agents",
+      "description": "Manage crew agents. Actions: list, update, activate, deactivate, dispatch.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(5)",
+        "agentId": "string",
+        "capabilities": "union",
+        "itemId": "string",
+        "model": "string|null",
+        "name": "string",
+        "skillId": "string|null",
+        "status": "enum(2)",
+        "systemPrompt": "union",
+        "toolConfig": "union",
+        "type": "enum(4)",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "apply_crew_proposal",
+      "description": "Commit a Voss crew proposal to the engagement's customer universe. Mutates agent_registry: updates the 8 archetypes' calibration and inserts any specialists. Idempotent — re-applying the same proposal never duplicates specialists.",
+      "required": [
+        "engagement_id",
+        "proposal_id"
+      ],
+      "properties": {
+        "engagement_id": "string",
+        "proposal": "unknown",
+        "proposal_id": "string"
+      }
+    },
+    {
+      "name": "ask_crew_agent",
+      "description": "Ask a crew agent a question and get a response. Conversation history is preserved for follow-ups. The agent has context about the universe's issues, recent runs, and storyline.",
+      "required": [
+        "agentRegistryId",
+        "question"
+      ],
+      "properties": {
+        "agentRegistryId": "string",
+        "issueId": "string",
+        "question": "string",
+        "threadId": "string"
+      }
+    },
+    {
+      "name": "ask_persona",
+      "description": "Ask a persona a question and get an in-character response. Conversation history is preserved for follow-ups.",
+      "required": [
+        "id",
+        "question"
+      ],
+      "properties": {
+        "id": "string",
+        "issueId": "string",
+        "question": "string"
+      }
+    },
+    {
+      "name": "create_board",
+      "description": "Create a new board in a universe. Boards segment issues into parallel work tracks (e.g., Discovery, Delivery). Issues placed on a board stay there permanently.",
+      "required": [
+        "name",
+        "universeId"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string",
+        "universeId": "string",
+        "viewMode": "enum(3)"
+      }
+    },
+    {
+      "name": "create_board_label",
+      "description": "Add a label to a board's vocabulary. Board labels are scoped to their board and can be applied to issues on that board.",
+      "required": [
+        "boardId",
+        "name"
+      ],
+      "properties": {
+        "boardId": "string",
+        "color": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "create_brand",
+      "description": "Create a new brand in a universe. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "brandAttributes": "array",
+        "brandVoice": "string",
+        "colors": "array",
+        "coreValues": "array",
+        "description": "string",
+        "industries": "array",
+        "keyMessages": "string",
+        "mission": "string",
+        "name": "string",
+        "tagline": "string",
+        "targetAudience": "string",
+        "toneGuidelines": "string",
+        "universeId": "string",
+        "vision": "string"
+      }
+    },
+    {
+      "name": "create_initiative",
+      "description": "Create an initiative — the PHASE container. A bounded body of cross-cutting work (e.g. 'launch onboarding v2') that issues get linked into. It owns nothing; link issues to it to roll up feature lead time.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string",
+        "startedAt": "string",
+        "status": "enum(4)",
+        "targetAt": "string"
+      }
+    },
+    {
+      "name": "create_persona",
+      "description": "Create a new synthetic user persona with demographics, psychology, and behavior profile.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "ageRange": "string",
+        "bio": "string",
+        "communicationStyle": "enum(4)",
+        "companySize": "string",
+        "decisionFactors": "array",
+        "frustrations": "string",
+        "goals": "array",
+        "location": "string",
+        "motivations": "string",
+        "name": "string",
+        "painPoints": "array",
+        "personalityTraits": "array",
+        "preferredTools": "array",
+        "role": "string",
+        "scenario": "string",
+        "status": "enum(3)",
+        "tags": "array",
+        "technicalLevel": "enum(4)",
+        "usageFrequency": "enum(4)"
+      }
+    },
+    {
+      "name": "create_product",
+      "description": "Create a new Sector137 product. Requires an account-scoped API key (no product associations) with the products:write scope.",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "description": "string",
+        "isPublic": "boolean",
+        "title": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "create_tag",
+      "description": "Create a product tag (work-item taxonomy). Tags are product-specific and created under the API key's product. Returns the new tag with its ID, which you can then assign to issues via tagIds.",
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "color": "string",
+        "label": "string"
+      }
+    },
+    {
+      "name": "create_universe",
+      "description": "Create a new universe. Universes are top-level containers that group products.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "delete_board",
+      "description": "Delete a board. Cannot delete the Intake board. Issues on the deleted board will have their board_id cleared.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string"
+      }
+    },
+    {
+      "name": "delete_board_label",
+      "description": "Remove a label from a board's vocabulary. This also removes the label from all issues on the board.",
+      "required": [
+        "boardId",
+        "labelId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "labelId": "string"
+      }
+    },
+    {
+      "name": "delete_brand",
+      "description": "Permanently delete a brand. universeId is optional — auto-resolves if only one universe exists. Pass `confirm: true` to confirm.",
+      "required": [
+        "brandId",
+        "confirm"
+      ],
+      "properties": {
+        "brandId": "string",
+        "confirm": "boolean",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "delete_persona",
+      "description": "Permanently delete a persona and all its conversations. This action cannot be undone. Pass `confirm: true` to confirm.",
+      "required": [
+        "confirm",
+        "id"
+      ],
+      "properties": {
+        "confirm": "boolean",
+        "id": "string"
+      }
+    },
+    {
+      "name": "delete_tag",
+      "description": "Delete a product tag. Also removes it from every issue it was assigned to.",
+      "required": [
+        "tagId"
+      ],
+      "properties": {
+        "tagId": "string"
+      }
+    },
+    {
+      "name": "export_brand_llm",
+      "description": "Export a brand's identity as LLM-ready context. Use 'prompt' for a rich markdown system prompt, 'compact' for a short one-liner, or 'structured' for a JSON object. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "format": "enum(3)",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "export_state",
+      "description": "Export the state snapshot for a product as a JSON StateDocument (issues + tasks + notes + releases + tags). Sal writes this to .sector137/state.json as the canonical local copy. Each entity is wrapped in a sync envelope with origin/serverId/etag for later reconciliation.",
+      "required": [],
+      "properties": {
+        "fields": "enum(2)",
+        "productId": "string"
+      }
+    },
+    {
+      "name": "feedback",
+      "description": "Post-ship feedback signal (reactions + comments) on releases and issues. Actions: get_summary, list_comments, promote.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(3)",
+        "commentId": "string",
+        "targetId": "string",
+        "targetType": "enum(2)"
+      }
+    },
+    {
+      "name": "generate_brand",
+      "description": "AI-generate a complete brand identity (colors, voice, mission, values, etc.) from a name and description, then save it to the universe. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "description",
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "generateVoice": "boolean",
+        "industry": "string",
+        "name": "string",
+        "targetAudience": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "generate_prd",
+      "description": "Generate (AI write-spec) a new PRD version for a prototype — the doc that explains the design, assembled from the prototype's blueprint plus rationale. Returns the created PRD. May take a few seconds.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "generate_prototype",
+      "description": "Generate an AI-powered interactive wireframe prototype from a feature description. Returns a sandbox URL to view the prototype. May take 5-15 seconds.",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "description": "string",
+        "layout": "enum(4)",
+        "roadmapItemId": "string",
+        "title": "string"
+      }
+    },
+    {
+      "name": "get_brand",
+      "description": "Get a single brand by ID. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_brand_completeness",
+      "description": "Get a completeness report for a brand — shows which sections are filled in and what's missing. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_crew_proposal",
+      "description": "Get the latest Voss crew-shaping proposal for an engagement. Returns null if none has been generated yet.",
+      "required": [
+        "engagement_id"
+      ],
+      "properties": {
+        "engagement_id": "string"
+      }
+    },
+    {
+      "name": "get_dora_metrics",
+      "description": "Get the four DORA metrics (Deployment Frequency, Lead Time, Change Failure Rate, MTTR) over a window, rolled up across the product(s) in scope. Lead Time is null until commit timestamps are captured.",
+      "required": [],
+      "properties": {
+        "environment": "string",
+        "productId": "string",
+        "window": "string"
+      }
+    },
+    {
+      "name": "get_initiative_dora",
+      "description": "Get initiative-grain DORA: feature lead time (first work → last deploy that shipped it) and cross-service change-failure rate (did shipping this break any of its services). Computed via the issues.releaseId → deployment bootstrap; null lead time means no linked release has shipped yet.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "environment": "string",
+        "initiativeId": "string"
+      }
+    },
+    {
+      "name": "get_persona",
+      "description": "Get a single persona by ID with full profile details.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": "string"
+      }
+    },
+    {
+      "name": "get_prd",
+      "description": "Get a single PRD by ID, including the full Markdown content, version, status, and links to its prototype and issue.",
+      "required": [
+        "prdId"
+      ],
+      "properties": {
+        "prdId": "string"
+      }
+    },
+    {
+      "name": "get_product_tags",
+      "description": "List all tags for the current product. Tags are user-managed and product-specific. Use this to discover valid tag IDs before assigning tagIds to issues.",
+      "required": [],
+      "properties": {
+        "productId": "string"
+      }
+    },
+    {
+      "name": "get_prototype",
+      "description": "Get a single prototype by ID, including the full blueprint JSON and sandbox URL.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "get_service_dora",
+      "description": "Get the four DORA metrics for a single service over a window (the service grain). Deploys/incidents scope by serviceId; Lead Time joins via the service's linked repo and is null when no repo is linked. Use list_services to find the serviceId.",
+      "required": [
+        "serviceId"
+      ],
+      "properties": {
+        "environment": "string",
+        "serviceId": "string",
+        "window": "string"
+      }
+    },
+    {
+      "name": "get_universe",
+      "description": "Get a universe by its ID. Returns universe details including name, slug, and description.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_universe_context",
+      "description": "Get full universe context in one call — merges universe details, pipeline stats (issue counts by status), and the active release. Use this at session start for efficient orientation.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "import_state",
+      "description": "Push a StateDocument to the server. Locally-created entities (meta.serverId: null) get created and the server returns the new serverIds. Dirty entities with matching etag are updated. Conflicts (dirty + stale etag) are returned in results.conflicts without being auto-merged. Use this when Sal has accumulated offline changes and wants to push them up.",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "document": "object"
+      }
+    },
+    {
+      "name": "issues",
+      "description": "Manage issues, notes, tasks, and relations. Actions: list, get, stats, by_status, roadmap_summary, create, bulk_create, update, update_status, bulk_update_status, bulk_scope, bulk_assign, delete, search_notes, list_notes, add_note, update_note, delete_note, list_tasks, create_task, update_task, complete_task, delete_task, list_relations, add_relation, remove_relation, reorder.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "acceptanceCriteria": "union",
+        "action": "enum(27)",
+        "agentId": "string",
+        "agentIds": "array",
+        "agentMode": "enum(2)",
+        "all": "boolean",
+        "assigneeId": "string|null",
+        "backlog": "boolean",
+        "boardId": "string",
+        "category": "enum(4)",
+        "confirm": "boolean",
+        "content": "string",
+        "description": "string",
+        "horizon": "enum(4)",
+        "includeNotes": "boolean",
+        "itemId": "string",
+        "itemIds": "array",
+        "items": "array",
+        "labelIds": "array",
+        "labels": "array",
+        "limit": "integer",
+        "note": "string",
+        "noteId": "string",
+        "noteType": "enum(4)",
+        "offset": "integer",
+        "parentId": "string|null",
+        "position": "integer",
+        "priority": "enum(3)",
+        "priorityValue": "integer",
+        "productId": "string",
+        "query": "string",
+        "relatedIssueId": "string",
+        "relationId": "string",
+        "relationType": "enum(4)",
+        "releaseId": "string|null",
+        "search": "string",
+        "startDate": "string|null",
+        "status": "string",
+        "tagIds": "array",
+        "targetDate": "string|null",
+        "taskId": "string",
+        "taskStatus": "enum(3)",
+        "title": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "link_issue_to_initiative",
+      "description": "Link an issue to an initiative so its delivery facts (releases → deploys) roll into the initiative's feature lead time. Idempotent.",
+      "required": [
+        "initiativeId",
+        "issueId"
+      ],
+      "properties": {
+        "initiativeId": "string",
+        "issueId": "string"
+      }
+    },
+    {
+      "name": "list_board_labels",
+      "description": "List a board's label vocabulary. Board labels are scoped to their board and applied to issues on it. Use this to discover valid labelIds before attaching them at issue creation.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string"
+      }
+    },
+    {
+      "name": "list_boards",
+      "description": "List boards for a universe. Returns all boards including the default Intake board. Boards are named work containers that segment issues into parallel work tracks.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_brands",
+      "description": "List brands. If universeId is omitted, lists brands across all universes (auto-resolves if only one universe exists).",
+      "required": [],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_crew_conversations",
+      "description": "List conversation history for a crew agent. Returns messages in chronological order.",
+      "required": [
+        "agentRegistryId"
+      ],
+      "properties": {
+        "agentRegistryId": "string",
+        "limit": "number",
+        "offset": "number",
+        "threadId": "string"
+      }
+    },
+    {
+      "name": "list_crew_threads",
+      "description": "List conversation threads for a crew agent. Returns threads sorted by most recent activity, with message count and last message preview.",
+      "required": [
+        "agentRegistryId"
+      ],
+      "properties": {
+        "agentRegistryId": "string"
+      }
+    },
+    {
+      "name": "list_incidents",
+      "description": "List recent incidents for the product(s) in scope.",
+      "required": [],
+      "properties": {
+        "limit": "number"
+      }
+    },
+    {
+      "name": "list_initiative_issues",
+      "description": "List the issues linked to an initiative — the work that makes up this phase. Read this before reporting phase progress or computing its DORA slice; the initiative holds no facts of its own.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "initiativeId": "string"
+      }
+    },
+    {
+      "name": "list_initiatives",
+      "description": "List initiatives (bounded, cross-cutting work overlays) for the product(s) in scope.",
+      "required": [],
+      "properties": {
+        "limit": "number"
+      }
+    },
+    {
+      "name": "list_members",
+      "description": "List the people you can assign work to, in a universe or in one product. Returns userId, name, email, role, functionalRole and isOwner — resolve an assigneeId here rather than pasting a UUID. Pass universeId for the whole universe roster, or productId for just that product's members.",
+      "required": [],
+      "properties": {
+        "productId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_persona_conversations",
+      "description": "List conversation history for a persona. Returns messages in chronological order.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": "string",
+        "limit": "integer",
+        "offset": "integer"
+      }
+    },
+    {
+      "name": "list_personas",
+      "description": "List synthetic user personas with optional filtering by status or search text.",
+      "required": [],
+      "properties": {
+        "limit": "integer",
+        "offset": "integer",
+        "search": "string",
+        "status": "enum(3)"
+      }
+    },
+    {
+      "name": "list_prds",
+      "description": "List PRDs (product requirement docs) for the product. Each PRD belongs to a prototype and carries a version, status (draft|promoted), and the issue it links to. Returns summaries with full content.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "list_products",
+      "description": "List Sector137 products accessible with the current API key. Product-scoped keys return their single product; account-scoped keys (no product associations) return all products for the user.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "list_prototypes",
+      "description": "List generated prototypes for the product. Returns summaries without full blueprint JSON.",
+      "required": [],
+      "properties": {
+        "limit": "integer",
+        "offset": "integer"
+      }
+    },
+    {
+      "name": "list_services",
+      "description": "List the services in the delivery catalog (auto-created from deploy ingest). Use this to find a serviceId before calling get_service_dora.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "list_skills",
+      "description": "List the available skill catalog. Each skill includes its id, agent, name, description, auto-fire conditions, and synthesizer key.",
+      "required": [],
+      "properties": {
+        "agent": "string"
+      }
+    },
+    {
+      "name": "list_universes",
+      "description": "List universes for the authenticated user. Universes are top-level containers that group products.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "promote_prototype",
+      "description": "Promote a prototype — the one-way door. Ensures a PRD exists (generates one if absent), marks the prototype + PRD as promoted, and emits studio.proposal.promoted so the Pipeline can spec an issue. Irreversible. Returns the validated (design + PRD) payload.",
+      "required": [
+        "prototypeId"
+      ],
+      "properties": {
+        "prototypeId": "string"
+      }
+    },
+    {
+      "name": "propose_crew",
+      "description": "Ask Voss to read the Sal-interview output for an engagement and produce a calibrated crew proposal. Returns the stored proposal (status: draft) — does NOT apply changes. Use get_crew_proposal to re-fetch, apply_crew_proposal to commit.",
+      "required": [
+        "engagement_id",
+        "interview"
+      ],
+      "properties": {
+        "engagement_id": "string",
+        "interview": "object",
+        "model_id": "string"
+      }
+    },
+    {
+      "name": "record_deployment",
+      "description": "Record a deployment fact (a service reached an environment). Distinct from a release. The service is auto-cataloged from serviceKey.",
+      "required": [
+        "environment",
+        "serviceKey",
+        "status"
+      ],
+      "properties": {
+        "commitSha": "string",
+        "environment": "string",
+        "finishedAt": "string",
+        "serviceKey": "string",
+        "source": "string",
+        "status": "enum(2)"
+      }
+    },
+    {
+      "name": "record_incident",
+      "description": "Open an incident (a production failure). Link it to the deployment that caused it to drive Change Failure Rate.",
+      "required": [
+        "serviceKey"
+      ],
+      "properties": {
+        "causedByDeploymentId": "string",
+        "serviceKey": "string",
+        "severity": "enum(3)",
+        "source": "string"
+      }
+    },
+    {
+      "name": "regenerate_prototype_step",
+      "description": "Regenerate a single step in a prototype with user feedback. Use this to refine specific screens in a prototype.",
+      "required": [
+        "feedback",
+        "prototypeId",
+        "stepIndex"
+      ],
+      "properties": {
+        "feedback": "string",
+        "prototypeId": "string",
+        "stepIndex": "integer"
+      }
+    },
+    {
+      "name": "releases",
+      "description": "Manage releases. Actions: list, get, get_active, update, publish, delete.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(6)",
+        "body": "string",
+        "bumpType": "enum(3)",
+        "confirm": "boolean",
+        "includeIssues": "boolean",
+        "isPrerelease": "boolean",
+        "limit": "integer",
+        "name": "string",
+        "offset": "integer",
+        "releaseId": "string",
+        "status": "enum(2)"
+      }
+    },
+    {
+      "name": "resolve_incident",
+      "description": "Mark an incident resolved (stops the MTTR clock).",
+      "required": [
+        "incidentId"
+      ],
+      "properties": {
+        "incidentId": "string",
+        "resolvedAt": "string"
+      }
+    },
+    {
+      "name": "run_crew",
+      "description": "Run a crew member on a task and return their response. The crew member's persona is its foundry SKILL.md; the model is server-resolved per role (provider-agnostic). Use for one-shot crew work — e.g. ask Kael to assess a design, Margot to draft a PRD section, Lyra to check voice.",
+      "required": [
+        "role",
+        "task"
+      ],
+      "properties": {
+        "role": "enum(10)",
+        "task": "string"
+      }
+    },
+    {
+      "name": "run_persona_scenario",
+      "description": "Run a user test scenario through a persona. Returns structured feedback including sentiment, insights, pain points, and suggestions.",
+      "required": [
+        "id",
+        "scenario"
+      ],
+      "properties": {
+        "id": "string",
+        "issueId": "string",
+        "scenario": "string"
+      }
+    },
+    {
+      "name": "run_persona_survey",
+      "description": "Run a synthetic Kano survey through a persona. The persona evaluates each feature as if they were a real survey respondent.",
+      "required": [
+        "features",
+        "id"
+      ],
+      "properties": {
+        "features": "array",
+        "id": "string"
+      }
+    },
+    {
+      "name": "sync_state",
+      "description": "Bidirectional sync: push local creates/updates, pull server-only entities, surface conflicts. Returns { document, results } — the document is the merged snapshot to write back to .sector137/state.json, results enumerates created/updated/pulled/deleted/conflicts. Sal calls this on `/sal init --sync` and after long offline stints.",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "document": "object"
+      }
+    },
+    {
+      "name": "unlink_issue_from_initiative",
+      "description": "Remove an issue from an initiative — take work out of a phase. The issue itself is untouched; only the link (and so the initiative's DORA slice) changes. Idempotent.",
+      "required": [
+        "initiativeId",
+        "issueId"
+      ],
+      "properties": {
+        "initiativeId": "string",
+        "issueId": "string"
+      }
+    },
+    {
+      "name": "update_board",
+      "description": "Update a board's name, description, view mode, status, or position. Cannot update the Intake board.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "description": "union",
+        "name": "string",
+        "position": "integer",
+        "status": "enum(2)",
+        "viewMode": "enum(3)"
+      }
+    },
+    {
+      "name": "update_board_label",
+      "description": "Update a board label's name and/or color.",
+      "required": [
+        "boardId",
+        "labelId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "color": "string",
+        "labelId": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "update_brand",
+      "description": "Update an existing brand. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandAttributes": "array",
+        "brandId": "string",
+        "brandVoice": "string",
+        "colors": "array",
+        "coreValues": "array",
+        "description": "string",
+        "industries": "array",
+        "keyMessages": "string",
+        "mission": "string",
+        "name": "string",
+        "tagline": "string",
+        "targetAudience": "string",
+        "toneGuidelines": "string",
+        "universeId": "string",
+        "vision": "string"
+      }
+    },
+    {
+      "name": "update_initiative",
+      "description": "Update an initiative — this is how a PHASE is transitioned: planned → active → shipped (or abandoned). Without it a phase can be created but never moved. Also edits the name, description and dates. Only the fields you pass are changed.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "completedAt": "string",
+        "description": "string",
+        "initiativeId": "string",
+        "name": "string",
+        "startedAt": "string",
+        "status": "enum(4)",
+        "targetAt": "string"
+      }
+    },
+    {
+      "name": "update_persona",
+      "description": "Update an existing persona's profile fields.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "ageRange": "string",
+        "bio": "string",
+        "communicationStyle": "enum(4)",
+        "companySize": "string",
+        "decisionFactors": "array",
+        "frustrations": "string",
+        "goals": "array",
+        "id": "string",
+        "location": "string",
+        "motivations": "string",
+        "name": "string",
+        "painPoints": "array",
+        "personalityTraits": "array",
+        "preferredTools": "array",
+        "role": "string",
+        "scenario": "string",
+        "status": "enum(3)",
+        "tags": "array",
+        "technicalLevel": "enum(4)",
+        "usageFrequency": "enum(4)"
+      }
+    },
+    {
+      "name": "update_tag",
+      "description": "Update a product tag's label and/or color.",
+      "required": [
+        "tagId"
+      ],
+      "properties": {
+        "color": "string",
+        "label": "string",
+        "tagId": "string"
+      }
+    },
+    {
+      "name": "whoami",
+      "description": "Who this credential is and which universes it can act in. Use it to fill in assigneeId with the operator's own user id, and to discover a universeId without guessing. The universes list is empty unless the key holds universes:read.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "workflow_statuses",
+      "description": "Read and manage a universe's issue status vocabulary — the keys 'issues.status' is allowed to hold. Actions: list, create, update, delete, reorder. CALL action:\"list\" BEFORE writing any issue status: statuses are per-universe and customizable, so the seeded set (backlog, planned, in_progress, in_review, completed, cancelled) is only a starting point and a universe may have renamed or replaced all of it. Every status maps onto a fixed category (backlog, unstarted, started, review, completed, cancelled) which is what the system actually reasons about — 'started' stamps startedAt, 'completed'/'cancelled' let a release cut, 'backlog' hides an issue from the active queue. A key is IMMUTABLE after create (renaming would orphan every issue holding the old value) — to rename the human-facing name, update `label` instead. Delete refuses with 409 while issues still hold the key; pass reassignTo with another key in the same universe to move them first.",
+      "required": [
+        "action",
+        "universeId"
+      ],
+      "properties": {
+        "action": "enum(5)",
+        "category": "enum(6)",
+        "color": "string",
+        "isDefault": "boolean",
+        "isDefaultDone": "boolean",
+        "key": "string",
+        "label": "string",
+        "position": "integer",
+        "reassignTo": "string",
+        "statusId": "string",
+        "statusIds": "array",
+        "universeId": "string"
+      }
+    }
+  ]
+}

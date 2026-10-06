@@ -1,0 +1,171 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, ops domain, served at /mcp/ops) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137-ops",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "create_initiative",
+      "description": "Create an initiative — the PHASE container. A bounded body of cross-cutting work (e.g. 'launch onboarding v2') that issues get linked into. It owns nothing; link issues to it to roll up feature lead time.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string",
+        "startedAt": "string",
+        "status": "enum(4)",
+        "targetAt": "string"
+      }
+    },
+    {
+      "name": "get_dora_metrics",
+      "description": "Get the four DORA metrics (Deployment Frequency, Lead Time, Change Failure Rate, MTTR) over a window, rolled up across the product(s) in scope. Lead Time is null until commit timestamps are captured.",
+      "required": [],
+      "properties": {
+        "environment": "string",
+        "productId": "string",
+        "window": "string"
+      }
+    },
+    {
+      "name": "get_initiative_dora",
+      "description": "Get initiative-grain DORA: feature lead time (first work → last deploy that shipped it) and cross-service change-failure rate (did shipping this break any of its services). Computed via the issues.releaseId → deployment bootstrap; null lead time means no linked release has shipped yet.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "environment": "string",
+        "initiativeId": "string"
+      }
+    },
+    {
+      "name": "get_service_dora",
+      "description": "Get the four DORA metrics for a single service over a window (the service grain). Deploys/incidents scope by serviceId; Lead Time joins via the service's linked repo and is null when no repo is linked. Use list_services to find the serviceId.",
+      "required": [
+        "serviceId"
+      ],
+      "properties": {
+        "environment": "string",
+        "serviceId": "string",
+        "window": "string"
+      }
+    },
+    {
+      "name": "link_issue_to_initiative",
+      "description": "Link an issue to an initiative so its delivery facts (releases → deploys) roll into the initiative's feature lead time. Idempotent.",
+      "required": [
+        "initiativeId",
+        "issueId"
+      ],
+      "properties": {
+        "initiativeId": "string",
+        "issueId": "string"
+      }
+    },
+    {
+      "name": "list_incidents",
+      "description": "List recent incidents for the product(s) in scope.",
+      "required": [],
+      "properties": {
+        "limit": "number"
+      }
+    },
+    {
+      "name": "list_initiative_issues",
+      "description": "List the issues linked to an initiative — the work that makes up this phase. Read this before reporting phase progress or computing its DORA slice; the initiative holds no facts of its own.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "initiativeId": "string"
+      }
+    },
+    {
+      "name": "list_initiatives",
+      "description": "List initiatives (bounded, cross-cutting work overlays) for the product(s) in scope.",
+      "required": [],
+      "properties": {
+        "limit": "number"
+      }
+    },
+    {
+      "name": "list_services",
+      "description": "List the services in the delivery catalog (auto-created from deploy ingest). Use this to find a serviceId before calling get_service_dora.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "record_deployment",
+      "description": "Record a deployment fact (a service reached an environment). Distinct from a release. The service is auto-cataloged from serviceKey.",
+      "required": [
+        "environment",
+        "serviceKey",
+        "status"
+      ],
+      "properties": {
+        "commitSha": "string",
+        "environment": "string",
+        "finishedAt": "string",
+        "serviceKey": "string",
+        "source": "string",
+        "status": "enum(2)"
+      }
+    },
+    {
+      "name": "record_incident",
+      "description": "Open an incident (a production failure). Link it to the deployment that caused it to drive Change Failure Rate.",
+      "required": [
+        "serviceKey"
+      ],
+      "properties": {
+        "causedByDeploymentId": "string",
+        "serviceKey": "string",
+        "severity": "enum(3)",
+        "source": "string"
+      }
+    },
+    {
+      "name": "resolve_incident",
+      "description": "Mark an incident resolved (stops the MTTR clock).",
+      "required": [
+        "incidentId"
+      ],
+      "properties": {
+        "incidentId": "string",
+        "resolvedAt": "string"
+      }
+    },
+    {
+      "name": "unlink_issue_from_initiative",
+      "description": "Remove an issue from an initiative — take work out of a phase. The issue itself is untouched; only the link (and so the initiative's DORA slice) changes. Idempotent.",
+      "required": [
+        "initiativeId",
+        "issueId"
+      ],
+      "properties": {
+        "initiativeId": "string",
+        "issueId": "string"
+      }
+    },
+    {
+      "name": "update_initiative",
+      "description": "Update an initiative — this is how a PHASE is transitioned: planned → active → shipped (or abandoned). Without it a phase can be created but never moved. Also edits the name, description and dates. Only the fields you pass are changed.",
+      "required": [
+        "initiativeId"
+      ],
+      "properties": {
+        "completedAt": "string",
+        "description": "string",
+        "initiativeId": "string",
+        "name": "string",
+        "startedAt": "string",
+        "status": "enum(4)",
+        "targetAt": "string"
+      }
+    }
+  ]
+}

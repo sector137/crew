@@ -2,22 +2,25 @@
 /**
  * MCP contract test — keeps the crew skills honest against the live sector137 MCP.
  *
- * What it checks, per configured server (three independent sections):
+ * What it checks, per configured server (independent sections):
  *   1. live    — speaks Streamable HTTP JSON-RPC to the server, lists tools, diffs
  *                them against that server's snapshot file
- *   2. docs    — every tool named in references/mcp-tools.md exists in some snapshot,
- *                and vice versa (catches doc drift)
- *   3. skills  — every mcp__sector137__<name> / mcp__plugin_sector137_sector137__<name>
- *                reference anywhere in the plugin exists in some snapshot (catches a
- *                skill calling a dead tool), and every bare, backticked snake_case
- *                identifier that reads as an MCP tool name (e.g. `record_incident`)
- *                either matches a real tool in some snapshot or is flagged as a
- *                broken/stale reference (e.g. `list_projects`, which was never a tool)
+ *   2. docs    — every tool named in references/mcp-tools.md exists in some domain
+ *                snapshot (catches doc drift)
+ *   3. skills  — every prefixed tool reference anywhere in the marketplace (core
+ *                skills, agents, references, evals, and plugins/) must exist in the
+ *                snapshot of the server its PREFIX names. `mcp__sector137__x` and
+ *                `mcp__plugin_sector137_sector137__x` must be on the work server (what
+ *                the core plugin serves once it switches to /mcp/work), so a core skill
+ *                naming a studio tool under the core prefix fails. Studio, crew, brand
+ *                and ops tools use `mcp__plugin_sector137-<domain>_<domain>__x` (or the
+ *                short `mcp__<domain>__x`). Every bare, backticked snake_case identifier
+ *                that reads as an MCP tool name (e.g. `record_incident`) must match a
+ *                real tool in some domain snapshot or is flagged as broken/stale.
  *
- * SERVERS below lists every (server, url, snapshot) triple to check. Today there is
- * one: the sector137 work server. A later split into domain servers (studio, crew,
- * brand, ops) adds entries here — docs/skills checks run against the UNION of every
- * server's tools, since a doc or skill may legitimately reference any of them.
+ * SERVERS below lists every (server, url, snapshot, prefixes) entry. The legacy `/mcp`
+ * entry (all tools) is live-checked only: nothing in the marketplace is validated
+ * against it, because existing installs keep it but new skills must not rely on it.
  *
  * The live section needs SECTOR137_API_KEY; the docs and skills sections are
  * offline and always run. So `bun run test:mcp` is useful even with no key —
@@ -44,21 +47,32 @@ const MCP_TOOLS_DOC = `${REPO}/references/mcp-tools.md`;
 const PROTOCOL_VERSION = "2025-03-26";
 
 interface ServerConfig {
-  /** Short label used in output; also the snapshot's expected `server.name`. */
+  /** Short label used in output (the plugin's server key). */
   server: string;
   url: string;
   snapshotPath: string;
+  /** Tool-name prefixes (everything before the tool name) that resolve to this server. */
+  prefixes: string[];
+  /** Legacy: live-checked only. Docs and skills are never validated against it. */
+  legacy?: boolean;
 }
 
-// Every MCP server this plugin's docs/skills may reference. One entry today; a
-// domain-server split adds more here (each with its own snapshot file) without
-// changing anything below — docs/skills checks run against their union.
+const BASE = process.env.MCP_BASE_URL || "https://app.sector137.io";
+const snap = (name: string) => `${REPO}/tests/snapshots/mcp-tools.${name}.json`;
+const domainPrefixes = (plugin: string, key: string) => [`mcp__plugin_${plugin}_${key}__`, `mcp__${key}__`];
+
+// Every MCP server the marketplace's docs/skills may reference. Each domain has its
+// own snapshot and its own plugin prefix. The entry for server key `sector137` (the
+// core plugin's server) validates against the WORK snapshot: that is what core serves
+// after its .mcp.json moves from /mcp to /mcp/work. Until that switch core's .mcp.json
+// still points at the legacy /mcp, which serves a superset, so the checks stay valid.
 const SERVERS: ServerConfig[] = [
-  {
-    server: "sector137",
-    url: process.env.MCP_URL || "https://app.sector137.io/mcp",
-    snapshotPath: `${REPO}/tests/snapshots/mcp-tools.snapshot.json`,
-  },
+  { server: "sector137", url: `${BASE}/mcp/work`, snapshotPath: snap("sector137"), prefixes: domainPrefixes("sector137", "sector137") },
+  { server: "studio", url: `${BASE}/mcp/studio`, snapshotPath: snap("studio"), prefixes: domainPrefixes("sector137-studio", "studio") },
+  { server: "crew", url: `${BASE}/mcp/crew`, snapshotPath: snap("crew"), prefixes: domainPrefixes("sector137-crew", "crew") },
+  { server: "brand", url: `${BASE}/mcp/brand`, snapshotPath: snap("brand"), prefixes: domainPrefixes("sector137-brand", "brand") },
+  { server: "ops", url: `${BASE}/mcp/ops`, snapshotPath: snap("ops"), prefixes: domainPrefixes("sector137-ops", "ops") },
+  { server: "legacy", url: process.env.MCP_URL || `${BASE}/mcp`, snapshotPath: snap("legacy"), prefixes: [], legacy: true },
 ];
 
 const args = new Set(process.argv.slice(2));
@@ -356,19 +370,28 @@ const FOREIGN_OR_NON_TOOL_IDENTIFIERS = new Set([
   "create_issue",
 ]);
 
-/** Every mcp__sector137__<name> / mcp__plugin_sector137_sector137__<name> referenced across the plugin. */
-async function skillToolRefs(): Promise<Map<string, string[]>> {
-  const refs = new Map<string, string[]>();
-  const glob = new Glob("{skills,agents,references,evals}/**/*.{md,json}");
+interface ToolRef {
+  prefix: string;
+  name: string;
+  files: string[];
+}
+
+/** Every prefixed tool reference (any server's prefix) across the marketplace, keyed by prefix+name. */
+async function skillToolRefs(): Promise<ToolRef[]> {
+  const prefixes = SERVERS.flatMap((s) => s.prefixes).sort((a, b) => b.length - a.length);
+  const re = new RegExp(`(${prefixes.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})([a-z][a-z0-9_]+)`, "g");
+  const refs = new Map<string, ToolRef>();
+  const glob = new Glob("{skills,agents,references,evals,plugins}/**/*.{md,json}");
   for await (const rel of glob.scan(REPO)) {
     const text = await Bun.file(`${REPO}/${rel}`).text();
-    for (const m of text.matchAll(/mcp__(?:plugin_sector137_)?sector137__([a-z][a-z0-9_]+)/g)) {
-      const name = m[1];
-      if (!refs.has(name)) refs.set(name, []);
-      if (!refs.get(name)!.includes(rel)) refs.get(name)!.push(rel);
+    for (const m of text.matchAll(re)) {
+      const key = m[1] + m[2];
+      if (!refs.has(key)) refs.set(key, { prefix: m[1], name: m[2], files: [] });
+      const r = refs.get(key)!;
+      if (!r.files.includes(rel)) r.files.push(rel);
     }
   }
-  return refs;
+  return [...refs.values()].sort((a, b) => (a.prefix + a.name).localeCompare(b.prefix + b.name));
 }
 
 /**
@@ -379,7 +402,7 @@ async function skillToolRefs(): Promise<Map<string, string[]>> {
  */
 async function bareToolRefs(excludeVocab: Set<string>): Promise<Map<string, string[]>> {
   const refs = new Map<string, string[]>();
-  const glob = new Glob("{skills,agents,references,evals}/**/*.{md,json}");
+  const glob = new Glob("{skills,agents,references,evals,plugins}/**/*.{md,json}");
   for await (const rel of glob.scan(REPO)) {
     const text = await Bun.file(`${REPO}/${rel}`).text();
     for (const m of text.matchAll(/`([a-z][a-z0-9]*(?:_[a-z0-9]+)+)`/g)) {
@@ -395,7 +418,9 @@ async function bareToolRefs(excludeVocab: Set<string>): Promise<Map<string, stri
 
 // ── main ─────────────────────────────────────────────────────────────────
 async function main() {
-  const allSnapNames = new Set<string>();
+  const allSnapNames = new Set<string>(); // every domain server's tools (legacy excluded)
+  const namesByPrefix = new Map<string, Set<string>>();
+  const unverified: string[] = [];
   let anyUpdated = false;
 
   for (const cfg of SERVERS) {
@@ -459,7 +484,11 @@ async function main() {
       fail(`${cfg.server}: no snapshot at ${cfg.snapshotPath}. Seed it: SECTOR137_API_KEY=… bun run test:mcp:update`);
       continue;
     }
-    for (const t of snapshot.tools) allSnapNames.add(t.name);
+    if (!cfg.legacy) {
+      const names = new Set(snapshot.tools.map((t) => t.name));
+      for (const n of names) allSnapNames.add(n);
+      for (const prefix of cfg.prefixes) namesByPrefix.set(prefix, names);
+    }
 
     // live vs snapshot
     if (liveTools) {
@@ -467,8 +496,11 @@ async function main() {
       if (hard === 0 && soft === 0) ok(`${cfg.server}: live server matches snapshot exactly`);
       else if (hard === 0) ok(`${cfg.server}: live matches snapshot (${soft} description change(s) — soft)`);
     } else if (snapshot._provenance && !snapshot._provenance.startsWith("captured live")) {
-      warn(`${cfg.server}: snapshot is seeded, not yet verified against live (${snapshot._provenance})`);
+      unverified.push(cfg.server);
     }
+  }
+  if (unverified.length) {
+    warn(`snapshots generated from server code, not yet verified against live: ${unverified.join(", ")}`);
   }
 
   if (UPDATE) {
@@ -498,13 +530,17 @@ async function main() {
   section("3. skills (tool references ↔ snapshots)");
   const refs = await skillToolRefs();
   let skillProblems = 0;
-  for (const [name, files] of [...refs].sort()) {
-    if (!allSnapNames.has(name)) {
-      fail(`mcp__sector137__${name} referenced but not a real tool — in: ${files.join(", ")}`);
-      skillProblems++;
-    }
+  for (const r of refs) {
+    const owner = namesByPrefix.get(r.prefix);
+    if (owner?.has(r.name)) continue;
+    const elsewhere = SERVERS.filter((x) => !x.legacy && x.prefixes.length && namesByPrefix.get(x.prefixes[0])?.has(r.name)).map((x) => x.server);
+    const hint = elsewhere.length
+      ? ` — it lives on the ${elsewhere.join("/")} server: use that plugin's prefix`
+      : " — not a real tool in any snapshot";
+    fail(`${r.prefix}${r.name} referenced but not on the server its prefix names${hint}; in: ${r.files.join(", ")}`);
+    skillProblems++;
   }
-  if (skillProblems === 0) ok(`all ${refs.size} prefixed tool references exist in a snapshot`);
+  if (skillProblems === 0) ok(`all ${refs.length} prefixed tool references exist on the server their prefix names`);
 
   const nonTool = await nonToolVocab();
   const bareRefs = await bareToolRefs(nonTool);

@@ -1,0 +1,379 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, work domain, served at /mcp/work) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137-work",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "agents",
+      "description": "Manage crew agents. Actions: list, update, activate, deactivate, dispatch.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(5)",
+        "agentId": "string",
+        "capabilities": "union",
+        "itemId": "string",
+        "model": "string|null",
+        "name": "string",
+        "skillId": "string|null",
+        "status": "enum(2)",
+        "systemPrompt": "union",
+        "toolConfig": "union",
+        "type": "enum(4)",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "create_board",
+      "description": "Create a new board in a universe. Boards segment issues into parallel work tracks (e.g., Discovery, Delivery). Issues placed on a board stay there permanently.",
+      "required": [
+        "name",
+        "universeId"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string",
+        "universeId": "string",
+        "viewMode": "enum(3)"
+      }
+    },
+    {
+      "name": "create_board_label",
+      "description": "Add a label to a board's vocabulary. Board labels are scoped to their board and can be applied to issues on that board.",
+      "required": [
+        "boardId",
+        "name"
+      ],
+      "properties": {
+        "boardId": "string",
+        "color": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "create_product",
+      "description": "Create a new Sector137 product. Requires an account-scoped API key (no product associations) with the products:write scope.",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "description": "string",
+        "isPublic": "boolean",
+        "title": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "create_tag",
+      "description": "Create a product tag (work-item taxonomy). Tags are product-specific and created under the API key's product. Returns the new tag with its ID, which you can then assign to issues via tagIds.",
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "color": "string",
+        "label": "string"
+      }
+    },
+    {
+      "name": "create_universe",
+      "description": "Create a new universe. Universes are top-level containers that group products.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "delete_board",
+      "description": "Delete a board. Cannot delete the Intake board. Issues on the deleted board will have their board_id cleared.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string"
+      }
+    },
+    {
+      "name": "delete_board_label",
+      "description": "Remove a label from a board's vocabulary. This also removes the label from all issues on the board.",
+      "required": [
+        "boardId",
+        "labelId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "labelId": "string"
+      }
+    },
+    {
+      "name": "delete_tag",
+      "description": "Delete a product tag. Also removes it from every issue it was assigned to.",
+      "required": [
+        "tagId"
+      ],
+      "properties": {
+        "tagId": "string"
+      }
+    },
+    {
+      "name": "export_state",
+      "description": "Export the state snapshot for a product as a JSON StateDocument (issues + tasks + notes + releases + tags). Sal writes this to .sector137/state.json as the canonical local copy. Each entity is wrapped in a sync envelope with origin/serverId/etag for later reconciliation.",
+      "required": [],
+      "properties": {
+        "fields": "enum(2)",
+        "productId": "string"
+      }
+    },
+    {
+      "name": "feedback",
+      "description": "Post-ship feedback signal (reactions + comments) on releases and issues. Actions: get_summary, list_comments, promote.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(3)",
+        "commentId": "string",
+        "targetId": "string",
+        "targetType": "enum(2)"
+      }
+    },
+    {
+      "name": "get_product_tags",
+      "description": "List all tags for the current product. Tags are user-managed and product-specific. Use this to discover valid tag IDs before assigning tagIds to issues.",
+      "required": [],
+      "properties": {
+        "productId": "string"
+      }
+    },
+    {
+      "name": "get_universe",
+      "description": "Get a universe by its ID. Returns universe details including name, slug, and description.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_universe_context",
+      "description": "Get full universe context in one call — merges universe details, pipeline stats (issue counts by status), and the active release. Use this at session start for efficient orientation.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "import_state",
+      "description": "Push a StateDocument to the server. Locally-created entities (meta.serverId: null) get created and the server returns the new serverIds. Dirty entities with matching etag are updated. Conflicts (dirty + stale etag) are returned in results.conflicts without being auto-merged. Use this when Sal has accumulated offline changes and wants to push them up.",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "document": "object"
+      }
+    },
+    {
+      "name": "issues",
+      "description": "Manage issues, notes, tasks, and relations. Actions: list, get, stats, by_status, roadmap_summary, create, bulk_create, update, update_status, bulk_update_status, bulk_scope, bulk_assign, delete, search_notes, list_notes, add_note, update_note, delete_note, list_tasks, create_task, update_task, complete_task, delete_task, list_relations, add_relation, remove_relation, reorder.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "acceptanceCriteria": "union",
+        "action": "enum(27)",
+        "agentId": "string",
+        "agentIds": "array",
+        "agentMode": "enum(2)",
+        "all": "boolean",
+        "assigneeId": "string|null",
+        "backlog": "boolean",
+        "boardId": "string",
+        "category": "enum(4)",
+        "confirm": "boolean",
+        "content": "string",
+        "description": "string",
+        "horizon": "enum(4)",
+        "includeNotes": "boolean",
+        "itemId": "string",
+        "itemIds": "array",
+        "items": "array",
+        "labelIds": "array",
+        "labels": "array",
+        "limit": "integer",
+        "note": "string",
+        "noteId": "string",
+        "noteType": "enum(4)",
+        "offset": "integer",
+        "parentId": "string|null",
+        "position": "integer",
+        "priority": "enum(3)",
+        "priorityValue": "integer",
+        "productId": "string",
+        "query": "string",
+        "relatedIssueId": "string",
+        "relationId": "string",
+        "relationType": "enum(4)",
+        "releaseId": "string|null",
+        "search": "string",
+        "startDate": "string|null",
+        "status": "string",
+        "tagIds": "array",
+        "targetDate": "string|null",
+        "taskId": "string",
+        "taskStatus": "enum(3)",
+        "title": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_board_labels",
+      "description": "List a board's label vocabulary. Board labels are scoped to their board and applied to issues on it. Use this to discover valid labelIds before attaching them at issue creation.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string"
+      }
+    },
+    {
+      "name": "list_boards",
+      "description": "List boards for a universe. Returns all boards including the default Intake board. Boards are named work containers that segment issues into parallel work tracks.",
+      "required": [
+        "universeId"
+      ],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_members",
+      "description": "List the people you can assign work to, in a universe or in one product. Returns userId, name, email, role, functionalRole and isOwner — resolve an assigneeId here rather than pasting a UUID. Pass universeId for the whole universe roster, or productId for just that product's members.",
+      "required": [],
+      "properties": {
+        "productId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_products",
+      "description": "List Sector137 products accessible with the current API key. Product-scoped keys return their single product; account-scoped keys (no product associations) return all products for the user.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "list_universes",
+      "description": "List universes for the authenticated user. Universes are top-level containers that group products.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "releases",
+      "description": "Manage releases. Actions: list, get, get_active, update, publish, delete.",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": "enum(6)",
+        "body": "string",
+        "bumpType": "enum(3)",
+        "confirm": "boolean",
+        "includeIssues": "boolean",
+        "isPrerelease": "boolean",
+        "limit": "integer",
+        "name": "string",
+        "offset": "integer",
+        "releaseId": "string",
+        "status": "enum(2)"
+      }
+    },
+    {
+      "name": "sync_state",
+      "description": "Bidirectional sync: push local creates/updates, pull server-only entities, surface conflicts. Returns { document, results } — the document is the merged snapshot to write back to .sector137/state.json, results enumerates created/updated/pulled/deleted/conflicts. Sal calls this on `/sal init --sync` and after long offline stints.",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "document": "object"
+      }
+    },
+    {
+      "name": "update_board",
+      "description": "Update a board's name, description, view mode, status, or position. Cannot update the Intake board.",
+      "required": [
+        "boardId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "description": "union",
+        "name": "string",
+        "position": "integer",
+        "status": "enum(2)",
+        "viewMode": "enum(3)"
+      }
+    },
+    {
+      "name": "update_board_label",
+      "description": "Update a board label's name and/or color.",
+      "required": [
+        "boardId",
+        "labelId"
+      ],
+      "properties": {
+        "boardId": "string",
+        "color": "string",
+        "labelId": "string",
+        "name": "string"
+      }
+    },
+    {
+      "name": "update_tag",
+      "description": "Update a product tag's label and/or color.",
+      "required": [
+        "tagId"
+      ],
+      "properties": {
+        "color": "string",
+        "label": "string",
+        "tagId": "string"
+      }
+    },
+    {
+      "name": "whoami",
+      "description": "Who this credential is and which universes it can act in. Use it to fill in assigneeId with the operator's own user id, and to discover a universeId without guessing. The universes list is empty unless the key holds universes:read.",
+      "required": [],
+      "properties": {}
+    },
+    {
+      "name": "workflow_statuses",
+      "description": "Read and manage a universe's issue status vocabulary — the keys 'issues.status' is allowed to hold. Actions: list, create, update, delete, reorder. CALL action:\"list\" BEFORE writing any issue status: statuses are per-universe and customizable, so the seeded set (backlog, planned, in_progress, in_review, completed, cancelled) is only a starting point and a universe may have renamed or replaced all of it. Every status maps onto a fixed category (backlog, unstarted, started, review, completed, cancelled) which is what the system actually reasons about — 'started' stamps startedAt, 'completed'/'cancelled' let a release cut, 'backlog' hides an issue from the active queue. A key is IMMUTABLE after create (renaming would orphan every issue holding the old value) — to rename the human-facing name, update `label` instead. Delete refuses with 409 while issues still hold the key; pass reassignTo with another key in the same universe to move them first.",
+      "required": [
+        "action",
+        "universeId"
+      ],
+      "properties": {
+        "action": "enum(5)",
+        "category": "enum(6)",
+        "color": "string",
+        "isDefault": "boolean",
+        "isDefaultDone": "boolean",
+        "key": "string",
+        "label": "string",
+        "position": "integer",
+        "reassignTo": "string",
+        "statusId": "string",
+        "statusIds": "array",
+        "universeId": "string"
+      }
+    }
+  ]
+}

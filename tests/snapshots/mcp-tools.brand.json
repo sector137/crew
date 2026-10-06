@@ -1,0 +1,129 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, brand domain, served at /mcp/brand) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137-brand",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "create_brand",
+      "description": "Create a new brand in a universe. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "brandAttributes": "array",
+        "brandVoice": "string",
+        "colors": "array",
+        "coreValues": "array",
+        "description": "string",
+        "industries": "array",
+        "keyMessages": "string",
+        "mission": "string",
+        "name": "string",
+        "tagline": "string",
+        "targetAudience": "string",
+        "toneGuidelines": "string",
+        "universeId": "string",
+        "vision": "string"
+      }
+    },
+    {
+      "name": "delete_brand",
+      "description": "Permanently delete a brand. universeId is optional — auto-resolves if only one universe exists. Pass `confirm: true` to confirm.",
+      "required": [
+        "brandId",
+        "confirm"
+      ],
+      "properties": {
+        "brandId": "string",
+        "confirm": "boolean",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "export_brand_llm",
+      "description": "Export a brand's identity as LLM-ready context. Use 'prompt' for a rich markdown system prompt, 'compact' for a short one-liner, or 'structured' for a JSON object. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "format": "enum(3)",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "generate_brand",
+      "description": "AI-generate a complete brand identity (colors, voice, mission, values, etc.) from a name and description, then save it to the universe. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "description",
+        "name"
+      ],
+      "properties": {
+        "description": "string",
+        "generateVoice": "boolean",
+        "industry": "string",
+        "name": "string",
+        "targetAudience": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_brand",
+      "description": "Get a single brand by ID. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "get_brand_completeness",
+      "description": "Get a completeness report for a brand — shows which sections are filled in and what's missing. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandId": "string",
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "list_brands",
+      "description": "List brands. If universeId is omitted, lists brands across all universes (auto-resolves if only one universe exists).",
+      "required": [],
+      "properties": {
+        "universeId": "string"
+      }
+    },
+    {
+      "name": "update_brand",
+      "description": "Update an existing brand. universeId is optional — auto-resolves if only one universe exists.",
+      "required": [
+        "brandId"
+      ],
+      "properties": {
+        "brandAttributes": "array",
+        "brandId": "string",
+        "brandVoice": "string",
+        "colors": "array",
+        "coreValues": "array",
+        "description": "string",
+        "industries": "array",
+        "keyMessages": "string",
+        "mission": "string",
+        "name": "string",
+        "tagline": "string",
+        "targetAudience": "string",
+        "toneGuidelines": "string",
+        "universeId": "string",
+        "vision": "string"
+      }
+    }
+  ]
+}
