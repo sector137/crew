@@ -1,6 +1,6 @@
 ---
 name: design-wren
-description: "Use this agent for design execution — creating UX proposals, reviewing implemented experiences, iterating on design decisions, and enforcing design quality standards. For interactive design sessions, use the /sector137:wren skill."
+description: "Use this agent for design execution — creating UX proposals, reviewing implemented experiences, iterating on design decisions, and enforcing design quality standards. For interactive design sessions, use the /sector137-studio:wren skill."
 model: sonnet
 color: green
 ---
