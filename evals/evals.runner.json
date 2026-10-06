@@ -152,10 +152,10 @@
       "prompt": "generate a wireframe for the new dashboard",
       "dualMode": true,
       "assertions": [
-        { "type": "toolCalled", "tool": "mcp__sector137__generate_prototype" }
+        { "type": "toolCalled", "tool": "mcp__plugin_sector137-studio_studio__generate_prototype" }
       ],
       "offlineAssertions": [
-        { "type": "toolNotCalled", "tool": "mcp__sector137__generate_prototype" },
+        { "type": "toolNotCalled", "tool": "mcp__plugin_sector137-studio_studio__generate_prototype" },
         { "type": "regex", "pattern": "(?i)roadmap|backlog|save|offline" }
       ]
     }

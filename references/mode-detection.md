@@ -74,5 +74,5 @@ An `env` block does nothing for an `http` server — the key goes in an `Authori
 
 ## Which Workflows Require MCP
 
-- `/sector137:prototype` (`skills/prototype/`) — requires MCP, no meaningful local fallback.
+- `/sector137-studio:prototype` (from the `sector137-studio` plugin) — requires MCP, no meaningful local fallback.
 - All others — work offline with `.sector137/state.json` if it exists, else `.sector137/roadmap.md`.

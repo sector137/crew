@@ -151,7 +151,7 @@ Numbers and observations before narrative. No prescriptions; those are Wren's jo
 
 Spawn the design-wren agent with the evidence bundle. Use the `Agent` tool:
 
-- `subagent_type: "sector137:design-wren"`
+- `subagent_type: "sector137-studio:design-wren"`
 - Prompt: the full evidence bundle from Step 5, plus this instruction:
 
   > Here is raw evidence from a browser walkthrough of the **<flow>** journey. Produce a
@@ -228,4 +228,4 @@ A clean flow is signal too. If Wren finds no real friction, say so plainly rathe
 ## See also
 
 - `agents/design-wren.md`: the design authority this skill feeds. Wren can also be invoked directly
-  (`/sector137:wren`) for design sessions.
+  (`/sector137-studio:wren`) for design sessions.

@@ -12,6 +12,19 @@ The server consolidates issue, note, task, and release work into two action-disp
 tools: `issues` and `releases`. One tool, an `action` parameter, many operations. I
 call `mcp__sector137__issues` with `action: "create"`, not a separate `create_issue`.
 
+The server is split into domains, each its own MCP server (the tools in this file's
+`issues`, `releases`, products, tags, boards and state sections are all on the work
+server, which the core plugin serves). Tools from the other domains ship with their own
+plugin and use that plugin's prefix, `mcp__plugin_sector137-<domain>_<domain>__<tool>`:
+
+| Domain | Plugin | Server key | Covers |
+|--------|--------|-----------|--------|
+| work | `sector137` (core) | `sector137` | issues, releases, state, products, tags, boards, feedback, agents, universes |
+| studio | `sector137-studio` | `studio` | prototypes, PRDs, personas |
+| crew | `sector137-crew` | `crew` | run a crew member, crew proposals, crew conversations, skills list |
+| brand | `sector137-brand` | `brand` | brand systems, voice schemas, completeness, LLM export |
+| ops | `sector137-ops` | `ops` | DORA metrics, incidents, deployments, services, initiatives |
+
 Docs: the live catalog and auth live at [docs.sector137.io/claude-code](https://docs.sector137.io/claude-code).
 
 ## `issues` — one tool for issues, notes, tasks, relations
@@ -72,6 +85,8 @@ release always exists (it is the running "next"). You scope issues onto it, then
 
 ## Prototype Tools (Studio)
 
+Studio server, `sector137-studio` plugin: `mcp__plugin_sector137-studio_studio__<tool>`.
+
 | Tool | Purpose | Key parameters |
 |------|---------|----------------|
 | `generate_prototype` | Create an AI wireframe | `title` (req), `description`, `roadmapItemId`, `layout` (`desktop`/`mobile`/`auto`) |
@@ -80,6 +95,8 @@ release always exists (it is the running "next"). You scope issues onto it, then
 | `list_prototypes` | All prototypes | `limit`, `offset` |
 
 ## Personas Tools
+
+Studio server, `sector137-studio` plugin, same prefix as the prototype tools.
 
 | Tool | Purpose | Key parameters |
 |------|---------|----------------|

@@ -41,7 +41,8 @@ Every step is its own `/sector137:` skill. Run them directly, or tell me the goa
 - Build & verify: `build` (implement, TDD-first) · `test` (run the suite) · `review` (perf/quality pass)
 - Ship: `release` (show/annotate the active release) · `scope` (route issues into it) · `ship` (cut it, strict gate)
 - Context & record: `whats-next` · `ask` · `note` · `issues` (close out) · `continue` · `handoff`
-- Setup & research: `init` (sync roadmap) · `prototype` (Gen wireframes) · `update` (self-update)
+- Setup: `init` (sync roadmap) · `update` (self-update)
+- Studio, from the `sector137-studio` plugin: `/sector137-studio:prototype` (Gen wireframes) · `/sector137-studio:ux-walkthrough` · `/sector137-studio:wren`. If the user asks for one of these and the command doesn't exist, the plugin isn't installed: tell them to run `/plugin install sector137-studio@sector137`, then carry on with the rest of the pipeline.
 
 ---
 
@@ -160,7 +161,7 @@ With `state.json`, follow the Local Mode Rules in `mode-detection.md` and skip t
 
 **From engineering-kael**: After implementation planning, hand me the Phase 1 breakdown to translate into issues; route execution through `/sector137:build`, not direct edits.
 
-**From design-wren**: After design proposals, hand me the design specs; I translate to issues and route to `/sector137:build`.
+**From design-wren** (`sector137-studio:design-wren`, from the `sector137-studio` plugin): After design proposals, hand me the design specs; I translate to issues and route to `/sector137:build`.
 
 ---
 

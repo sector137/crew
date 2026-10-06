@@ -17,7 +17,7 @@ tags: [character, mira, navigator, coaching]
 | **Full Name** | Mira Strand |
 | **Role** | Navigator + Crew Coach |
 | **Agent** | `navigator-mira` |
-| **Skill** | `/sector137:mira` |
+| **Skill** | `/sector137-crew:mira` |
 | **Archetype** | The Cartographer |
 | **Color** | Pulse (`#00BBFF`) |
 
