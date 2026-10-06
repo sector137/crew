@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "brand": {
+      "type": "http",
+      "url": "https://app.sector137.io/mcp/brand"
+    }
+  }
+}

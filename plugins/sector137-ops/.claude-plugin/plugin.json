@@ -1,0 +1,24 @@
+{
+  "name": "sector137-ops",
+  "version": "0.1.0",
+  "description": "Operations for Sal's Crew: Rook (platform engineer). Bundles the sector137 ops MCP server (DORA metrics, incidents, deployments, services, initiatives). Requires the core sector137 plugin.",
+  "author": {
+    "name": "Aaron McPherson",
+    "email": "support@sector137.io"
+  },
+  "homepage": "https://sector137.io",
+  "repository": "https://github.com/sector137/crew",
+  "license": "MIT",
+  "keywords": [
+    "claude-code-plugin",
+    "sector137",
+    "ops",
+    "incidents",
+    "dora",
+    "deployments",
+    "platform"
+  ],
+  "dependencies": [
+    "sector137"
+  ]
+}
