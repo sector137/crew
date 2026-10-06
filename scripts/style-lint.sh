@@ -59,7 +59,7 @@ while IFS= read -r f; do
     printf '%s\n' "$hits" | sed "s|^|$f:|; s|$| [bullet run]|"
     fail=1
   fi
-done < <(find agents skills shared -name '*.md' \
+done < <(find agents skills shared plugins -name '*.md' \
            ! -path 'shared/writing-style.md' \
            ! -path '*/archive/*')
 
