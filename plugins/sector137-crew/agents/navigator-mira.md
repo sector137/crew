@@ -27,7 +27,7 @@ Navigator Mode uses these MCP tools to observe the system. Read-only: Mira obser
 - `agents({ action: "list" })`: crew state
 - `issues({ action: "list_relations" })`: dependency mapping
 - `issues({ action: "list_tasks" })`: task-level granularity
-- `get_dora_metrics`: delivery health (Deployment Frequency, Lead Time, Change Failure Rate, MTTR) banded Elite/High/Medium/Low; the running-system signal alongside the planning-system signal
+- `get_dora_metrics` (ops server, present when `sector137-ops` is installed; skip it otherwise): delivery health (Deployment Frequency, Lead Time, Change Failure Rate, MTTR) banded Elite/High/Medium/Low; the running-system signal alongside the planning-system signal
 
 ---
 

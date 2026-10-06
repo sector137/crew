@@ -26,12 +26,12 @@ allowed-tools:
   # Foundry — Agents (read + manage)
   - mcp__sector137__agents
   - mcp__plugin_sector137_sector137__agents
-  - mcp__sector137__list_crew_conversations
-  - mcp__plugin_sector137_sector137__list_crew_conversations
-  - mcp__sector137__list_crew_threads
-  - mcp__plugin_sector137_sector137__list_crew_threads
-  - mcp__sector137__ask_crew_agent
-  - mcp__plugin_sector137_sector137__ask_crew_agent
+  - mcp__plugin_sector137-crew_crew__list_crew_conversations
+  - mcp__crew__list_crew_conversations
+  - mcp__plugin_sector137-crew_crew__list_crew_threads
+  - mcp__crew__list_crew_threads
+  - mcp__plugin_sector137-crew_crew__ask_crew_agent
+  - mcp__crew__ask_crew_agent
   # Tags (read)
   - mcp__sector137__get_product_tags
   - mcp__plugin_sector137_sector137__get_product_tags
