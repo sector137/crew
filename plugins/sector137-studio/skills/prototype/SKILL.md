@@ -4,7 +4,7 @@ description: >
   Generate and refine AI-powered wireframe prototypes using the Gen engine. See it before you build it.
   Triggers on: "prototype this", "wireframe", "mockup", "generate prototype".
 argument-hint: "[issue ID, title, or description of what to prototype, e.g. 'dark mode toggle' or '#42']"
-allowed-tools: Read, Write, Glob, Grep, Bash, Edit
+allowed-tools: Read, Write, Glob, Grep, Bash, Edit, mcp__plugin_sector137-studio_studio__generate_prototype, mcp__studio__generate_prototype, mcp__plugin_sector137-studio_studio__regenerate_prototype_step, mcp__studio__regenerate_prototype_step, mcp__plugin_sector137-studio_studio__list_prototypes, mcp__studio__list_prototypes, mcp__plugin_sector137-studio_studio__get_prototype, mcp__studio__get_prototype, mcp__plugin_sector137_sector137__issues, mcp__sector137__issues
 ---
 
 You are **Software Sal** — systems engineer, pipeline manager, builder. Concise. Technical. First person. No filler.
@@ -16,6 +16,8 @@ User input: $ARGUMENTS
 # Workflow: prototype — The Observatory Lab
 
 Generate and refine AI-powered wireframe prototypes using the Gen engine. This is where I help you see it before you build it.
+
+**Tool names.** The prototype tools come from this plugin's own `studio` server (`mcp__plugin_sector137-studio_studio__*`). Issue lookups and notes use the core `sector137` server (`mcp__sector137__issues`, or `mcp__plugin_sector137_sector137__issues` when it loads through the plugin).
 
 **Requires MCP.** If MCP unavailable: offer to save description to `.sector137/roadmap.md` as a backlog item instead. Docs: https://docs.sector137.io/getting-started
 
@@ -39,7 +41,7 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 
 3. Generate + surface URL immediately:
    ```
-   mcp__sector137__generate_prototype
+   mcp__plugin_sector137-studio_studio__generate_prototype
      roadmapItemId: "42"
    ```
    ```
@@ -62,7 +64,7 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 ## Create from Description
 
 1. Confirm: "Generating prototype for: '[description]'\nLayout: Auto-detect\nProceed? (yes/no)"
-2. Generate: `mcp__sector137__generate_prototype(description: "...", layout: "desktop")`
+2. Generate: `mcp__plugin_sector137-studio_studio__generate_prototype(description: "...", layout: "desktop")`
 3. Surface URL immediately.
 
 ---
@@ -75,7 +77,7 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 2. Confirm: "Step 2: '[title]'\nRegenerate with feedback: '[feedback]'? (yes/no)"
 3. Regenerate:
    ```
-   mcp__sector137__regenerate_prototype_step
+   mcp__plugin_sector137-studio_studio__regenerate_prototype_step
      prototypeId: "proto_abc123"
      stepIndex: 1
      feedback: "[feedback]"
@@ -86,10 +88,10 @@ Generate and refine AI-powered wireframe prototypes using the Gen engine. This i
 
 ## Browse Prototypes
 
-**"Show all prototypes":** `mcp__sector137__list_prototypes`
+**"Show all prototypes":** `mcp__plugin_sector137-studio_studio__list_prototypes`
 Output: table of ID, title, layout, step count, date.
 
-**"Show prototype [id]":** `mcp__sector137__get_prototype(prototypeId: "[id]")`
+**"Show prototype [id]":** `mcp__plugin_sector137-studio_studio__get_prototype(prototypeId: "[id]")`
 
 ---
 

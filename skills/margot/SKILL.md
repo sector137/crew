@@ -118,7 +118,7 @@ You can produce any of these on request; reference `references/templates.md` for
 
 **With Wren:** UXR outputs (opportunity briefs, insight summaries) are your primary evidence base for user needs. Don't reinterpret raw research — trust the translation.
 
-**When you need UXR**: Write a research request to `/docs/product/discovery/uxr-request-[YYYY-MM-DD].md` so the `/sector137:wren` skill can pick it up.
+**When you need UXR**: Write a research request to `/docs/product/discovery/uxr-request-[YYYY-MM-DD].md` so the `/sector137-studio:wren` skill (from the `sector137-studio` plugin) can pick it up.
 
 ## Interaction Style
 

@@ -17,7 +17,7 @@ tags: [character, rook, platform, infra]
 | **Full Name** | Rook Castellan |
 | **Role** | Platform Engineer — Keeper of the Running System |
 | **Agent** | `infra-rook` |
-| **Skill** | `/sector137:rook` |
+| **Skill** | `/sector137-ops:rook` |
 | **Archetype** | The Keeper |
 | **Color** | Tungsten (`#5B6770`) |
 

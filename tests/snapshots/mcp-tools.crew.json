@@ -1,0 +1,104 @@
+{
+  "_provenance": "generated from the sector137 server code at commit 4ef96f3 (packages/mcp, crew domain, served at /mcp/crew) by an in-memory MCP client calling tools/list; not captured from a deployed server",
+  "capturedAt": null,
+  "protocolVersion": "2025-03-26",
+  "server": {
+    "name": "sector137-crew",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "apply_crew_proposal",
+      "description": "Commit a Voss crew proposal to the engagement's customer universe. Mutates agent_registry: updates the 8 archetypes' calibration and inserts any specialists. Idempotent — re-applying the same proposal never duplicates specialists.",
+      "required": [
+        "engagement_id",
+        "proposal_id"
+      ],
+      "properties": {
+        "engagement_id": "string",
+        "proposal": "unknown",
+        "proposal_id": "string"
+      }
+    },
+    {
+      "name": "ask_crew_agent",
+      "description": "Ask a crew agent a question and get a response. Conversation history is preserved for follow-ups. The agent has context about the universe's issues, recent runs, and storyline.",
+      "required": [
+        "agentRegistryId",
+        "question"
+      ],
+      "properties": {
+        "agentRegistryId": "string",
+        "issueId": "string",
+        "question": "string",
+        "threadId": "string"
+      }
+    },
+    {
+      "name": "get_crew_proposal",
+      "description": "Get the latest Voss crew-shaping proposal for an engagement. Returns null if none has been generated yet.",
+      "required": [
+        "engagement_id"
+      ],
+      "properties": {
+        "engagement_id": "string"
+      }
+    },
+    {
+      "name": "list_crew_conversations",
+      "description": "List conversation history for a crew agent. Returns messages in chronological order.",
+      "required": [
+        "agentRegistryId"
+      ],
+      "properties": {
+        "agentRegistryId": "string",
+        "limit": "number",
+        "offset": "number",
+        "threadId": "string"
+      }
+    },
+    {
+      "name": "list_crew_threads",
+      "description": "List conversation threads for a crew agent. Returns threads sorted by most recent activity, with message count and last message preview.",
+      "required": [
+        "agentRegistryId"
+      ],
+      "properties": {
+        "agentRegistryId": "string"
+      }
+    },
+    {
+      "name": "list_skills",
+      "description": "List the available skill catalog. Each skill includes its id, agent, name, description, auto-fire conditions, and synthesizer key.",
+      "required": [],
+      "properties": {
+        "agent": "string"
+      }
+    },
+    {
+      "name": "propose_crew",
+      "description": "Ask Voss to read the Sal-interview output for an engagement and produce a calibrated crew proposal. Returns the stored proposal (status: draft) — does NOT apply changes. Use get_crew_proposal to re-fetch, apply_crew_proposal to commit.",
+      "required": [
+        "engagement_id",
+        "interview"
+      ],
+      "properties": {
+        "engagement_id": "string",
+        "interview": "object",
+        "model_id": "string"
+      }
+    },
+    {
+      "name": "run_crew",
+      "description": "Run a crew member on a task and return their response. The crew member's persona is its foundry SKILL.md; the model is server-resolved per role (provider-agnostic). Use for one-shot crew work — e.g. ask Kael to assess a design, Margot to draft a PRD section, Lyra to check voice.",
+      "required": [
+        "role",
+        "task"
+      ],
+      "properties": {
+        "role": "enum(10)",
+        "task": "string"
+      }
+    }
+  ]
+}

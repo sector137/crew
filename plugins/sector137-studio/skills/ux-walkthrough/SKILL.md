@@ -8,7 +8,7 @@ description: >
   "test the checkout journey end to end", "re-run the <name> walkthrough", "run the saved UX flow".
   Steps come from a saved flow (`.sector137/ux-flows/`), a natural-language description, or a
   prototype/journey blueprint; new flows can be saved for reuse as repeatable UX regression checks.
-allowed-tools: Read, Write, Glob, Grep, Bash, Agent, mcp__Claude_Browser__preview_start, mcp__Claude_Browser__preview_stop, mcp__Claude_Browser__preview_logs, mcp__Claude_Browser__navigate, mcp__Claude_Browser__computer, mcp__Claude_Browser__read_page, mcp__Claude_Browser__get_page_text, mcp__Claude_Browser__find, mcp__Claude_Browser__form_input, mcp__Claude_Browser__javascript_tool, mcp__Claude_Browser__read_console_messages, mcp__Claude_Browser__read_network_requests, mcp__Claude_Browser__resize_window, mcp__sector137__list_prototypes, mcp__plugin_sector137_sector137__list_prototypes, mcp__sector137__get_prototype, mcp__plugin_sector137_sector137__get_prototype
+allowed-tools: Read, Write, Glob, Grep, Bash, Agent, mcp__Claude_Browser__preview_start, mcp__Claude_Browser__preview_stop, mcp__Claude_Browser__preview_logs, mcp__Claude_Browser__navigate, mcp__Claude_Browser__computer, mcp__Claude_Browser__read_page, mcp__Claude_Browser__get_page_text, mcp__Claude_Browser__find, mcp__Claude_Browser__form_input, mcp__Claude_Browser__javascript_tool, mcp__Claude_Browser__read_console_messages, mcp__Claude_Browser__read_network_requests, mcp__Claude_Browser__resize_window, mcp__plugin_sector137-studio_studio__list_prototypes, mcp__studio__list_prototypes, mcp__plugin_sector137-studio_studio__get_prototype, mcp__studio__get_prototype
 ---
 
 # UX Walkthrough
@@ -56,7 +56,7 @@ guessing the whole journey.
 
 **B. Prototype / journey blueprint.** The user references a prototype ("walk through prototype X" /
 "audit the journey for issue 42"). Pull the steps:
-- `mcp__sector137__list_prototypes` to find it, `mcp__sector137__get_prototype` to read the
+- `mcp__plugin_sector137-studio_studio__list_prototypes` to find it, `mcp__plugin_sector137-studio_studio__get_prototype` to read the
   blueprint.
 - Each blueprint step maps to a walkthrough step. A blueprint's final step is often a research
   touchpoint (survey, feedback prompt) — note it as such.
@@ -151,7 +151,7 @@ Numbers and observations before narrative. No prescriptions; those are Wren's jo
 
 Spawn the design-wren agent with the evidence bundle. Use the `Agent` tool:
 
-- `subagent_type: "sector137:design-wren"`
+- `subagent_type: "sector137-studio:design-wren"`
 - Prompt: the full evidence bundle from Step 5, plus this instruction:
 
   > Here is raw evidence from a browser walkthrough of the **<flow>** journey. Produce a
@@ -228,4 +228,4 @@ A clean flow is signal too. If Wren finds no real friction, say so plainly rathe
 ## See also
 
 - `agents/design-wren.md`: the design authority this skill feeds. Wren can also be invoked directly
-  (`/sector137:wren`) for design sessions.
+  (`/sector137-studio:wren`) for design sessions.

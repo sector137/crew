@@ -1,6 +1,6 @@
 # Rook — Operational Modes (the headless faces)
 
-Rook is invoked two ways. **Interactively** (a human dispatches Rook or opens `/sector137:rook`) Rook is a full delivery engineer with broad, trusted tools. **Headlessly** — inside an *Agent Operations Plane* — the same Rook runs under scoped grants, one mode per invocation. This file defines those headless faces and the rules that keep them safe.
+Rook is invoked two ways. **Interactively** (a human dispatches Rook or opens `/sector137-ops:rook`) Rook is a full delivery engineer with broad, trusted tools. **Headlessly** — inside an *Agent Operations Plane* — the same Rook runs under scoped grants, one mode per invocation. This file defines those headless faces and the rules that keep them safe.
 
 > Reference design: `sector137-infra/docs/product/PRD-agent-operations-plane.md`.
 
@@ -32,7 +32,7 @@ Capability is enforced at the **boundary** (service account, token, network) —
 
 | Invocation | Context | Tools | Identity / creds |
 |---|---|---|---|
-| `/sector137:rook` / dispatched delivery | human session (trusted) | full — Read/Write/Edit/Bash/Skill/… | operator's KUBECONFIG |
+| `/sector137-ops:rook` / dispatched delivery | human session (trusted) | full — Read/Write/Edit/Bash/Skill/… | operator's KUBECONFIG |
 | **Diagnose** | headless Job | Read, Grep, Glob, Bash(read-only), Skill | `agent-ops-readonly` SA (get/list/watch only) |
 | **Verify** (fresh) | headless Job | same as Diagnose | `agent-ops-readonly` SA |
 | **Propose** | headless Job | + `propose-pr` MCP (git branch + PR) | + Forgejo/Git PR-scoped token; **zero cluster write** |

@@ -1,0 +1,25 @@
+{
+  "name": "sector137-studio",
+  "version": "0.1.0",
+  "description": "Studio for Sal's Crew: Wren (UX and research), Gen wireframe prototypes, UX walkthroughs, PRDs, and synthetic personas. Bundles the sector137 studio MCP server (prototypes, PRDs, personas). Requires the core sector137 plugin.",
+  "author": {
+    "name": "Aaron McPherson",
+    "email": "support@sector137.io"
+  },
+  "homepage": "https://sector137.io",
+  "repository": "https://github.com/sector137/crew",
+  "license": "MIT",
+  "keywords": [
+    "claude-code-plugin",
+    "sector137",
+    "prototype",
+    "ux",
+    "research",
+    "personas",
+    "prd",
+    "wireframe"
+  ],
+  "dependencies": [
+    "sector137"
+  ]
+}

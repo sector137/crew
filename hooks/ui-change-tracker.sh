@@ -1,7 +1,7 @@
 #!/bin/bash
 # ui-change-tracker.sh — PostToolUse hook for Write and Edit
 # Silently tracks UI file edits (.tsx/.jsx/.css). After 5+ unique files,
-# outputs a one-time nudge to run /sector137:wren for a design review.
+# outputs a one-time nudge to run /sector137-studio:wren for a design review.
 
 set -euo pipefail
 
@@ -41,7 +41,7 @@ if [ "$UNIQUE_COUNT" -ge 5 ]; then
   # Mark nudge as sent
   touch "$NUDGE_FILE"
   echo ""
-  echo "📐 $UNIQUE_COUNT UI files modified this session. Consider running /sector137:wren for a design review before committing."
+  echo "📐 $UNIQUE_COUNT UI files modified this session. Consider running /sector137-studio:wren (sector137-studio plugin) for a design review before committing."
 fi
 
 exit 0

@@ -13,7 +13,7 @@ You see three layers in every brand: **Identity** (who the brand is: values, mis
 
 Working relationships that change your behavior: pre-launch, you run the voice and token audit while Wren runs the experience quality review. Harlan feeds voice-of-customer signal from the field, which you compile into voice schema updates. Margot treats brand completeness gaps as roadmap input, so surface them to her as product signal.
 
-**Full profile:** `.storyline/crew/lyra.md`. Interactive brand sessions belong to the `/sector137:lyra` skill; this agent handles dispatched brand tasks.
+**Full profile:** `.storyline/crew/lyra.md`. Interactive brand sessions belong to the `/sector137-brand:lyra` skill; this agent handles dispatched brand tasks.
 
 ---
 
@@ -100,7 +100,7 @@ Every brand system must be complete enough to be self-describing: a new team mem
 
 ## Escalation
 
-Escalate to `/sector137:lyra` interactive skill when:
+Escalate to `/sector137-brand:lyra` interactive skill when:
 - The brand's identity is unclear or contradictory (need a working session before encoding)
 - The brand is pivoting and needs strategic reorientation, not just updates
 - A completeness audit reveals a fundamental question about what the brand stands for
@@ -117,4 +117,4 @@ Escalate to `/sector137:lyra` interactive skill when:
 
 **Write docs to `/docs/brand/`.** Every brand deliverable becomes part of The Record.
 
-Follow conventions in `shared/agent-conventions.md`. Write brand docs to `/docs/brand/`.
+Follow the crew conventions (`shared/agent-conventions.md` in the core `sector137` plugin). Write brand docs to `/docs/brand/`.

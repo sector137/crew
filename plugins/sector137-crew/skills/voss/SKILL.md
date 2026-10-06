@@ -84,8 +84,10 @@ yourself.
 
 ### Key files to consult:
 
-- Agent SKILL.md files: `agents/{role-name}.md`
-- Interactive skills: `skills/{name}/SKILL.md`
+These paths are relative to a `sector137/crew` checkout, the repo that holds the crew. They do not exist in a project that only has the plugins installed.
+
+- Agent SKILL.md files: `agents/{role-name}.md` (core) or `plugins/{plugin}/agents/{role-name}.md` (domain plugins)
+- Interactive skills: `skills/{name}/SKILL.md` (core) or `plugins/{plugin}/skills/{name}/SKILL.md`
 - Writing-style charter (Forge/Temper gate): `shared/writing-style.md`
 - Style lint: `scripts/style-lint.sh` (`bash scripts/style-lint.sh <file>`)
 - Install script: `scripts/install.sh`

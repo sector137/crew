@@ -1,6 +1,7 @@
 // Mock MCP surface for the eval runner.
-//   - toolDefs(): the plugin-driven tools from the contract-test snapshot, converted
-//     to OpenAI function-calling defs. Named `mcp__sector137__<name>` so assertions
+//   - toolDefs(): the plugin-driven tools from the contract-test snapshots, converted
+//     to OpenAI function-calling defs. Work-server tools are named `mcp__sector137__<name>`
+//     and studio-server tools `mcp__plugin_sector137-studio_studio__<name>`, so assertions
 //     and skill instructions line up.
 //   - makeExecutor(): returns canned responses from fixtures/responses.json, resolving
 //     by `action` for the consolidated `issues`/`releases` tools.
@@ -8,10 +9,36 @@
 import type { ToolCall } from "./types.ts";
 
 const REPO = new URL("../..", import.meta.url).pathname.replace(/\/$/, "");
-const SNAPSHOT = `${REPO}/tests/snapshots/mcp-tools.snapshot.json`;
+const SNAPSHOTS = [
+  { file: `${REPO}/tests/snapshots/mcp-tools.sector137.json`, prefix: "mcp__sector137__" },
+  { file: `${REPO}/tests/snapshots/mcp-tools.studio.json`, prefix: "mcp__plugin_sector137-studio_studio__" },
+];
 const FIXTURES = `${import.meta.dirname}/fixtures/responses.json`;
 
-const PREFIX = "mcp__sector137__";
+// The tools the eval cases drive. The snapshots carry every tool with a full
+// description, so this list is what keeps the model from being swamped.
+const DRIVEN = new Set([
+  "ask_persona",
+  "create_persona",
+  "create_product",
+  "delete_persona",
+  "generate_prototype",
+  "get_persona",
+  "get_product_tags",
+  "get_prototype",
+  "issues",
+  "list_boards",
+  "list_persona_conversations",
+  "list_personas",
+  "list_products",
+  "list_prototypes",
+  "list_universes",
+  "regenerate_prototype_step",
+  "releases",
+  "run_persona_scenario",
+  "run_persona_survey",
+  "update_persona",
+]);
 
 interface SnapTool {
   name: string;
@@ -42,21 +69,20 @@ export interface OpenAiTool {
 }
 
 /**
- * The plugin only drives a handful of the server's ~79 tools. Detailed snapshot
- * entries (non-empty description) are exactly those; stubs are the rest. Expose
- * only the driven ones so the model isn't swamped with 79 irrelevant tools.
+ * The plugin only drives a handful of the servers' tools (DRIVEN above). Expose
+ * only those so the model isn't swamped with irrelevant ones.
  */
 export async function toolDefs(): Promise<OpenAiTool[]> {
-  const snap = (await Bun.file(SNAPSHOT).json()) as { tools: SnapTool[] };
-  return snap.tools
-    .filter((t) => t.description && t.description.trim().length > 0)
-    .map((t) => {
+  const out: OpenAiTool[] = [];
+  for (const { file, prefix } of SNAPSHOTS) {
+    const snap = (await Bun.file(file).json()) as { tools: SnapTool[] };
+    out.push(...snap.tools.filter((t) => DRIVEN.has(t.name)).map((t) => {
       const properties: Record<string, unknown> = {};
       for (const [k, v] of Object.entries(t.properties)) properties[k] = jsonSchemaType(v);
       return {
         type: "function" as const,
         function: {
-          name: `${PREFIX}${t.name}`,
+          name: `${prefix}${t.name}`,
           description: t.description,
           parameters: {
             type: "object",
@@ -65,7 +91,9 @@ export async function toolDefs(): Promise<OpenAiTool[]> {
           },
         },
       };
-    });
+    }));
+  }
+  return out;
 }
 
 type FixtureValue = unknown | { byAction: Record<string, unknown>; default?: unknown };
@@ -84,7 +112,8 @@ export async function makeExecutor(overrides?: Record<string, unknown>): Promise
   const fixtures = { ...base, ...(overrides ?? {}) };
 
   return (call: ToolCall): string => {
-    const bare = call.name.startsWith(PREFIX) ? call.name.slice(PREFIX.length) : call.name;
+    const prefix = SNAPSHOTS.find((s) => call.name.startsWith(s.prefix))?.prefix;
+    const bare = prefix ? call.name.slice(prefix.length) : call.name;
     const fixture = fixtures[bare];
 
     if (fixture === undefined) {

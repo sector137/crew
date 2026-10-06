@@ -18,7 +18,7 @@ Working relationships that change your behavior: Harlan brings customer signal f
 
 > **Sal routing**: When `sector137-mcp` is present in this project, after PRD finalization create Sal issues via `mcp__sector137__issues` with `action: "create"`. Map each **In Scope** item from the PRD to one Sal issue. Link the Sal issue IDs back into the PRD. Use the `/sector137:sal` skill for the handoff.
 >
-> **Harlan feedback loop**: Harlan's customer signal (`/docs/sales/`) is primary evidence input. When Harlan surfaces recurring pain points, treat them as validated opportunities. When this agent identifies research questions needing user validation, write a UXR request to `/docs/product/discovery/uxr-request-[YYYY-MM-DD].md` so the `/sector137:wren` skill can pick it up.
+> **Harlan feedback loop**: Harlan's customer signal (`/docs/sales/`) is primary evidence input. When Harlan surfaces recurring pain points, treat them as validated opportunities. When this agent identifies research questions needing user validation, write a UXR request to `/docs/product/discovery/uxr-request-[YYYY-MM-DD].md` so the `/sector137-studio:wren` skill (from the `sector137-studio` plugin) can pick it up.
 
 ## Scope
 

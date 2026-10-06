@@ -31,7 +31,10 @@ New user-facing features ship behind a flag. Two tiers — **app-level** (owned 
 ## The Crew — Agent Collaboration
 
 Each specialist is a `subagent_type` in the Task tool (`role-firstname`) and has
-an interactive session skill (`/sector137:firstname`). Several specialists carry the
+an interactive session skill (`/sector137:firstname`). Wren, Lyra, Rook, Mira and Voss ship in
+domain plugins, so their names carry that plugin's namespace: `sector137-studio:design-wren`
+and `/sector137-studio:wren`, `sector137-brand:brand-lyra`, `sector137-ops:infra-rook`,
+`sector137-crew:navigator-mira` and `sector137-crew:foundry-voss`. Several specialists carry the
 expertise of an earlier 11-agent system they absorbed (see the retired-agent map in
 the plugin README).
 
@@ -40,15 +43,15 @@ the plugin README).
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
 | `product-margot` | Margot Flux | `/docs/product/` | `/sector137:margot` | PRDs, product strategy, prioritization, market & competitive intel (absorbed Vesper) |
-| `design-wren` | Wren Glasswork | `/docs/ux/` | `/sector137:wren` | UX research, personas, JTBD, design proposals, taste authority |
-| `brand-lyra` | Lyra Trace | `/docs/brand/` | `/sector137:lyra` | Brand identity, voice schema, design tokens, brand consistency audits, AI brand context |
+| `design-wren` | Wren Glasswork | `/docs/ux/` | `/sector137-studio:wren` | UX research, personas, JTBD, design proposals, taste authority |
+| `brand-lyra` | Lyra Trace | `/docs/brand/` | `/sector137-brand:lyra` | Brand identity, voice schema, design tokens, brand consistency audits, AI brand context |
 
 ### Building
 
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
 | `engineering-kael` | Kael Deepstack | `/docs/engineering/` | `/sector137:kael` | Architecture, implementation planning, AI/ML, quality, security, reliability (absorbed Oracle, Veridia, Cipher, Atlas) |
-| `infra-rook` | Rook Castellan | `/docs/platform/` | `/sector137:rook` | Platform and infra delivery, GitOps, incident triage, cluster ops, reliability, autonomous-ops design |
+| `infra-rook` | Rook Castellan | `/docs/platform/` | `/sector137-ops:rook` | Platform and infra delivery, GitOps, incident triage, cluster ops, reliability, autonomous-ops design |
 
 ### Growing
 
@@ -60,7 +63,7 @@ the plugin README).
 
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
-| `navigator-mira` | Mira Strand | `/docs/project/` | `/sector137:mira` | Crew retrospectives, performance review, telemetry, coaching |
+| `navigator-mira` | Mira Strand | `/docs/project/` | `/sector137-crew:mira` | Crew retrospectives, performance review, telemetry, coaching |
 
 ### Finance
 
@@ -72,7 +75,7 @@ the plugin README).
 
 | Agent | Character | Domain | Session | When to Invoke |
 |-------|-----------|--------|---------|----------------|
-| `foundry-voss` | Voss Praxis | `agents/`, `.storyline/crew/` | `/sector137:voss` | Agent creation (Forge), evaluation (Temper), calibration; SKILL.md authoring and quality |
+| `foundry-voss` | Voss Praxis | `agents/`, `.storyline/crew/` | `/sector137-crew:voss` | Agent creation (Forge), evaluation (Temper), calibration; SKILL.md authoring and quality |
 
 ### Pipeline Conductor
 

@@ -1,0 +1,24 @@
+{
+  "name": "sector137-crew",
+  "version": "0.1.0",
+  "description": "Crew management for Sal's Crew: Mira (navigator and coach) and Voss (agent architect). Bundles the sector137 crew MCP server (run a crew member, crew proposals, crew conversations, skills list). Requires the core sector137 plugin.",
+  "author": {
+    "name": "Aaron McPherson",
+    "email": "support@sector137.io"
+  },
+  "homepage": "https://sector137.io",
+  "repository": "https://github.com/sector137/crew",
+  "license": "MIT",
+  "keywords": [
+    "claude-code-plugin",
+    "sector137",
+    "crew",
+    "retrospective",
+    "agent-quality",
+    "foundry",
+    "coaching"
+  ],
+  "dependencies": [
+    "sector137"
+  ]
+}

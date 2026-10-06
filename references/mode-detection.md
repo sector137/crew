@@ -31,9 +31,33 @@ curl -s -o /dev/null -w '%{http_code}' -m 10 https://app.sector137.io/mcp
 
 | Result | Meaning | Tell the user |
 |---|---|---|
-| `401` | Server up, this client isn't authorized | "Run `claude mcp login plugin:sector137:sector137` in a terminal (or `/mcp` → Authenticate), then start a new session." |
+| `401` | Server up, this client isn't authorized | "Run `claude mcp login plugin:sector137:sector137` in a terminal (or `/mcp` → Authenticate), then start a new session." (a domain server: see below) |
 | `5xx`, `000`, timeout | Server down | "The sector137 server is down (HTTP {code}) — this is not an auth problem; logging in won't help. Working offline." |
 | `200`/`405` but tools missing | Client-side wiring | "Server is up; the plugin's MCP connection didn't load. Run `/reload-plugins` or restart." |
+
+### Domain servers
+
+The studio, crew, brand and ops plugins each bundle their own server, so name the one
+that failed. Probe that server's URL and use that server's login. The core row is the
+same as above.
+
+| Plugin | Probe | Login |
+|--------|-------|-------|
+| `sector137` | `https://app.sector137.io/mcp` | `claude mcp login plugin:sector137:sector137` |
+| `sector137-studio` | `https://app.sector137.io/mcp/studio` | `claude mcp login plugin:sector137-studio:studio` |
+| `sector137-crew` | `https://app.sector137.io/mcp/crew` | `claude mcp login plugin:sector137-crew:crew` |
+| `sector137-brand` | `https://app.sector137.io/mcp/brand` | `claude mcp login plugin:sector137-brand:brand` |
+| `sector137-ops` | `https://app.sector137.io/mcp/ops` | `claude mcp login plugin:sector137-ops:ops` |
+
+A domain URL that answers `200` with an HTML page is not a working server: the path
+doesn't exist on that deployment yet. Treat it as down. Whether one login covers several
+servers is unverified; if the core server works and a domain server asks for
+authentication, log in to that one too.
+
+Tools from a domain server load as `mcp__plugin_<plugin>_<server>__<tool>`, for example
+`mcp__plugin_sector137-studio_studio__generate_prototype`. A skill in a domain plugin
+that finds its tools missing should say which plugin's server is unavailable, then
+degrade the way that skill documents.
 
 ## Canonical Fallback Line
 
@@ -68,11 +92,11 @@ The rolling release lives in the roadmap as the `## Active Release: [tag]` secti
 
 ## Auth Errors
 
-Only after the probe above returns `401`: "Comms array can't authenticate. Run `claude mcp login plugin:sector137:sector137` in a terminal (or `/mcp` → Authenticate), then start a new session. Headless or CI? Register the server with an API key as a header instead — see README's 'Connect the server'. Setup: https://docs.sector137.io/claude-code. I'll be here."
+Only after the probe above returns `401` (for a domain plugin, the table above gives its server and login in place of `plugin:sector137:sector137`): "Comms array can't authenticate. Run `claude mcp login plugin:sector137:sector137` in a terminal (or `/mcp` → Authenticate), then start a new session. Headless or CI? Register the server with an API key as a header instead — see README's 'Connect the server'. Setup: https://docs.sector137.io/claude-code. I'll be here."
 
 An `env` block does nothing for an `http` server — the key goes in an `Authorization: Bearer` header.
 
 ## Which Workflows Require MCP
 
-- `/sector137:prototype` (`skills/prototype/`) — requires MCP, no meaningful local fallback.
+- `/sector137-studio:prototype` (from the `sector137-studio` plugin) — requires MCP, no meaningful local fallback.
 - All others — work offline with `.sector137/state.json` if it exists, else `.sector137/roadmap.md`.

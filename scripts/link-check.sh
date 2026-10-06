@@ -50,7 +50,7 @@ echo "link-check: consistency"
 # Every docs URL used outside the registry must be in the registry. The registry
 # file itself defines the set, so exclude it as a source of "used" URLs.
 used_urls=$(grep -rhoE "https://${DOCS_HOST}[^ )\`\"|]*" \
-              skills agents shared README.md \
+              skills agents shared plugins README.md \
               $(find references -name '*.md' ! -name 'docs-links.md') 2>/dev/null \
             | strip_punct | sort -u)
 

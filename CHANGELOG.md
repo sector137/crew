@@ -5,6 +5,76 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.0] — Domain plugins (not for release until the `/mcp/<domain>` endpoints are live and core is switched)
+
+> **Do not tag or announce 0.9.0 yet.** The per-domain servers (`/mcp/studio`, `/mcp/crew`,
+> `/mcp/brand`, `/mcp/ops`, `/mcp/work`) are in review on the server side and are not
+> deployed. On production today `/mcp/<domain>` answers the app's HTML page with a 200.
+> Release order: deploy the server, verify each endpoint answers an MCP `initialize`,
+> then make the one-line core switch below, then tag. Core's `.mcp.json` keeps the legacy
+> `https://app.sector137.io/mcp` in this release on purpose.
+>
+> **The later switch (separate PR, released as 0.9.1):** in the root `.mcp.json`, change
+> `"url": "https://app.sector137.io/mcp"` to `"url": "https://app.sector137.io/mcp/work"`.
+> The server key stays `sector137`, so core tool names do not change
+> (`mcp__plugin_sector137_sector137__*`).
+
+The plugin becomes a marketplace of one core plugin plus four per-domain plugins, each
+bundling its own MCP server, skills and agents. This is a **breaking change** for anyone
+who uses the moved skills or agents.
+
+### Breaking: namespaces changed for five specialists and two workflows
+
+| Was | Now | Install |
+|-----|-----|---------|
+| `/sector137:wren`, agent `sector137:design-wren` | `/sector137-studio:wren`, `sector137-studio:design-wren` | `sector137-studio` |
+| `/sector137:prototype` | `/sector137-studio:prototype` | `sector137-studio` |
+| `/sector137:ux-walkthrough` | `/sector137-studio:ux-walkthrough` | `sector137-studio` |
+| `/sector137:mira`, agent `sector137:navigator-mira` | `/sector137-crew:mira`, `sector137-crew:navigator-mira` | `sector137-crew` |
+| `/sector137:voss`, agent `sector137:foundry-voss` | `/sector137-crew:voss`, `sector137-crew:foundry-voss` | `sector137-crew` |
+| `/sector137:lyra`, agent `sector137:brand-lyra` | `/sector137-brand:lyra`, `sector137-brand:brand-lyra` | `sector137-brand` |
+| `/sector137:rook`, agent `sector137:infra-rook` | `/sector137-ops:rook`, `sector137-ops:infra-rook` | `sector137-ops` |
+
+Anything that spawns one of those agents by `subagent_type`, or invokes one of those
+commands, must switch to the new name. Margot, Kael, Harlan, Sable, Sal and every
+pipeline skill keep their `/sector137:` names.
+
+### Added
+- **Four domain plugins in this marketplace**, each at 0.1.0, each depending on
+  `sector137`: `sector137-studio` (server key `studio`), `sector137-crew` (`crew`),
+  `sector137-brand` (`brand`), `sector137-ops` (`ops`). Each carries its own README and
+  CHANGELOG. Their servers are `https://app.sector137.io/mcp/<domain>`.
+- **Per-server contract snapshots**, generated from the server code (commit `4ef96f3`) by
+  registering each domain on a real `McpServer` and listing tools over an in-memory MCP
+  client, not hand-written: work (28 tools), studio (17), crew (8), brand (8), ops (14),
+  and the legacy `/mcp` (75). `capturedAt` is null: none was captured from a deployed server.
+- **`/sector137:sal` routes to the moved skills by plugin** and tells the user to install
+  `sector137-studio` when `prototype`, `ux-walkthrough` or `wren` isn't there.
+
+### Changed
+- **Tool names follow the plugin that owns the server.** Moved skills and agents name
+  studio, crew and ops tools as `mcp__plugin_sector137-<domain>_<domain>__<tool>` (hyphen
+  kept; unverified against a live install) and keep core-server tools (issues, releases,
+  universes) under the core prefixes. Sal no longer lists prototype or persona tools.
+- **`tests/mcp-contract.ts` checks each prefixed reference against the server its prefix
+  names.** The `sector137` server entry validates against the WORK snapshot, so a core
+  skill naming a studio tool under the core prefix now fails. Mutation-checked.
+- **`scripts/version-check.sh` checks every marketplace entry** against its own
+  `plugin.json` (core also against `package.json`). **`lint:plugin` validates the
+  marketplace and every plugin directory.** `lint:style` and `lint:links` scan `plugins/`.
+- **`shared/releasing.md` covers per-plugin versions and `NAME--vX.Y.Z` tags.**
+  `claude plugin tag` works for sub-directory plugins (run it from the plugin directory or
+  pass the path).
+- **`references/mode-detection.md` names the right server, probe URL and login per plugin**
+  (for example `claude mcp login plugin:sector137-studio:studio`).
+- **The eval runner loads skills from `plugins/` as well as `skills/`**, and mocks studio
+  tools under their plugin prefix.
+
+### Unverified
+- Whether Claude Code keeps the hyphen in `mcp__plugin_sector137-studio_studio__*` on a
+  live install.
+- Whether one OAuth login covers several servers on the same host.
+
 ## [0.8.0] — The record writes back
 
 Driven by a 744-session usage audit: `handoff` (11 uses) and Sal's wrap fast path are

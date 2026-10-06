@@ -51,8 +51,19 @@ export interface SkillContext {
 }
 
 export async function loadSkill(skill: string, prompt: string, mode: RunMode, roadmapFixture?: string): Promise<SkillContext> {
-  const path = `skills/${skill}/SKILL.md`;
-  const text = await readIfExists(path);
+  // Core skills live in skills/; domain-plugin skills in plugins/<plugin>/skills/.
+  let path = `skills/${skill}/SKILL.md`;
+  let text = await readIfExists(path);
+  if (text === null) {
+    for (const plugin of ["sector137-studio", "sector137-crew", "sector137-brand", "sector137-ops"]) {
+      const candidate = `plugins/${plugin}/skills/${skill}/SKILL.md`;
+      text = await readIfExists(candidate);
+      if (text !== null) {
+        path = candidate;
+        break;
+      }
+    }
+  }
   if (text === null) throw new Error(`skill not found: ${path}`);
   const { fm, body } = splitFrontmatter(text);
   const withArgs = body.replaceAll("$ARGUMENTS", prompt);
@@ -84,8 +95,8 @@ export async function loadSkill(skill: string, prompt: string, mode: RunMode, ro
     "Any file contents you need are provided inline above as `--- File: … ---` blocks.",
     "Do NOT call Bash, Read, or other filesystem tools — they are unavailable here.",
     mode === "mcp"
-      ? "The mcp__sector137__* tools ARE available; call them as the skill instructs."
-      : "The MCP server is DOWN: no mcp__sector137__* tools are available. Follow the skill's offline path against the inlined .sector137/roadmap.md.",
+      ? "The mcp__sector137__* and mcp__plugin_sector137-studio_studio__* tools ARE available; call them as the skill instructs."
+      : "The MCP server is DOWN: no mcp__sector137__* or mcp__plugin_sector137-studio_studio__* tools are available. Follow the skill's offline path against the inlined .sector137/roadmap.md.",
     "Respond as the skill would to the user.",
   ].join(" ");
 

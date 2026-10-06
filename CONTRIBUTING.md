@@ -4,8 +4,10 @@ This is maintainer documentation for developing the `sector137` plugin itself. I
 just want to *use* the crew, you don't need any of this — install from the marketplace
 (see the [README](README.md)) and go.
 
-The whole repo is the plugin: skills, agents, references, shared conventions, and
-hooks all ship together. Every tagged release is a plugin release.
+The repo is a marketplace of five plugins. The core `sector137` plugin is the repo root
+(skills, agents, references, shared conventions, hooks); `sector137-studio`, `-crew`,
+`-brand` and `-ops` live under `plugins/`, each with its own manifest, `.mcp.json`,
+skills, agents, and version. Every plugin is tagged and released on its own.
 
 ## Local setup
 
@@ -24,11 +26,11 @@ All local, no CI required.
 
 | Command | What it checks |
 |---------|----------------|
-| `bun run lint` | version sync, writing style, docs links, and `claude plugin validate` |
-| `bun run lint:style` | prose style over agents/skills/shared (`shared/writing-style.md`) |
+| `bun run lint` | version sync across all plugins, writing style, docs links, and `claude plugin validate` for the marketplace and every plugin |
+| `bun run lint:style` | prose style over agents/skills/shared/plugins (`shared/writing-style.md`) |
 | `bun run lint:links` | every `docs.sector137.io` link resolves and is registered |
-| `bun run test:mcp` | skill and doc tool references match the MCP snapshot (offline); add `SECTOR137_API_KEY` for the live diff |
-| `bun run test:mcp:update` | reseed `tests/snapshots/mcp-tools.snapshot.json` from the live server |
+| `bun run test:mcp` | skill and doc tool references match the per-server MCP snapshots, each against the server its prefix names (offline); add `SECTOR137_API_KEY` for the live diff |
+| `bun run test:mcp:update` | reseed every `tests/snapshots/mcp-tools.*.json` from its live server |
 | `bun run evals` | behavioural evals via OpenRouter (needs `OPENROUTER_API_KEY`) |
 
 The MCP contract test (`tests/mcp-contract.ts`) keeps skills honest: it fails if a
