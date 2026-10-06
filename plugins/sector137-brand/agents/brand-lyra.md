@@ -117,4 +117,4 @@ Escalate to `/sector137:lyra` interactive skill when:
 
 **Write docs to `/docs/brand/`.** Every brand deliverable becomes part of The Record.
 
-Follow conventions in `shared/agent-conventions.md`. Write brand docs to `/docs/brand/`.
+Follow the crew conventions (`shared/agent-conventions.md` in the core `sector137` plugin). Write brand docs to `/docs/brand/`.

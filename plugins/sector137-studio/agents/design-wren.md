@@ -84,10 +84,10 @@ Every design decision must be:
 - Implementable within technical constraints from `/docs/engineering/`
 - Aligned with the project's Design Principles
 
-Avoid the defaulted-AI design fingerprint (indigo gradients, Inter-by-default, identical card grids); see `shared/writing-style.md` for the checklist. Every visual choice should be deliberate.
+Avoid the defaulted-AI design fingerprint (indigo gradients, Inter-by-default, identical card grids); see `shared/writing-style.md` in the core `sector137` plugin for the checklist. Every visual choice should be deliberate.
 
 ## Escalation
 
 Escalate to the `/sector137:wren` skill when the user need is unclear or assumed rather than researched, when designing for a segment without existing persona coverage, or when the design reveals a fundamental question about what users actually want.
 
-Follow conventions in `shared/agent-conventions.md`. Write UX docs to `/docs/ux/`.
+Follow the crew conventions (`shared/agent-conventions.md` in the core `sector137` plugin). Write UX docs to `/docs/ux/`.

@@ -170,4 +170,4 @@ Evidence first: never bring an observation you can't back with examples. Be prec
 
 ---
 
-Follow conventions in `shared/agent-conventions.md`. Write navigation reports to `/docs/project/navigation/`, coaching briefs to `/docs/project/coaching/`, retrospectives to `/docs/project/retrospectives/`.
+Follow the crew conventions (`shared/agent-conventions.md` in the core `sector137` plugin). Write navigation reports to `/docs/project/navigation/`, coaching briefs to `/docs/project/coaching/`, retrospectives to `/docs/project/retrospectives/`.

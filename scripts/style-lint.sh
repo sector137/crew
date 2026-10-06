@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Style lint — enforces shared/writing-style.md over agents/, skills/, shared/.
+# Style lint — enforces shared/writing-style.md over agents/, skills/, shared/, plugins/.
 # Flags: em-dash density, antithesis constructions, banned phrases/vocabulary,
 # and long bold-term bullet runs. Prints file:line, exits non-zero on violations.
 #
