@@ -210,8 +210,8 @@ crew/
 ├── plugins/                  # sector137-studio, -crew, -brand, -ops (each its own plugin)
 ├── references/               # pipeline knowledge base (MCP tools, modes, schema, docs links)
 ├── shared/                   # crew conventions, doc structure, templates, workflows
-├── hooks/                    # quality-gate + design-review + session hooks
-├── tests/                    # MCP contract test + tool snapshot
+├── hooks/                    # wired: update check + server health probe; the rest ship unwired
+├── tests/                    # MCP contract test + tool snapshots, hook test
 ├── evals/                    # skill-creator suite + OpenRouter runner
 ├── .storyline/               # the character bible / world lore
 └── CHANGELOG.md

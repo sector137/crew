@@ -13,6 +13,7 @@
     "lint": "bun run lint:version && bun run lint:style && bun run lint:links && bun run lint:plugin",
     "test:mcp": "bun tests/mcp-contract.ts",
     "test:mcp:update": "bun tests/mcp-contract.ts --update",
+    "test:hooks": "bash tests/hooks-check-server.sh",
     "evals": "bun evals/runner/run.ts",
     "evals:offline": "bun evals/runner/run.ts --mode offline"
   }

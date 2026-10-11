@@ -57,6 +57,12 @@ Gate on the MCP contract. Without a key this still checks skill and doc tool ref
 SECTOR137_API_KEY=YOUR_KEY bun run test:mcp
 ```
 
+Gate on the SessionStart server probe. It fakes each server state locally and needs no network:
+
+```
+bun run test:hooks
+```
+
 Run the behavioural evals (advisory until the suite has a stable green run behind it). Needs an OpenRouter key:
 
 ```
