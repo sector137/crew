@@ -35,6 +35,10 @@ curl -s -o /dev/null -w '%{http_code}' -m 10 https://app.sector137.io/mcp
 | `5xx`, `000`, timeout | Server down | "The sector137 server is down (HTTP {code}) — this is not an auth problem; logging in won't help. Working offline." |
 | `200`/`405` but tools missing | Client-side wiring | "Server is up; the plugin's MCP connection didn't load. Run `/reload-plugins` or restart." |
 
+A `530` with Cloudflare error 1033 means the tunnel in front of the server is down, so the host is offline. Nothing in the plugin or the login can fix that.
+
+In a project with a `.sector137/` folder, a SessionStart hook (`hooks/check-server.sh`) runs this probe against `/api/health` and prints a "sector137 server unreachable" notice when the server is down, and prints nothing when it is healthy. If that notice is already in the session, skip the probe, go offline, and don't suggest a login.
+
 ### Domain servers
 
 The studio, crew, brand and ops plugins each bundle their own server, so name the one

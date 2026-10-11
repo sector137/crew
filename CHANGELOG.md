@@ -5,6 +5,10 @@ This project follows [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- **Server health probe at session start.** `hooks/check-server.sh` (SessionStart) tells the session when the Sector137 server is down, e.g. `sector137 server unreachable (HTTP 530, Cloudflare tunnel down)`, and says to work offline instead of suggesting a login. Claude Code labels an unreachable server "needs authentication", and sessions retried logins on outage days. The hook is silent when the server is healthy, makes no network call in projects without a `.sector137/` folder, and always exits 0. `bun run test:hooks` covers each server state.
+
 ## [0.9.0] — Domain plugins (not for release until the `/mcp/<domain>` endpoints are live and core is switched)
 
 > **Do not tag or announce 0.9.0 yet.** The per-domain servers (`/mcp/studio`, `/mcp/crew`,
